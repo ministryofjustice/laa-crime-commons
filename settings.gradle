@@ -1,3 +1,4 @@
 rootProject.name = 'laa-crime-commons'
 
+include 'samples'
 include 'crime-commons'
