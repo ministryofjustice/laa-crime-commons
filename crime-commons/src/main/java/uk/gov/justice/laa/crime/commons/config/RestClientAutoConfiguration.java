@@ -19,7 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
-import uk.gov.justice.laa.crime.commons.filters.ExchangeFilterUtils;
+import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
 
 import java.time.Duration;
 import java.util.Map;
@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RetryConfiguration.class)
-public class APIClientAutoConfiguration {
+public class RestClientAutoConfiguration {
 
     private final RetryConfiguration retryConfiguration;
 
@@ -68,10 +68,10 @@ public class APIClientAutoConfiguration {
             webClientBuilder.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
             webClientBuilder.filters(filters -> {
-                filters.add(ExchangeFilterUtils.logResponse());
-                filters.add(ExchangeFilterUtils.logRequestHeaders());
-                filters.add(ExchangeFilterUtils.retryFilter(retryConfiguration));
-                filters.add(ExchangeFilterUtils.handleErrorResponse());
+                filters.add(WebClientFilters.logResponse());
+                filters.add(WebClientFilters.logRequestHeaders());
+                filters.add(WebClientFilters.retryFilter(retryConfiguration));
+                filters.add(WebClientFilters.handleErrorResponse());
 
                 filters.add(0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(
                                 clientRegistrations, authorizedClients

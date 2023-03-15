@@ -23,7 +23,7 @@ import java.util.List;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ExchangeFilterUtils {
+public class WebClientFilters {
 
     public static ExchangeFilterFunction logRequestHeaders() {
         return (clientRequest, next) -> {

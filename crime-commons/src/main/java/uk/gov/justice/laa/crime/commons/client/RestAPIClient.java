@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-import uk.gov.justice.laa.crime.commons.config.APIClientAutoConfiguration;
+import uk.gov.justice.laa.crime.commons.config.RestClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 
 import java.net.URI;
@@ -42,7 +42,7 @@ public class RestAPIClient {
                         httpHeaders.setAll(headers);
                     }
                 })
-                .attributes(APIClientAutoConfiguration.getExchangeFilterWith(registrationId))
+                .attributes(RestClientAutoConfiguration.getExchangeFilterWith(registrationId))
                 .retrieve()
                 .bodyToMono(responseClass)
                 .onErrorResume(WebClientResponseException.NotFound.class, notFound -> Mono.empty())
@@ -80,7 +80,7 @@ public class RestAPIClient {
                         httpHeaders.setAll(headers);
                     }
                 })
-                .attributes(APIClientAutoConfiguration.getExchangeFilterWith(registrationId))
+                .attributes(RestClientAutoConfiguration.getExchangeFilterWith(registrationId))
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
                 .bodyToMono(responseClass)
