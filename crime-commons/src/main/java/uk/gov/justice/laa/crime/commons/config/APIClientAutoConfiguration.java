@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RetryConfiguration.class)
-public class WebClientAutoConfiguration {
+public class APIClientAutoConfiguration {
 
     private final RetryConfiguration retryConfiguration;
 
@@ -93,7 +93,7 @@ public class WebClientAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "spring.security.oauth2.client.registration.cda.token-uri")
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.cda.token-uri")
     public RestAPIClient cdaApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "cda");
     }

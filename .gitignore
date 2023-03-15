@@ -36,3 +36,4 @@ out/
 .vscode/
 
 *.java-version
+.env

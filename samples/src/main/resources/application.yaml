@@ -1,1 +1,35 @@
+server:
+  port: 8020
 
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+
+spring:
+  config:
+    import: optional:.env[.properties]
+
+  security:
+    oauth2:
+      client:
+        provider:
+          maat-api:
+            token-uri: ${MAAT_API_OAUTH_URL}
+          cda:
+            token-uri: ${CDA_OAUTH_URL}
+        registration:
+          maat-api:
+            client-id: ${MAAT_API_OAUTH_CLIENT_ID}
+            client-secret: ${MAAT_API_OAUTH_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+          cda:
+            client-id: ${CDA_OAUTH_CLIENT_ID}
+            client-secret: ${CDA_OAUTH_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+
+retry-config:
+  max-retries: 3
+  min-back-off-period: 5
+  jitter-value: 0.75
