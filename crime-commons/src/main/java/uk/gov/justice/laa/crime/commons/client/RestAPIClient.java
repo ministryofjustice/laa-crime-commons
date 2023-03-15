@@ -9,10 +9,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-import uk.gov.justice.laa.crime.commons.config.WebClientAutoConfiguration;
+import uk.gov.justice.laa.crime.commons.config.APIClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 
+import java.net.URI;
 import java.util.Map;
 
 @Slf4j
@@ -27,17 +29,20 @@ public class RestAPIClient {
                                       String url, Map<String, String> headers,
                                       MultiValueMap<String, String> queryParams,
                                       Object... urlVariables) {
+
+        URI path = UriComponentsBuilder.fromUriString(url)
+                .queryParams(queryParams)
+                .build(urlVariables);
+
         return webClient
                 .get()
-                .uri(uriBuilder -> uriBuilder.path(url)
-                        .queryParams(queryParams)
-                        .build(urlVariables))
+                .uri(path)
                 .headers(httpHeaders -> {
                     if (headers != null) {
                         httpHeaders.setAll(headers);
                     }
                 })
-                .attributes(WebClientAutoConfiguration.getExchangeFilterWith(registrationId))
+                .attributes(APIClientAutoConfiguration.getExchangeFilterWith(registrationId))
                 .retrieve()
                 .bodyToMono(responseClass)
                 .onErrorResume(WebClientResponseException.NotFound.class, notFound -> Mono.empty())
@@ -75,7 +80,7 @@ public class RestAPIClient {
                         httpHeaders.setAll(headers);
                     }
                 })
-                .attributes(WebClientAutoConfiguration.getExchangeFilterWith(registrationId))
+                .attributes(APIClientAutoConfiguration.getExchangeFilterWith(registrationId))
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
                 .bodyToMono(responseClass)
