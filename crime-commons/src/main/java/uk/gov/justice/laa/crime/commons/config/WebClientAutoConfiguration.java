@@ -2,6 +2,7 @@ package uk.gov.justice.laa.crime.commons.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,10 +27,11 @@ import java.util.function.Consumer;
 
 
 @Slf4j
+@Configuration()
+@AutoConfiguration
 @RequiredArgsConstructor
-@EnableConfigurationProperties
-@Configuration(proxyBeanMethods = false)
-public class WebClientConfiguration {
+@EnableConfigurationProperties(RetryConfiguration.class)
+public class WebClientAutoConfiguration {
 
     private final RetryConfiguration retryConfiguration;
 
@@ -71,7 +73,10 @@ public class WebClientConfiguration {
                 filters.add(ExchangeFilterUtils.retryFilter(retryConfiguration));
                 filters.add(ExchangeFilterUtils.handleErrorResponse());
 
-                filters.add(0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrations, authorizedClients));
+                filters.add(0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(
+                                clientRegistrations, authorizedClients
+                        )
+                );
 
             });
         };
@@ -88,13 +93,13 @@ public class WebClientConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "security.oauth2.client.registration.cda")
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.registration.cda.token-uri")
     public RestAPIClient cdaApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "cda");
     }
 
     @Bean
-    @ConditionalOnProperty(name = "security.oauth2.client.registration.maat-api")
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.maat-api.token-uri")
     public RestAPIClient maatApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "maat-api");
     }

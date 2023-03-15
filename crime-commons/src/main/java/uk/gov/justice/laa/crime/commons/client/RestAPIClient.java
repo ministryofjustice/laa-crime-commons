@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-import uk.gov.justice.laa.crime.commons.config.WebClientConfiguration;
+import uk.gov.justice.laa.crime.commons.config.WebClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 
 import java.util.Map;
@@ -37,7 +37,7 @@ public class RestAPIClient {
                         httpHeaders.setAll(headers);
                     }
                 })
-                .attributes(WebClientConfiguration.getExchangeFilterWith(registrationId))
+                .attributes(WebClientAutoConfiguration.getExchangeFilterWith(registrationId))
                 .retrieve()
                 .bodyToMono(responseClass)
                 .onErrorResume(WebClientResponseException.NotFound.class, notFound -> Mono.empty())
@@ -75,7 +75,7 @@ public class RestAPIClient {
                         httpHeaders.setAll(headers);
                     }
                 })
-                .attributes(WebClientConfiguration.getExchangeFilterWith(registrationId))
+                .attributes(WebClientAutoConfiguration.getExchangeFilterWith(registrationId))
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
                 .bodyToMono(responseClass)
