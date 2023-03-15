@@ -4,9 +4,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'uk.gov.justice.laa.crime'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
+group = 'uk.gov.justice.laa.crime'
 
 configurations {
     compileOnly {
