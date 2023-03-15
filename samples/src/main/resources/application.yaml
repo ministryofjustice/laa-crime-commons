@@ -29,6 +29,12 @@ spring:
             client-secret: ${CDA_OAUTH_CLIENT_SECRET}
             authorization-grant-type: client_credentials
 
+cda:
+  base-url: ${CDA_BASE_URL}
+
+maat-api:
+  base-url: ${MAAT_API_BASE_URL}
+
 retry-config:
   max-retries: 3
   min-back-off-period: 5
