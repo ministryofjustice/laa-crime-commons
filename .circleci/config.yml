@@ -51,10 +51,12 @@ jobs:
   snyk_scan:
     docker:
       - image: cimg/openjdk:17.0.6
-    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
+    working_directory: ~/laa-crime-commons
     steps:
       - attach_workspace:
-          at: crime-commons-spring-boot-starter
+          at: .
+      - run:
+          command: cd crime-commons-spring-boot-starter
       - snyk/scan:
           <<: *snyk_options
 
