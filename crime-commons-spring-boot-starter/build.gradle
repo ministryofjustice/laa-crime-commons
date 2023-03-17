@@ -2,17 +2,26 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     id 'java'
-    id 'maven-publish'
+    id "nebula.contacts" version "6.0.0"
+    id "nebula.maven-publish" version "18.4.0"
     id 'org.springframework.boot' version '3.0.4' apply false
 }
 
 version = '0.0.2'
 sourceCompatibility = '17'
 group = 'uk.gov.justice.laa.crime'
+description = 'Crime Applications Shared Libraries'
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+}
+
+contacts {
+    'laa-crime-apps@digital.justice.gov.uk' {
+        moniker 'Crime Applications Team'
+        role 'owner'
     }
 }
 
@@ -52,30 +61,6 @@ publishing {
             credentials {
                 password = project.findProperty("github-token") ?: System.getenv("GITHUB_TOKEN")
                 username = project.findProperty("github-username") ?: System.getenv("GITHUB_USERNAME")
-            }
-        }
-    }
-    publications {
-        CrimeCommons(MavenPublication) {
-            from components.java
-
-            pom {
-                name = 'Crime Commons Spring Boot Starter'
-                description = 'Crime Applications Shared Libraries'
-                url = 'http://www.example.com/library'
-
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://opensource.org/license/mit/'
-                    }
-                }
-                developers {
-                    developer {
-                        name = 'Matthew Howell'
-                        email = 'matthew.howell@digital.justice.gov.uk'
-                    }
-                }
             }
         }
     }
