@@ -54,7 +54,7 @@ jobs:
     working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
     steps:
       - attach_workspace:
-          at: .
+          at: crime-commons-spring-boot-starter
       - snyk/scan:
           <<: *snyk_options
 
