@@ -1,0 +1,109 @@
+version: 2.1
+
+orbs:
+  snyk: snyk/snyk@1.1.2
+
+_snyk_options: &snyk_options
+  project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"
+  organization: "legal-aid-agency"
+  severity-threshold: "high"
+  fail-on-issues: false
+  monitor-on-build: false
+  token-variable: SNYK_TOKEN
+  additional-arguments: --policy-path=.snyk
+
+jobs:
+  build_and_test:
+    environment:
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker:
+      - image: cimg/openjdk:17.0.6
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
+    steps:
+      - checkout:
+          path: ~/laa-crime-commons
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+      - run:
+          name: Build library and run tests
+          command: ./gradlew crime-commons-spring-boot-starter:build
+      - run:
+          name: Generate code coverage report
+          command: ./gradlew jacocoTestReport
+      - store_test_results:
+          path: build/test-results/test
+      - store_artifacts:
+          path: build/test-results/test
+      - store_artifacts:
+          path: build/reports/jacoco/test/html
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  snyk_scan:
+    docker:
+      - image: cimg/openjdk:17.0.6
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
+    steps:
+      - attach_workspace:
+          at: .
+      - snyk/scan:
+          <<: *snyk_options
+
+  publish:
+    docker:
+      - image: cimg/openjdk:17.0.6
+    working_directory: ~/laa-crime-commons
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Publish to Github Packages
+          command: ./gradlew publish
+
+
+workflows:
+  version: 2
+
+  build_publish_main:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only:
+                - main
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - publish:
+          requires:
+            - snyk_scan
+
+  build_publish_branch:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              ignore:
+                - main
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - hold_publish:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish:
+          requires:
+            - hold_publish
