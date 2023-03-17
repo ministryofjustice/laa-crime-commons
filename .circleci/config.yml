@@ -19,10 +19,9 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: cimg/openjdk:17.0.6
-    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
+    working_directory: ~/laa-crime-commons
     steps:
-      - checkout:
-          path: ~/laa-crime-commons
+      - checkout
       - attach_workspace:
           at: .
       - restore_cache:
@@ -32,15 +31,10 @@ jobs:
       - run:
           name: Build library and run tests
           command: ./gradlew crime-commons-spring-boot-starter:build
-      - run:
-          name: Generate code coverage report
-          command: ./gradlew jacocoTestReport
       - store_test_results:
           path: build/test-results/test
       - store_artifacts:
           path: build/test-results/test
-      - store_artifacts:
-          path: build/reports/jacoco/test/html
       - persist_to_workspace:
           root: .
           paths:
