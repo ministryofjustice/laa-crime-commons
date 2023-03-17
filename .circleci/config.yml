@@ -53,7 +53,9 @@ jobs:
       - image: cimg/openjdk:17.0.6
     working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
     steps:
-      - checkout
+      - checkout:
+          path:
+            ~/laa-crime-commons
       - snyk/scan:
           <<: *snyk_options
 
