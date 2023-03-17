@@ -21,7 +21,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
 
-    implementation project(':crime-commons')
+    implementation project(':crime-commons-spring-boot-starter')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'

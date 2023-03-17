@@ -2,13 +2,13 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     id 'java'
+    id 'maven-publish'
     id 'org.springframework.boot' version '3.0.4' apply false
-    id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'uk.gov.justice.laa.crime'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2'
 sourceCompatibility = '17'
+group = 'uk.gov.justice.laa.crime'
 
 configurations {
     compileOnly {
@@ -20,13 +20,10 @@ repositories {
     mavenCentral()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom SpringBootPlugin.BOM_COORDINATES
-    }
-}
-
 dependencies {
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
+
     compileOnly 'org.projectlombok:lombok'
 
     implementation 'org.jetbrains:annotations:23.0.0'
@@ -34,6 +31,7 @@ dependencies {
     implementation platform('io.sentry:sentry-bom:6.15.0')
     implementation('io.sentry:sentry-spring-boot-starter')
     implementation('io.sentry:sentry-logback')
+
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'

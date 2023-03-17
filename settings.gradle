@@ -1,4 +1,4 @@
 rootProject.name = 'laa-crime-commons'
 
 include 'samples'
-include 'crime-commons'
+include 'crime-commons-spring-boot-starter'
