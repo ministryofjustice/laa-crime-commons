@@ -7,7 +7,6 @@ plugins {
     id 'org.springframework.boot' version '3.0.4' apply false
 }
 
-version = '0.0.2'
 sourceCompatibility = '17'
 group = 'uk.gov.justice.laa.crime'
 description = 'Crime Applications Shared Libraries'
