@@ -104,6 +104,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - publish-artefact:
           is_branch: false
 
@@ -113,6 +116,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - publish-artefact:
           is_branch: true
 
