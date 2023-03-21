@@ -2,8 +2,8 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     id 'java'
-    id "nebula.contacts" version "6.0.0"
-    id "nebula.maven-publish" version "18.4.0"
+    id "com.netflix.nebula.contacts" version "7.0.0"
+    id "com.netflix.nebula.maven-publish" version "20.1.1"
     id 'org.springframework.boot' version '3.0.4' apply false
 }
 
