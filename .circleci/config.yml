@@ -12,13 +12,53 @@ _snyk_options: &snyk_options
   token-variable: SNYK_TOKEN
   additional-arguments: --policy-path=.snyk
 
+
+# ------------------
+# EXECUTORS
+# ------------------
+executors:
+  openjdk-executor:
+    resource_class: medium
+    docker:
+      - image: cimg/openjdk:17.0.6
+
+
+# ------------------
+# COMMANDS
+# ------------------
+commands:
+  publish_artefact:
+    description: >
+      Publish artefact to Github packages
+    parameters:
+      is_branch:
+        description: Flag to indicate whether we are publishing from a branch
+        type: boolean
+    steps:
+      - when:
+          condition: << parameters.is_branch >>
+          steps:
+            - run:
+                name: Publish artefacts to Github Packages
+                command: ./gradlew publish
+      - when:
+          condition:
+            not: << parameters.is-branch >>
+          steps:
+            - run:
+                name: Publish artefacts to Github Packages
+                command: ./gradlew final publish
+
+
+# ------------------
+# JOBS
+# ------------------
 jobs:
   build_and_test:
     environment:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
-    docker:
-      - image: cimg/openjdk:17.0.6
+    executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
       - checkout
@@ -49,8 +89,7 @@ jobs:
             - .
 
   snyk_scan:
-    docker:
-      - image: cimg/openjdk:17.0.6
+    executor: openjdk-executor
     working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
     steps:
       - checkout:
@@ -59,18 +98,28 @@ jobs:
       - snyk/scan:
           <<: *snyk_options
 
-  publish:
-    docker:
-      - image: cimg/openjdk:17.0.6
+  publish_release:
+    executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
       - attach_workspace:
           at: .
-      - run:
-          name: Publish to Github Packages
-          command: ./gradlew publish
+      - publish-artefact:
+          is_branch: false
+
+  publish_snapshot:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons
+    steps:
+      - attach_workspace:
+          at: .
+      - publish-artefact:
+          is_branch: true
 
 
+# ------------------
+# WORKFLOWS
+# ------------------
 workflows:
   version: 2
 
@@ -86,7 +135,7 @@ workflows:
           requires:
             - build_and_test
 
-      - publish:
+      - publish_release:
           requires:
             - snyk_scan
 
@@ -107,6 +156,6 @@ workflows:
           requires:
             - snyk_scan
 
-      - publish:
+      - publish_snapshot:
           requires:
             - hold_publish
