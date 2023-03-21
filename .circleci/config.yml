@@ -31,7 +31,7 @@ commands:
     description: >
       Publish artefact to Github packages
     parameters:
-      is_branch:
+      is-branch:
         description: Flag to indicate whether we are publishing from a branch
         type: boolean
     steps:
@@ -108,7 +108,7 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - publish_artefact:
-          is_branch: false
+          is-branch: false
 
   publish_snapshot:
     executor: openjdk-executor
@@ -120,7 +120,7 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - publish_artefact:
-          is_branch: true
+          is-branch: true
 
 
 # ------------------
