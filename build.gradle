@@ -1,3 +1,11 @@
 plugins {
     id "nebula.release" version "17.2.0"
+    id 'com.netflix.nebula.contacts' version '7.0.0'
+}
+
+contacts {
+    'laa-crime-apps@digital.justice.gov.uk' {
+        moniker 'Crime Applications Team'
+        role 'owner'
+    }
 }
