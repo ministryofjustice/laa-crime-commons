@@ -35,6 +35,10 @@ commands:
         description: Flag to indicate whether we are publishing from a branch
         type: boolean
     steps:
+      - restore_cache:
+          keys:
+            - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
       - when:
           condition: << parameters.is_branch >>
           steps:
@@ -48,6 +52,12 @@ commands:
             - run:
                 name: Publish artefacts to Github Packages
                 command: ./gradlew final publish
+
+  authenticate_host:
+    description: >
+      Add github.com to known hosts
+    steps:
+      - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 
 # ------------------
@@ -107,6 +117,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
       - publish_artefact:
           is_branch: false
 
@@ -119,6 +130,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
       - publish_artefact:
           is_branch: true
 
