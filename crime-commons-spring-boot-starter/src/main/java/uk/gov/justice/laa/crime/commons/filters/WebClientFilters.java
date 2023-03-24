@@ -2,7 +2,7 @@ package uk.gov.justice.laa.crime.commons.filters;
 
 import io.netty.handler.timeout.TimeoutException;
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,7 +22,7 @@ import java.time.Duration;
 import java.util.List;
 
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class WebClientFilters {
 
     public static ExchangeFilterFunction logRequestHeaders() {
