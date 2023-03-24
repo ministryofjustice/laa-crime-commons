@@ -67,7 +67,7 @@ jobs:
   build_and_test:
     environment:
       _JAVA_OPTIONS: "-Xmx3g"
-      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=t --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
