@@ -81,6 +81,9 @@ jobs:
       - run:
           name: Build library and run tests
           command: ./gradlew crime-commons-spring-boot-starter:build
+      - run:
+          name: Run SonarQube
+          command: ./gradlew sonarqube
       - save_cache:
           paths:
             - ~/.gradle/wrapper
