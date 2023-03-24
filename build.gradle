@@ -1,5 +1,6 @@
 plugins {
-    id "nebula.release" version "17.2.0"
+    id 'nebula.release' version '17.2.0'
+    id 'org.sonarqube' version '3.5.0.2730'
     id 'com.netflix.nebula.contacts' version '7.0.0'
 }
 
@@ -9,3 +10,21 @@ contacts {
         role 'owner'
     }
 }
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "laa-crime-commons"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.organization", "ministryofjustice"
+        property "sonar.projectKey", "ministryofjustice_laa-crime-commons"
+        property "sonar.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
+        property "sonar.coverage.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
+    }
+}
+
+project(":samples") {
+    sonarqube {
+        isSkipProject = true
+    }
+}
+
