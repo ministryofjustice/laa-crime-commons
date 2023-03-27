@@ -159,11 +159,14 @@ workflows:
 
   build_publish_branch:
     jobs:
-      - build_and_test:
+      - branch_build_approval:
+          type: approval
           filters:
             branches:
               ignore:
                 - main
+
+      - build_and_test
 
       - snyk_scan:
           requires:
