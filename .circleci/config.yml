@@ -83,7 +83,7 @@ jobs:
           command: ./gradlew crime-commons-spring-boot-starter:build
       - run:
           name: Run SonarQube
-          command: ./gradlew sonarqube
+          command: ./gradlew sonar
       - save_cache:
           paths:
             - ~/.gradle/wrapper
