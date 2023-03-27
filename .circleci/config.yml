@@ -92,10 +92,6 @@ jobs:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
-      - store_test_results:
-          path: build/test-results/test
-      - store_artifacts:
-          path: build/test-results/test
       - persist_to_workspace:
           root: .
           paths:
