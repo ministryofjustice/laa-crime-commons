@@ -67,7 +67,7 @@ jobs:
   build_and_test:
     environment:
       _JAVA_OPTIONS: "-Xmx3g"
-      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=t --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
@@ -81,6 +81,9 @@ jobs:
       - run:
           name: Build library and run tests
           command: ./gradlew crime-commons-spring-boot-starter:build
+      - run:
+          name: Run SonarQube
+          command: ./gradlew sonar
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -89,10 +92,6 @@ jobs:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
-      - store_test_results:
-          path: build/test-results/test
-      - store_artifacts:
-          path: build/test-results/test
       - persist_to_workspace:
           root: .
           paths:
@@ -148,6 +147,7 @@ workflows:
             branches:
               only:
                 - main
+          context: SonarCloud
 
       - snyk_scan:
           requires:
@@ -159,11 +159,17 @@ workflows:
 
   build_publish_branch:
     jobs:
-      - build_and_test:
+      - branch_build_approval:
+          type: approval
           filters:
             branches:
               ignore:
                 - main
+
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
 
       - snyk_scan:
           requires:
