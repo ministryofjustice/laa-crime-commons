@@ -147,6 +147,7 @@ workflows:
             branches:
               only:
                 - main
+          context: SonarCloud
 
       - snyk_scan:
           requires:
@@ -163,6 +164,7 @@ workflows:
             branches:
               ignore:
                 - main
+          context: SonarCloud
 
       - snyk_scan:
           requires:
