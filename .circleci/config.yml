@@ -165,9 +165,11 @@ workflows:
             branches:
               ignore:
                 - main
-          context: SonarCloud
 
-      - build_and_test
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
 
       - snyk_scan:
           requires:
