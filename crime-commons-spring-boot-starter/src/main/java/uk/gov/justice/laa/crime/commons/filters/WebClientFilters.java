@@ -64,10 +64,14 @@ public class WebClientFilters {
 
                     if (retryableStatuses.contains(status)) {
                         return new RetryableWebClientResponseException(errorMessage);
-                    } else if (r.statusCode().is5xxServerError()) {
-                        return new HttpServerErrorException(r.statusCode(), errorMessage);
-                    } else if (r.statusCode().is4xxClientError() && !r.statusCode().equals(HttpStatus.NOT_FOUND)) {
+                    }
+
+                    if (status.is4xxClientError() && !status.equals(HttpStatus.NOT_FOUND)) {
                         return new HttpClientErrorException(r.statusCode(), errorMessage);
+                    }
+
+                    if (status.is5xxServerError()) {
+                        return new HttpServerErrorException(r.statusCode(), errorMessage);
                     }
                     return WebClientResponseException.create(
                             r.statusCode().value(), status.getReasonPhrase(), null, null, null
@@ -89,23 +93,26 @@ public class WebClientFilters {
                                         .filter(
                                                 throwable ->
                                                         throwable instanceof RetryableWebClientResponseException ||
-                                                                (throwable instanceof WebClientRequestException
-                                                                        && throwable.getCause() instanceof TimeoutException)
+                                                                throwable instanceof WebClientRequestException
+                                                                        && throwable.getCause() instanceof TimeoutException
                                         ).onRetryExhaustedThrow(
                                                 (retryBackoffSpec, retrySignal) ->
                                                         new APIClientException(
                                                                 String.format(
                                                                         "Call to service failed. Retries exhausted: %d/%d.",
-                                                                        retrySignal.totalRetries(),
-                                                                        retryConfiguration.getMaxRetries()
+                                                                        retrySignal.totalRetries(), retryConfiguration.getMaxRetries()
                                                                 ), retrySignal.failure()
                                                         )
-                                        ).doBeforeRetry(
-                                                doBeforeRetry -> log.warn(
-                                                        String.format("Call to service failed, retrying: %d/%d",
-                                                                doBeforeRetry.totalRetries(), retryConfiguration.getMaxRetries()
-                                                        )
-                                                )
+                                        ).doAfterRetry(
+                                                retrySignal -> {
+                                                    if (retrySignal.totalRetries() > 0) {
+                                                        log.warn(
+                                                                String.format("Call to service failed, retrying: %d/%d",
+                                                                        retrySignal.totalRetries(), retryConfiguration.getMaxRetries()
+                                                                )
+                                                        );
+                                                    }
+                                                }
                                         )
                         );
     }

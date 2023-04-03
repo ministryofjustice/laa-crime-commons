@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.*;
 import reactor.core.publisher.Mono;
+import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 
 import java.util.Map;
@@ -30,7 +31,7 @@ class RestAPIClientTest {
     private final Integer REP_ID = 1234;
     private RestAPIClient restAPIClient;
     public static final String MOCK_URL = "mock-url";
-    private final String LAA_TRANSACTION_ID = "laaTransactionId";
+    private final String MOCK_TRANSACTION_ID = "laaTransactionId";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Mock
@@ -79,7 +80,7 @@ class RestAPIClientTest {
                         new Object(),
                         ClientResponse.class,
                         MOCK_URL,
-                        Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID),
+                        Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
                         HttpMethod.POST
                 )
         ).isInstanceOf(APIClientException.class).cause().isInstanceOf(WebClientResponseException.class);
@@ -91,7 +92,7 @@ class RestAPIClientTest {
         ClientResponse response = restAPIClient.getApiResponseViaGET(
                 ClientResponse.class,
                 MOCK_URL,
-                Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID),
+                Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
                 REP_ID
         );
         assertThat(response).isNull();
@@ -104,7 +105,7 @@ class RestAPIClientTest {
                 () -> restAPIClient.getApiResponseViaGET(
                         ClientResponse.class,
                         MOCK_URL,
-                        Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID),
+                        Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
                         REP_ID
                 )
         ).isInstanceOf(APIClientException.class).cause().isInstanceOf(WebClientResponseException.class);
@@ -120,14 +121,14 @@ class RestAPIClientTest {
                 response,
                 MockResponse.class,
                 MOCK_URL,
-                Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID)
+                null
         );
         verify(restAPIClient)
                 .getApiResponse(
                         response,
                         MockResponse.class,
                         MOCK_URL,
-                        Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID),
+                        null,
                         HttpMethod.POST
                 );
     }
@@ -142,7 +143,7 @@ class RestAPIClientTest {
                 response,
                 MockResponse.class,
                 MOCK_URL,
-                Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID)
+                Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID)
         );
 
         verify(restAPIClient)
@@ -150,7 +151,7 @@ class RestAPIClientTest {
                         response,
                         MockResponse.class,
                         MOCK_URL,
-                        Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID),
+                        Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
                         HttpMethod.PUT
                 );
     }
@@ -167,13 +168,28 @@ class RestAPIClientTest {
     }
 
     @Test
-    void givenCorrectParams_whenGetApiResponseViaGETIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod() throws JsonProcessingException {
+    void givenAnInvalidUrl_whenGetGetApiResponseIsInvoked_thenTheMethodShouldReturnNull() {
+        setupNotFoundTest();
+        ClientResponse response = restAPIClient.getApiResponse(
+                new Object(),
+                ClientResponse.class,
+                MOCK_URL,
+                Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
+                HttpMethod.POST
+        );
+        assertThat(response).isNull();
+    }
+
+    @Test
+    void givenCorrectParams_whenGetApiResponseViaGETIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod()
+            throws JsonProcessingException {
+
         MockResponse response = new MockResponse("mock-status");
         setupValidResponseTest(response);
         MockResponse apiResponse = restAPIClient.getApiResponseViaGET(
                 MockResponse.class,
                 MOCK_URL,
-                Map.of("LAA_TRANSACTION_ID", LAA_TRANSACTION_ID),
+                Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
                 1234
         );
         verify(shortCircuitExchangeFunction).exchange(any());

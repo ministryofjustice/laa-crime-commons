@@ -48,10 +48,7 @@ public class RestClientAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean({
-            ClientRegistrationRepository.class,
-            OAuth2AuthorizedClientRepository.class
-    })
+    @ConditionalOnBean(OAuth2AuthorizedClientRepository.class)
     public WebClientCustomizer webClientCustomizer(ConnectionProvider connectionProvider,
                                                    ClientRegistrationRepository clientRegistrations,
                                                    OAuth2AuthorizedClientRepository authorizedClients) {
