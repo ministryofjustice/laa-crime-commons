@@ -28,9 +28,7 @@ import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseExce
 import uk.gov.justice.laa.crime.commons.util.MemoryAppender;
 
 import java.net.URI;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -149,6 +147,24 @@ class WebClientFiltersTest {
     }
 
     @Test
+    void givenClientErrorStatus_whenHandleErrorResponseIsInvoked_thenHttpClientErrorExceptionIsThrown() {
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+        doReturn(Mono.just(clientResponse))
+                .when(exchangeFunction).exchange(request);
+
+        when(clientResponse.statusCode())
+                .thenReturn(HttpStatus.FORBIDDEN);
+
+        Mono<ClientResponse> response = WebClientFilters.handleErrorResponse()
+                .filter(request, exchangeFunction);
+
+        assertThatThrownBy(
+                response::block
+        ).isInstanceOf(HttpClientErrorException.class)
+                .hasMessage("403 Received error 403 due to Forbidden");
+    }
+
+    @Test
     void givenServerErrorStatus_whenHandleErrorResponseIsInvoked_thenHttpServerErrorExceptionIsThrown() {
         ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
         doReturn(Mono.just(clientResponse))
@@ -204,15 +220,21 @@ class WebClientFiltersTest {
 
     @Test
     void givenRetriesExhausted_whenRetryFilterIsInvoked_thenAPIClientExceptionIsThrown() {
-        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
-        doReturn(Mono.error(new RetryableWebClientResponseException()))
-                .doReturn(Mono.error(new WebClientRequestException(
-                                new ReadTimeoutException(), HttpMethod.GET, DEFAULT_URL, new HttpHeaders())
-                        )
-                )
-                .doReturn(Mono.just(clientResponse))
-                .when(exchangeFunction).exchange(request);
 
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+
+        RetryableWebClientResponseException retryableException = new RetryableWebClientResponseException();
+        WebClientRequestException timeoutException = new WebClientRequestException(
+                new ReadTimeoutException(), HttpMethod.GET, DEFAULT_URL, new HttpHeaders()
+        );
+
+        LinkedList<Throwable> errors = new LinkedList<>(
+                Arrays.asList(retryableException, timeoutException, retryableException)
+        );
+
+        Mono<ClientResponse> errorMono = Mono.error(errors::pop);
+        when(exchangeFunction.exchange(request))
+                .thenReturn(errorMono);
 
         Mono<ClientResponse> response =
                 WebClientFilters.retryFilter(retryConfiguration).filter(request, exchangeFunction);
@@ -221,5 +243,31 @@ class WebClientFiltersTest {
                 response::block
         ).isInstanceOf(APIClientException.class)
                 .hasMessageContaining("Call to service failed. Retries exhausted: 2/2");
+    }
+
+    @Test
+    void givenUnRetryableException_whenRetryFilterIsInvoked_thenCorrectExceptionIsThrown() {
+
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+
+        WebClientRequestException unauthorizedException = new WebClientRequestException(
+                new HttpClientErrorException(HttpStatus.UNAUTHORIZED), HttpMethod.GET, DEFAULT_URL, new HttpHeaders()
+        );
+
+        LinkedList<Throwable> errors = new LinkedList<>(
+                List.of(unauthorizedException)
+        );
+
+        Mono<ClientResponse> errorMono = Mono.error(errors::pop);
+        when(exchangeFunction.exchange(request))
+                .thenReturn(errorMono);
+
+        Mono<ClientResponse> response =
+                WebClientFilters.retryFilter(retryConfiguration).filter(request, exchangeFunction);
+
+        assertThatThrownBy(
+                response::block
+        ).isInstanceOf(WebClientRequestException.class)
+                .hasMessageContaining("401 UNAUTHORIZED");
     }
 }
