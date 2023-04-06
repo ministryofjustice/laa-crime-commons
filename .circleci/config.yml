@@ -44,14 +44,14 @@ commands:
             - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
       - when:
           condition:
-            - equal: [ major, << parameters.type >> ]
+            equal: [ "major", << parameters.type >> ]
           steps:
             - run:
                 name: Publish major release to Github Packages
                 command: ./gradlew final -Prelease.scope=major publish
       - when:
           condition:
-            - equal: [ minor, << parameters.type >> ]
+            equal: [ "minor", << parameters.type >> ]
           steps:
             - run:
                 name: Publish minor release to Github Packages
@@ -59,7 +59,7 @@ commands:
 
       - when:
           condition:
-            - equal: [ patch, << parameters.type >> ]
+            equal: [ "patch", << parameters.type >> ]
           steps:
             - run:
                 name: Publish patch release to Github Packages
@@ -67,7 +67,7 @@ commands:
 
       - when:
           condition:
-            - equal: [ snapshot, << parameters.type >> ]
+            equal: [ "snapshot", << parameters.type >> ]
           steps:
             - run:
                 name: Publish snapshot release to Github Packages
