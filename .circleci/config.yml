@@ -31,27 +31,47 @@ commands:
     description: >
       Publish artefact to Github packages
     parameters:
-      is_branch:
-        description: Flag to indicate whether we are publishing from a branch
-        type: boolean
+      type:
+        type: enum
+        default: "minor"
+        enum: ["minor", "major", "patch", "snapshot"]
+        description: Specifies the type of release (major, minor, patch, snapshot)
     steps:
+      - checkout
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
             - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
       - when:
-          condition: << parameters.is_branch >>
+          condition:
+            - equal: [ major, << parameters.type >> ]
           steps:
             - run:
-                name: Publish artefacts to Github Packages
-                command: ./gradlew publish
+                name: Publish major release to Github Packages
+                command: ./gradlew final -Prelease.scope=major publish
       - when:
           condition:
-            not: << parameters.is_branch >>
+            - equal: [ minor, << parameters.type >> ]
           steps:
             - run:
-                name: Publish artefacts to Github Packages
+                name: Publish minor release to Github Packages
                 command: ./gradlew final publish
+
+      - when:
+          condition:
+            - equal: [ patch, << parameters.type >> ]
+          steps:
+            - run:
+                name: Publish patch release to Github Packages
+                command: ./gradlew final -Prelease.scope=patch publish
+
+      - when:
+          condition:
+            - equal: [ snapshot, << parameters.type >> ]
+          steps:
+            - run:
+                name: Publish snapshot release to Github Packages
+                command: ./gradlew publish
 
   authenticate_host:
     description: >
@@ -107,31 +127,49 @@ jobs:
       - snyk/scan:
           <<: *snyk_options
 
-  publish_release:
+  publish_major_release:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
-      - attach_workspace:
-          at: .
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
       - publish_artefact:
-          is_branch: false
+          type: major
 
-  publish_snapshot:
+  publish_minor_release:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
-      - attach_workspace:
-          at: .
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
       - publish_artefact:
-          is_branch: true
+          type: minor
+
+  publish_patch_release:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact:
+          type: patch
+
+  publish_snapshot_release:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact:
+          type: snapshot
 
 
 # ------------------
@@ -153,9 +191,32 @@ workflows:
           requires:
             - build_and_test
 
-      - publish_release:
+      - major_release_approval:
+          type: approval
           requires:
             - snyk_scan
+
+      - publish_major_release:
+          requires:
+            - major_release_approval
+
+      - minor_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_minor_release:
+          requires:
+            - minor_release_approval
+
+      - patch_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_patch_release:
+          requires:
+            - patch_release_approval
 
   build_publish_branch:
     jobs:
@@ -175,11 +236,11 @@ workflows:
           requires:
             - build_and_test
 
-      - hold_publish:
+      - snapshot_release_approval:
           type: approval
           requires:
             - snyk_scan
 
-      - publish_snapshot:
+      - publish_snapshot_release:
           requires:
-            - hold_publish
+            - snapshot_release_approval
