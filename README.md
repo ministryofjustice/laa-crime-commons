@@ -86,7 +86,7 @@ See below for more information on our versioning strategy for published modules.
 
 ### Version Management
 
-[Semantic versioning](https://semver.org/) is handled via the Nebula Release Gradle plugin.
+The Nebula Release Gradle plugin is used to implement [Semantic versioning](https://semver.org/).
 
 Once the Jar files for each module have been built in CircleCI, the latest commit will be tagged with
 a new version number, by default, the minor version number is incremented. However, It is possible to manually bump other parts of the version string:
