@@ -73,52 +73,12 @@ class RestAPIClientTest {
     }
 
     @Test
-    void givenAnInvalidResponse_whenGetApiResponseIsInvoked_thenAnAppropriateErrorShouldBeThrown() {
-        setupInvalidResponseTest();
-        assertThatThrownBy(
-                () -> restAPIClient.getApiResponse(
-                        new Object(),
-                        ClientResponse.class,
-                        MOCK_URL,
-                        Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
-                        HttpMethod.POST,
-                        null
-                )
-        ).isInstanceOf(APIClientException.class).cause().isInstanceOf(WebClientResponseException.class);
-    }
-
-    @Test
-    void givenANotFoundException_whenGetApiResponseViaGetIsInvoked_thenTheMethodShouldReturnNull() {
-        setupNotFoundTest();
-        ClientResponse response = restAPIClient.getApiResponseViaGET(
-                ClientResponse.class,
-                MOCK_URL,
-                Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
-                REP_ID
-        );
-        assertThat(response).isNull();
-    }
-
-    @Test
-    void givenAnInvalidResponse_whenGetApiResponseViaGetIsInvoked_thenAnAppropriateErrorShouldBeThrown() {
-        setupInvalidResponseTest();
-        assertThatThrownBy(
-                () -> restAPIClient.getApiResponseViaGET(
-                        ClientResponse.class,
-                        MOCK_URL,
-                        Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
-                        REP_ID
-                )
-        ).isInstanceOf(APIClientException.class).cause().isInstanceOf(WebClientResponseException.class);
-    }
-
-    @Test
-    void givenCorrectParams_whenGetApiResponseViaPOSTIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod()
+    void givenCorrectParams_whenPostIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod()
             throws JsonProcessingException {
 
         MockResponse response = new MockResponse("mock-status");
         setupValidResponseTest(response);
-        restAPIClient.getApiResponseViaPOST(
+        restAPIClient.post(
                 response,
                 MockResponse.class,
                 MOCK_URL,
@@ -136,12 +96,12 @@ class RestAPIClientTest {
     }
 
     @Test
-    void givenCorrectParams_whenGetApiResponseViaPUTIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod()
+    void givenCorrectParams_whenPutIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod()
             throws JsonProcessingException {
 
         MockResponse response = new MockResponse("mock-status");
         setupValidResponseTest(response);
-        restAPIClient.getApiResponseViaPUT(
+        restAPIClient.put(
                 response,
                 MockResponse.class,
                 MOCK_URL,
@@ -160,14 +120,66 @@ class RestAPIClientTest {
     }
 
     @Test
-    void givenAnInvalidUrl_whenGetApiResponseViaGetIsInvoked_thenTheMethodShouldReturnNull() {
+    void givenCorrectParams_whenHeadIsInvoked_thenGetBodilessApiResponseIsCalledWithCorrectMethod()
+            throws JsonProcessingException {
+
+        MockResponse response = new MockResponse("mock-status");
+        setupValidResponseTest(response);
+        restAPIClient.head(
+                MOCK_URL,
+                Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID)
+        );
+
+        verify(restAPIClient)
+                .getBodilessApiResponse(
+                        null,
+                        MOCK_URL,
+                        Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
+                        HttpMethod.HEAD,
+                        null
+                );
+    }
+
+    @Test
+    void givenCorrectParams_whenGetIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod()
+            throws JsonProcessingException {
+
+        MockResponse response = new MockResponse("mock-status");
+        setupValidResponseTest(response);
+        MockResponse apiResponse = restAPIClient.get(
+                MockResponse.class,
+                MOCK_URL,
+                Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
+                1234
+        );
+        verify(shortCircuitExchangeFunction).exchange(any());
+        assertThat(apiResponse.status).isEqualTo(response.status);
+    }
+
+    @Test
+    void givenAnInvalidUrl_whenGetIsInvoked_thenTheMethodShouldReturnNull() {
         setupNotFoundTest();
-        ClientResponse response = restAPIClient.getApiResponseViaGET(
+        ClientResponse response = restAPIClient.get(
                 ClientResponse.class,
                 MOCK_URL,
                 REP_ID
         );
         assertThat(response).isNull();
+    }
+
+    @Test
+    void givenAnInvalidResponse_whenGetIsInvoked_thenAnAppropriateErrorShouldBeThrown() {
+        setupInvalidResponseTest();
+        assertThatThrownBy(
+                () -> restAPIClient.getApiResponse(
+                        new Object(),
+                        ClientResponse.class,
+                        MOCK_URL,
+                        Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
+                        HttpMethod.POST,
+                        null
+                )
+        ).isInstanceOf(APIClientException.class).cause().isInstanceOf(WebClientResponseException.class);
     }
 
     @Test
@@ -185,19 +197,15 @@ class RestAPIClientTest {
     }
 
     @Test
-    void givenCorrectParams_whenGetApiResponseViaGETIsInvoked_thenGetApiResponseIsCalledWithCorrectMethod()
-            throws JsonProcessingException {
-
-        MockResponse response = new MockResponse("mock-status");
-        setupValidResponseTest(response);
-        MockResponse apiResponse = restAPIClient.getApiResponseViaGET(
-                MockResponse.class,
+    void givenANotFoundException_whenGetApiResponseViaGetIsInvoked_thenTheMethodShouldReturnNull() {
+        setupNotFoundTest();
+        ClientResponse response = restAPIClient.get(
+                ClientResponse.class,
                 MOCK_URL,
                 Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
-                1234
+                REP_ID
         );
-        verify(shortCircuitExchangeFunction).exchange(any());
-        assertThat(apiResponse.status).isEqualTo(response.status);
+        assertThat(response).isNull();
     }
 
     private void setupNotFoundTest() {

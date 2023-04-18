@@ -33,7 +33,7 @@ public class DemoClientService {
     public static final String RESPONSE_STRING = "Response from Court Data API: %s";
 
     public FinancialAssessment getFinancialAssessment(int financialAssessmentId) {
-        FinancialAssessment response = maatApiClient.getApiResponseViaGET(
+        FinancialAssessment response = maatApiClient.get(
                 FinancialAssessment.class,
                 maatApiBaseUrl + "/financial-assessments/{financialAssessmentId}",
                 Map.of("LAA_TRANSACTION_ID", UUID.randomUUID().toString()),
@@ -48,7 +48,7 @@ public class DemoClientService {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("publish_to_queue", "true");
 
-        cdaApiClient.getApiResponseViaGET(
+        cdaApiClient.get(
                 Void.class,
                 cdaBaseUrl + "/api/internal/v2/hearing_results/{hearingId}",
                 Map.of("X-Request-ID", laaTransactionId),

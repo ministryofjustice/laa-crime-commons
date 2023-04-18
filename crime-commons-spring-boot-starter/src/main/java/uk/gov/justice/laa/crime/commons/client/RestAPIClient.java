@@ -28,31 +28,31 @@ public class RestAPIClient {
     private final WebClient webClient;
     private final String registrationId;
 
-    public <T> T getApiResponseViaGET(Class<T> responseClass,
-                                      String url,
-                                      Map<String, String> headers,
-                                      MultiValueMap<String, String> queryParams,
-                                      Object... urlVariables) {
-        return getApiResponse(null, responseClass, url, headers, HttpMethod.GET, queryParams, urlVariables);
-    }
-
-    public ResponseEntity<Void> getApiResponseViaHEAD(String url, Map<String, String> headers, Object... urlVariables) {
+    public ResponseEntity<Void> head(String url, Map<String, String> headers, Object... urlVariables) {
         return getBodilessApiResponse(null, url, headers, HttpMethod.HEAD, null, urlVariables);
     }
 
-    public <T> T getApiResponseViaGET(Class<T> responseClass, String url, Map<String, String> headers, Object... urlVariables) {
+    public <T> T get(Class<T> responseClass,
+                     String url,
+                     Map<String, String> headers,
+                     MultiValueMap<String, String> queryParams,
+                     Object... urlVariables) {
+        return getApiResponse(null, responseClass, url, headers, HttpMethod.GET, queryParams, urlVariables);
+    }
+
+    public <T> T get(Class<T> responseClass, String url, Map<String, String> headers, Object... urlVariables) {
         return getApiResponse(null, responseClass, url, headers, HttpMethod.GET, null, urlVariables);
     }
 
-    public <T> T getApiResponseViaGET(Class<T> responseClass, String url, Object... urlVariables) {
+    public <T> T get(Class<T> responseClass, String url, Object... urlVariables) {
         return getApiResponse(null, responseClass, url, null, HttpMethod.GET, null, urlVariables);
     }
 
-    public <T, R> R getApiResponseViaPOST(T requestBody, Class<R> responseClass, String url, Map<String, String> headers) {
+    public <T, R> R post(T requestBody, Class<R> responseClass, String url, Map<String, String> headers) {
         return getApiResponse(requestBody, responseClass, url, headers, HttpMethod.POST, null);
     }
 
-    public <T, R> R getApiResponseViaPUT(T requestBody, Class<R> responseClass, String url, Map<String, String> headers) {
+    public <T, R> R put(T requestBody, Class<R> responseClass, String url, Map<String, String> headers) {
         return getApiResponse(requestBody, responseClass, url, headers, HttpMethod.PUT, null);
     }
 
@@ -80,7 +80,7 @@ public class RestAPIClient {
                 .attributes(RestClientAutoConfiguration.getExchangeFilterWith(registrationId));
     }
 
-    <T> Mono<T> configureErrorResponse(Mono<T> mono) {
+    private <T> Mono<T> configureErrorResponse(Mono<T> mono) {
         return mono
                 .onErrorResume(WebClientResponseException.NotFound.class, notFound -> Mono.empty())
                 .onErrorMap(this::handleError)
