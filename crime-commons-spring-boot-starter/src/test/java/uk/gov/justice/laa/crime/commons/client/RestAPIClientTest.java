@@ -81,7 +81,8 @@ class RestAPIClientTest {
                         ClientResponse.class,
                         MOCK_URL,
                         Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
-                        HttpMethod.POST
+                        HttpMethod.POST,
+                        null
                 )
         ).isInstanceOf(APIClientException.class).cause().isInstanceOf(WebClientResponseException.class);
     }
@@ -129,7 +130,8 @@ class RestAPIClientTest {
                         MockResponse.class,
                         MOCK_URL,
                         null,
-                        HttpMethod.POST
+                        HttpMethod.POST,
+                        null
                 );
     }
 
@@ -152,7 +154,8 @@ class RestAPIClientTest {
                         MockResponse.class,
                         MOCK_URL,
                         Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
-                        HttpMethod.PUT
+                        HttpMethod.PUT,
+                        null
                 );
     }
 
@@ -175,7 +178,8 @@ class RestAPIClientTest {
                 ClientResponse.class,
                 MOCK_URL,
                 Map.of(Constants.LAA_TRANSACTION_ID, MOCK_TRANSACTION_ID),
-                HttpMethod.POST
+                HttpMethod.POST,
+                null
         );
         assertThat(response).isNull();
     }
