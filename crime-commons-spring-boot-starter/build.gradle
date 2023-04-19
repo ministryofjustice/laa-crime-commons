@@ -1,24 +1,15 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'java'
     id 'jacoco'
     id 'com.netflix.nebula.maven-publish' version '20.1.1'
     id 'org.springframework.boot' version '3.0.4' apply false
 }
 
-sourceCompatibility = '17'
-group = 'uk.gov.justice.laa.crime'
-description = 'Crime Applications Shared Libraries'
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
