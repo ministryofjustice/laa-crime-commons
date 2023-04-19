@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.web.reactive.function.client.*;
 import reactor.core.publisher.Mono;
@@ -24,13 +25,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpHeaders.CONTENT_LENGTH;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @ExtendWith(MockitoExtension.class)
 class RestAPIClientTest {
 
-    private final Integer REP_ID = 1234;
+    private final String MOCK_REP_ID = "1234";
     private RestAPIClient restAPIClient;
     public static final String MOCK_URL = "mock-url";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -64,7 +66,7 @@ class RestAPIClientTest {
         restAPIClient = Mockito.spy(new RestAPIClient(testWebClient, "mock-web-client"));
     }
 
-    record MockResponse(String status) {
+    record MockResponse(String id) {
     }
 
     record MockRequestBody() {
@@ -83,7 +85,7 @@ class RestAPIClientTest {
             throws JsonProcessingException {
 
         MockRequestBody request = new MockRequestBody();
-        setupValidResponseTest(new MockResponse("mock-status"));
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
         restAPIClient.post(request, MockResponse.class, MOCK_URL, null);
         verify(restAPIClient)
                 .getApiResponse(request, MockResponse.class, MOCK_URL, null, HttpMethod.POST, null);
@@ -94,7 +96,7 @@ class RestAPIClientTest {
             throws JsonProcessingException {
 
         MockRequestBody request = new MockRequestBody();
-        setupValidResponseTest(new MockResponse("mock-status"));
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
         restAPIClient.put(request, MockResponse.class, MOCK_URL, MOCK_HEADERS);
 
         verify(restAPIClient)
@@ -105,7 +107,7 @@ class RestAPIClientTest {
     void givenCorrectParams_whenHeadIsInvoked_thenGetBodilessApiResponseIsCalled()
             throws JsonProcessingException {
 
-        setupValidResponseTest(new MockResponse("mock-status"));
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
         restAPIClient.head(MOCK_URL, MOCK_HEADERS);
 
         verify(restAPIClient)
@@ -117,22 +119,22 @@ class RestAPIClientTest {
             throws JsonProcessingException {
 
 
-        setupValidResponseTest(new MockResponse("mock-status"));
-        restAPIClient.get(MockResponse.class, MOCK_URL, REP_ID);
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
+        restAPIClient.get(MockResponse.class, MOCK_URL, MOCK_REP_ID);
 
         verify(restAPIClient)
-                .getApiResponse(null, MockResponse.class, MOCK_URL, null, HttpMethod.GET, null, REP_ID);
+                .getApiResponse(null, MockResponse.class, MOCK_URL, null, HttpMethod.GET, null, MOCK_REP_ID);
     }
 
     @Test
     void givenCorrectParams_whenGetIsInvokedWithHeaders_thenGetApiResponseIsCalled()
             throws JsonProcessingException {
 
-        setupValidResponseTest(new MockResponse("mock-status"));
-        restAPIClient.get(MockResponse.class, MOCK_URL, MOCK_HEADERS, REP_ID);
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
+        restAPIClient.get(MockResponse.class, MOCK_URL, MOCK_HEADERS, MOCK_REP_ID);
 
         verify(restAPIClient)
-                .getApiResponse(null, MockResponse.class, MOCK_URL, MOCK_HEADERS, HttpMethod.GET, null, REP_ID);
+                .getApiResponse(null, MockResponse.class, MOCK_URL, MOCK_HEADERS, HttpMethod.GET, null, MOCK_REP_ID);
     }
 
     @Test
@@ -142,20 +144,50 @@ class RestAPIClientTest {
         MultiValueMapAdapter<String, String> queryParams =
                 new MultiValueMapAdapter<>(Map.of("id", List.of("1000")));
 
-        setupValidResponseTest(new MockResponse("mock-status"));
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
         restAPIClient.get(MockResponse.class, MOCK_URL, MOCK_HEADERS, queryParams);
 
         verify(restAPIClient)
                 .getApiResponse(null, MockResponse.class, MOCK_URL, MOCK_HEADERS, HttpMethod.GET, queryParams);
     }
 
+    @Test
+    void givenCorrectParams_whenGetApiResponseIsInvoked_thenCorrectResponseIsReturned()
+            throws JsonProcessingException {
+
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
+        MockResponse apiResponse = restAPIClient.getApiResponse(
+                new MockRequestBody(),
+                MockResponse.class,
+                MOCK_URL,
+                MOCK_HEADERS,
+                HttpMethod.POST,
+                null
+        );
+        assertThat(apiResponse.id).isEqualTo(MOCK_REP_ID);
+    }
+
+    @Test
+    void givenCorrectParams_whenGetBodilessApiResponseIsInvoked_thenCorrectResponseIsReturned()
+            throws JsonProcessingException {
+
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID), Map.of(CONTENT_LENGTH, "10"));
+        ResponseEntity<Void> apiResponse = restAPIClient.getBodilessApiResponse(
+                new MockRequestBody(),
+                MOCK_URL,
+                MOCK_HEADERS,
+                HttpMethod.HEAD,
+                null
+        );
+        assertThat(apiResponse.getHeaders().getContentLength()).isEqualTo(10);
+    }
 
     @Test
     void givenAnInvalidResponse_whenGetApiResponseIsInvoked_thenErrorIsThrown() {
         setupInvalidResponseTest();
         assertThatThrownBy(
                 () -> restAPIClient.getApiResponse(
-                        new Object(),
+                        new MockRequestBody(),
                         ClientResponse.class,
                         MOCK_URL,
                         MOCK_HEADERS,
@@ -169,7 +201,7 @@ class RestAPIClientTest {
     void givenAnInvalidUrl_whenGetApiResponseIsInvoked_thenReturnsNull() {
         setupNotFoundTest();
         ClientResponse response = restAPIClient.getApiResponse(
-                new Object(),
+                new MockRequestBody(),
                 ClientResponse.class,
                 MOCK_URL,
                 MOCK_HEADERS,
@@ -183,13 +215,13 @@ class RestAPIClientTest {
     void givenANotFoundException_whenGetApiResponseIsInvoked_thenReturnsNull() {
         setupNotFoundTest();
         ClientResponse response = restAPIClient.getApiResponse(
-                new Object(),
+                new MockRequestBody(),
                 ClientResponse.class,
                 MOCK_URL,
                 MOCK_HEADERS,
                 HttpMethod.GET,
                 null,
-                REP_ID
+                MOCK_REP_ID
         );
         assertThat(response).isNull();
     }
@@ -217,7 +249,7 @@ class RestAPIClientTest {
                 );
     }
 
-    private <T> void setupValidResponseTest(T returnBody) throws JsonProcessingException {
+    private <T> void setupValidResponseTest(T returnBody, Map<String, String> headers) throws JsonProcessingException {
         String body = OBJECT_MAPPER.writeValueAsString(returnBody);
         when(shortCircuitExchangeFunction.exchange(any()))
                 .thenReturn(
@@ -225,8 +257,17 @@ class RestAPIClientTest {
                                 .create(HttpStatus.OK)
                                 .body(body)
                                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                                .headers(httpHeaders -> {
+                                    if(headers != null) {
+                                        httpHeaders.setAll(headers);
+                                    }
+                                })
                                 .build()
                         )
                 );
+    }
+
+    private <T> void setupValidResponseTest(T returnBody) throws JsonProcessingException {
+        setupValidResponseTest(returnBody, null);
     }
 }
