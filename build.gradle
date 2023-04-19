@@ -1,6 +1,6 @@
 plugins {
     id 'nebula.release' version '17.2.0'
-    id 'org.sonarqube' version '3.5.0.2730'
+    id 'org.sonarqube' version '4.0.0.2929'
     id 'com.netflix.nebula.contacts' version '7.0.0'
 }
 
@@ -11,22 +11,41 @@ contacts {
     }
 }
 
-sonarqube {
+subprojects {
+    apply plugin: "java"
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    group = 'uk.gov.justice.laa.crime'
+    description = 'Crime Applications Shared Libraries'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+sonar {
     properties {
         property "sonar.projectName", "laa-crime-commons"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.organization", "ministryofjustice"
-        property "sonar.coverage.jacoco.xmlReportPaths",
-                "${project(':crime-commons-spring-boot-starter').buildDir}/reports/jacoco/test/jacocoTestReport.xml"
         property "sonar.projectKey", "ministryofjustice_laa-crime-commons"
-        property "sonar.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
-        property "sonar.coverage.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
     }
 }
 
-project(":samples") {
-    sonarqube {
+project(":crime-commons-spring-boot-starter-rest-client") {
+    apply plugin: 'org.sonarqube'
+    sonar {
+        properties {
+            property "sonar.coverage.jacoco.xmlReportPaths",
+                    "${project(':crime-commons-spring-boot-starter-rest-client').buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+            property "sonar.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
+            property "sonar.coverage.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
+        }
+    }
+}
+
+project(":crime-commons-samples") {
+    sonar {
         skipProject = true
     }
 }
-
