@@ -7,7 +7,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
 
-    implementation project(':crime-commons-spring-boot-starter')
+    implementation project(':crime-commons-spring-boot-starter-rest-client')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
