@@ -1,9 +1,9 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'jacoco'
-    id 'com.netflix.nebula.maven-publish' version '20.1.1'
-    id 'org.springframework.boot' version '3.0.4' apply false
+    id "jacoco"
+    id "signing"
+    id "maven-publish"
 }
 
 configurations {
@@ -13,39 +13,69 @@ configurations {
 }
 
 dependencies {
-    implementation platform('io.sentry:sentry-bom:6.15.0')
+    implementation platform("io.sentry:sentry-bom:6.15.0")
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-webflux"
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
 
-    compileOnly 'org.projectlombok:lombok'
+    compileOnly "org.projectlombok:lombok"
 
-    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation "org.jetbrains:annotations:23.0.0"
 
-    implementation('io.sentry:sentry-spring-boot-starter')
-    implementation('io.sentry:sentry-logback')
+    implementation("io.sentry:sentry-spring-boot-starter")
+    implementation("io.sentry:sentry-logback")
 
-    annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/ministryofjustice/laa-crime-commons")
-            credentials {
-                password = project.findProperty("github-token") ?: System.getenv("GITHUB_TOKEN")
-                username = project.findProperty("github-username") ?: System.getenv("GITHUB_USERNAME")
+    publications {
+        maven(MavenPublication) {
+
+            from components.java
+
+            pom {
+                artifactId = project.name
+                name = "Sprint Boot Starter REST Client"
+                url = "https://github.com/ministryofjustice/laa-crime-commons"
+                description = "A Spring Boot auto-configuration library providing web clients for communicating with LAA Crime APIs"
+
+                licenses {
+                    license {
+                        name = "MIT"
+                        url = "https://opensource.org/licenses/MIT"
+                    }
+                }
+                organization {
+                    name = "Justice Digital"
+                }
+                developers {
+                    developer {
+                        id = "mhowell494"
+                        name = "Matthew Howell"
+                        email = "matthew.howell@digital.justice.gov.uk"
+                    }
+                }
+                scm {
+                    url = "https://github.com/ministryofjustice/laa-crime-commons.git"
+                }
             }
         }
     }
+}
+
+signing {
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.maven
 }
 
 test {
@@ -61,6 +91,6 @@ jacocoTestReport {
     }
 }
 
-tasks.named('test') {
+tasks.named("test") {
     useJUnitPlatform()
 }
