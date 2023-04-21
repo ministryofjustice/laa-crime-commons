@@ -20,6 +20,10 @@ subprojects {
     }
 }
 
+nebulaRelease {
+    addReleaseBranchPattern("LCAM-519")
+}
+
 nexusPublishing {
     repositories {
         create("sonatype") {
