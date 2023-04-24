@@ -27,7 +27,8 @@ subprojects {
 }
 
 nebulaRelease {
-    addReleaseBranchPattern("LCAM-519")
+    // Enable release from branches beginning with this pattern
+    addReleaseBranchPattern("/LCAM-/")
 }
 
 nexusPublishing {
