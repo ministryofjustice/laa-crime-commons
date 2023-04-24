@@ -29,7 +29,7 @@ executors:
 commands:
   publish_artefact:
     description: >
-      Publish artefact to Github packages
+      Publish artefact to Maven Central
     parameters:
       type:
         type: enum
@@ -47,31 +47,31 @@ commands:
             equal: [ "major", << parameters.type >> ]
           steps:
             - run:
-                name: Publish major release to Github Packages
-                command: ./gradlew final -Prelease.scope=major publish
+                name: Publish major release to Maven Central
+                command: ./gradlew final -Prelease.scope=major publish publishToSonatype closeSonatypeStagingRepository
       - when:
           condition:
             equal: [ "minor", << parameters.type >> ]
           steps:
             - run:
-                name: Publish minor release to Github Packages
-                command: ./gradlew final publish
+                name: Publish minor release to Maven Central
+                command: ./gradlew final publishToSonatype closeSonatypeStagingRepository
 
       - when:
           condition:
             equal: [ "patch", << parameters.type >> ]
           steps:
             - run:
-                name: Publish patch release to Github Packages
-                command: ./gradlew final -Prelease.scope=patch publish
+                name: Publish patch release to Maven Central
+                command: ./gradlew final -Prelease.scope=patch publishToSonatype closeSonatypeStagingRepository
 
       - when:
           condition:
             equal: [ "snapshot", << parameters.type >> ]
           steps:
             - run:
-                name: Publish snapshot release to Github Packages
-                command: ./gradlew publish
+                name: Publish snapshot release to Maven Central
+                command: ./gradlew snapshot publishToSonatype closeSonatypeStagingRepository
 
   authenticate_host:
     description: >
