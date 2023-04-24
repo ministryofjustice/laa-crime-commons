@@ -48,14 +48,14 @@ commands:
           steps:
             - run:
                 name: Publish major release to Maven Central
-                command: ./gradlew final -Prelease.scope=major publish publishToSonatype closeSonatypeStagingRepository
+                command: ./gradlew final -Prelease.scope=major publish publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
             equal: [ "minor", << parameters.type >> ]
           steps:
             - run:
                 name: Publish minor release to Maven Central
-                command: ./gradlew final publishToSonatype closeSonatypeStagingRepository
+                command: ./gradlew final publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -63,7 +63,7 @@ commands:
           steps:
             - run:
                 name: Publish patch release to Maven Central
-                command: ./gradlew final -Prelease.scope=patch publishToSonatype closeSonatypeStagingRepository
+                command: ./gradlew final -Prelease.scope=patch publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -71,7 +71,7 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew snapshot publishToSonatype closeSonatypeStagingRepository
+                command: ./gradlew snapshot publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   authenticate_host:
     description: >
