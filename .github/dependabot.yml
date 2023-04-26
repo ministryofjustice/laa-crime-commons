@@ -1,0 +1,11 @@
+version: 2
+
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/crime-commons-spring-boot-starter-rest-client"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "Gradle"
+      include: "scope"
+
