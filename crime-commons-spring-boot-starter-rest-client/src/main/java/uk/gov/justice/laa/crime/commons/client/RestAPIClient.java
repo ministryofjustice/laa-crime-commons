@@ -112,7 +112,7 @@ public class RestAPIClient {
         return configureErrorResponse(requestHeadersSpec.retrieve().toBodilessEntity()).block();
     }
 
-    Throwable handleError(Throwable error) {
+    private Throwable handleError(Throwable error) {
         if (error instanceof APIClientException) {
             return error;
         }

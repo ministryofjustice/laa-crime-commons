@@ -37,7 +37,7 @@ public class RestClientAutoConfiguration {
 
 
     @Bean
-    public ConnectionProvider connectionProvider() {
+    ConnectionProvider connectionProvider() {
         return ConnectionProvider.builder("custom")
                 .maxConnections(500)
                 .maxIdleTime(Duration.ofSeconds(20))
@@ -49,7 +49,7 @@ public class RestClientAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(OAuth2AuthorizedClientRepository.class)
-    public WebClientCustomizer webClientCustomizer(ConnectionProvider connectionProvider,
+    WebClientCustomizer webClientCustomizer(ConnectionProvider connectionProvider,
                                                    ClientRegistrationRepository clientRegistrations,
                                                    OAuth2AuthorizedClientRepository authorizedClients) {
         return webClientBuilder -> {
@@ -85,19 +85,19 @@ public class RestClientAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(WebClient.Builder.class)
-    public WebClient maatApiWebClient(WebClient.Builder builder) {
+    WebClient maatApiWebClient(WebClient.Builder builder) {
         return builder.build();
     }
 
     @Bean
     @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.cda.token-uri")
-    public RestAPIClient cdaApiClient(WebClient webClient) {
+    RestAPIClient cdaApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "cda");
     }
 
     @Bean
     @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.maat-api.token-uri")
-    public RestAPIClient maatApiClient(WebClient webClient) {
+    RestAPIClient maatApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "maat-api");
     }
 
