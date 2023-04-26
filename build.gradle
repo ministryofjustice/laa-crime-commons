@@ -15,6 +15,9 @@ subprojects {
         withJavadocJar()
     }
 
+    // Disable warnings for missing JavaDoc
+    javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 

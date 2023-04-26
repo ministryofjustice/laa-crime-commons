@@ -26,6 +26,10 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 
+/**
+ * Autoconfigures <code>ConnectionProvider</code>, and several <Code>RestApiClient</Code> beans
+ * for communicating with LAA crime APIs
+ */
 @Slf4j
 @Configuration()
 @AutoConfiguration
@@ -36,6 +40,11 @@ public class RestClientAutoConfiguration {
     private final RetryConfiguration retryConfiguration;
 
 
+    /**
+     * Configures a <code>ConnectionProvider</code> with sensible defaults
+     *
+     * @return the connection provider
+     */
     @Bean
     ConnectionProvider connectionProvider() {
         return ConnectionProvider.builder("custom")
@@ -47,11 +56,23 @@ public class RestClientAutoConfiguration {
                 .build();
     }
 
+    /**
+     * Configures a <code>WebClientCustomizer</code> with default headers and exchange filter functions
+     * A <code>ServletOAuth2AuthorizedClientExchangeFilterFunction</code> filter is added to enable OAuth2
+     * Requires at least one OAuth2 client to be configured, otherwise the required beans will not be instantiated
+     * All <code>WebClient</code> beans built from the <code>WebClient.Builder</code> class will inherit from this customizer
+     *
+     * @param connectionProvider  the connection provider
+     * @param clientRegistrations the client registration repository
+     * @param authorizedClients   the authorized client repository
+     * @return the web client customizer
+     * @see WebClientFilters
+     */
     @Bean
     @ConditionalOnBean(OAuth2AuthorizedClientRepository.class)
     WebClientCustomizer webClientCustomizer(ConnectionProvider connectionProvider,
-                                                   ClientRegistrationRepository clientRegistrations,
-                                                   OAuth2AuthorizedClientRepository authorizedClients) {
+                                            ClientRegistrationRepository clientRegistrations,
+                                            OAuth2AuthorizedClientRepository authorizedClients) {
         return webClientBuilder -> {
 
             webClientBuilder.clientConnector(new ReactorClientHttpConnector(
@@ -79,22 +100,51 @@ public class RestClientAutoConfiguration {
         };
     }
 
-    public static Consumer<Map<String, Object>> getExchangeFilterWith(String provider) {
-        return ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId(provider);
+    /**
+     * Modifies request attributes to include the registrationId to be used to
+     * look up the <code>OAuth2AuthorizedClient.</code>
+     *
+     * @param registrationId the registrationId
+     * @return <code>Consumer</code> to populate the attributes
+     * @see Consumer
+     * @see ServletOAuth2AuthorizedClientExchangeFilterFunction
+     */
+    public static Consumer<Map<String, Object>> getExchangeFilterWith(String registrationId) {
+        return ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId(registrationId);
     }
 
+    /**
+     * Configures a WebClient bean via a builder instance
+     * Configuration is inherited from <code>WebClientCustomizer</code>
+     *
+     * @param builder the builder
+     * @return the web client
+     * @see WebClientCustomizer
+     */
     @Bean
     @ConditionalOnBean(WebClient.Builder.class)
     WebClient maatApiWebClient(WebClient.Builder builder) {
         return builder.build();
     }
 
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for CDA is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
     @Bean
     @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.cda.token-uri")
     RestAPIClient cdaApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "cda");
     }
 
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for MaatAPI is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
     @Bean
     @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.maat-api.token-uri")
     RestAPIClient maatApiClient(WebClient webClient) {
