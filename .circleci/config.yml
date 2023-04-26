@@ -41,7 +41,7 @@ commands:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - when:
           condition:
             equal: [ "major", << parameters.type >> ]
@@ -97,10 +97,10 @@ jobs:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - run:
           name: Build library and run tests
-          command: ./gradlew crime-commons-spring-boot-starter:build
+          command: ./gradlew crime-commons-spring-boot-starter-rest-client:build
       - run:
           name: Run SonarQube
           command: ./gradlew sonar
@@ -111,7 +111,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
+          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - persist_to_workspace:
           root: .
           paths:
@@ -119,7 +119,7 @@ jobs:
 
   snyk_scan:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - checkout:
           path:
