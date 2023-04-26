@@ -45,7 +45,7 @@ publishing {
                 artifactId = project.name
                 name = "Sprint Boot Starter REST Client"
                 url = "https://github.com/ministryofjustice/laa-crime-commons"
-                description = "A Spring Boot auto-configuration library providing web clients for communicating with LAA Crime APIs"
+                description = "A Spring Boot auto-configuration library that facilitates communication with LAA Crime APIs"
 
                 licenses {
                     license {
@@ -73,6 +73,9 @@ publishing {
 
 signing {
     sign publishing.publications.maven
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
 test {

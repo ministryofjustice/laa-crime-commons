@@ -1,5 +1,4 @@
 plugins {
-    id "signing"
     id "nebula.release" version "17.2.0"
     id "org.sonarqube" version "4.0.0.2929"
     id "org.springframework.boot" version "3.0.4" apply false
@@ -40,12 +39,6 @@ nexusPublishing {
             password = project.findProperty("sonatypePassword") ?: System.getenv("OSSRH_PASSWORD")
         }
     }
-}
-
-signing {
-    def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
 sonar {
