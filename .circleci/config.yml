@@ -12,7 +12,6 @@ _snyk_options: &snyk_options
   token-variable: SNYK_TOKEN
   additional-arguments: --policy-path=.snyk
 
-
 # ------------------
 # EXECUTORS
 # ------------------
@@ -21,7 +20,6 @@ executors:
     resource_class: medium
     docker:
       - image: cimg/openjdk:17.0.6
-
 
 # ------------------
 # COMMANDS
@@ -44,14 +42,14 @@ commands:
             - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - when:
           condition:
-            equal: [ "major", << parameters.type >> ]
+            equal: ["major", << parameters.type >>]
           steps:
             - run:
                 name: Publish major release to Maven Central
                 command: ./gradlew final -Prelease.scope=major publish publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
-            equal: [ "minor", << parameters.type >> ]
+            equal: ["minor", << parameters.type >>]
           steps:
             - run:
                 name: Publish minor release to Maven Central
@@ -59,7 +57,7 @@ commands:
 
       - when:
           condition:
-            equal: [ "patch", << parameters.type >> ]
+            equal: ["patch", << parameters.type >>]
           steps:
             - run:
                 name: Publish patch release to Maven Central
@@ -67,7 +65,7 @@ commands:
 
       - when:
           condition:
-            equal: [ "snapshot", << parameters.type >> ]
+            equal: ["snapshot", << parameters.type >>]
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
@@ -78,7 +76,6 @@ commands:
       Add github.com to known hosts
     steps:
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
-
 
 # ------------------
 # JOBS
@@ -122,8 +119,7 @@ jobs:
     working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - checkout:
-          path:
-            ~/laa-crime-commons
+          path: ~/laa-crime-commons
       - snyk/scan:
           <<: *snyk_options
 
@@ -170,7 +166,6 @@ jobs:
       - authenticate_host
       - publish_artefact:
           type: snapshot
-
 
 # ------------------
 # WORKFLOWS
