@@ -6,6 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 
+/**
+ * Retry configuration
+ * Configures a retry exchange filter function
+ */
 @Getter
 @Setter
 @Configuration

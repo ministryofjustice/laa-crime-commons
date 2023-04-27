@@ -21,10 +21,25 @@ import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseExce
 import java.time.Duration;
 import java.util.List;
 
+/**
+ * WebClientFilters defines several ExchangeFilterFunctions used to:
+ * <ul>
+ * <li>Log requests headers</li>
+ * <li>Log response status codes</li>
+ * <li>Handle error responses based on the status code</li>
+ * <li>Define a retry strategy for handling potentially recoverable errors</li>
+ * </ul>
+ */
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class WebClientFilters {
 
+    /**
+     * Filters client requests
+     * Logs all non-sensitive client request headers at INFO level
+     *
+     * @return the exchange filter function
+     */
     public static ExchangeFilterFunction logRequestHeaders() {
         return (clientRequest, next) -> {
             log.info("Request: {} {}", clientRequest.method(), clientRequest.url());
@@ -39,6 +54,12 @@ public class WebClientFilters {
     }
 
 
+    /**
+     * Filters client responses
+     * Logs the response status code at INFO level
+     *
+     * @return the exchange filter function
+     */
     public static ExchangeFilterFunction logResponse() {
         return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
             log.info("Response status: {}", clientResponse.statusCode());
@@ -46,6 +67,18 @@ public class WebClientFilters {
         });
     }
 
+    /**
+     * Handles error response by logging the status code and response phrase, then throwing an appropriate exception:
+     * <ul>
+     * <li><code>RetryableWebClientResponseException</code> is thrown on potentially recoverable status codes</li>
+     * <li><code>HttpClientErrorException</code> is thrown on client error status codes (excl. 404 NOT FOUND)</li>
+     * <li><code>HttpServerErrorException</code> is thrown on server error status codes</li>
+     * <li><code>WebClientResponseException</code> is thrown for all remaining error status codes</li>
+     * </ul>
+     *
+     * @return the exchange filter function
+     * @see RetryableWebClientResponseException
+     */
     public static ExchangeFilterFunction handleErrorResponse() {
 
         List<HttpStatus> retryableStatuses = List.of(
@@ -79,6 +112,16 @@ public class WebClientFilters {
                 });
     }
 
+    /**
+     * Retry exchange filter function.
+     * Retries error responses on <code>RetryableWebClientResponseException</code> and request timeouts
+     * Progress is logged to the console after each retry and after all retries are exhausted at INFO level
+     * The number of retries, jitter and back of period are provided via the <code>retryConfiguration</code> argument
+     *
+     * @param retryConfiguration the retry configuration
+     * @return the exchange filter function
+     * @see RetryConfiguration
+     */
     public static ExchangeFilterFunction retryFilter(RetryConfiguration retryConfiguration) {
         return (request, next) ->
                 next.exchange(request)

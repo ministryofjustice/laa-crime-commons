@@ -12,7 +12,6 @@ _snyk_options: &snyk_options
   token-variable: SNYK_TOKEN
   additional-arguments: --policy-path=.snyk
 
-
 # ------------------
 # EXECUTORS
 # ------------------
@@ -22,14 +21,13 @@ executors:
     docker:
       - image: cimg/openjdk:17.0.6
 
-
 # ------------------
 # COMMANDS
 # ------------------
 commands:
   publish_artefact:
     description: >
-      Publish artefact to Github packages
+      Publish artefact to Maven Central
     parameters:
       type:
         type: enum
@@ -41,44 +39,43 @@ commands:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - when:
           condition:
-            equal: [ "major", << parameters.type >> ]
+            equal: ["major", << parameters.type >>]
           steps:
             - run:
-                name: Publish major release to Github Packages
-                command: ./gradlew final -Prelease.scope=major publish
+                name: Publish major release to Maven Central
+                command: ./gradlew final -Prelease.scope=major publish publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
-            equal: [ "minor", << parameters.type >> ]
+            equal: ["minor", << parameters.type >>]
           steps:
             - run:
-                name: Publish minor release to Github Packages
-                command: ./gradlew final publish
+                name: Publish minor release to Maven Central
+                command: ./gradlew final publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
-            equal: [ "patch", << parameters.type >> ]
+            equal: ["patch", << parameters.type >>]
           steps:
             - run:
-                name: Publish patch release to Github Packages
-                command: ./gradlew final -Prelease.scope=patch publish
+                name: Publish patch release to Maven Central
+                command: ./gradlew final -Prelease.scope=patch publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
-            equal: [ "snapshot", << parameters.type >> ]
+            equal: ["snapshot", << parameters.type >>]
           steps:
             - run:
-                name: Publish snapshot release to Github Packages
-                command: ./gradlew publish
+                name: Publish snapshot release to Maven Central
+                command: ./gradlew snapshot publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   authenticate_host:
     description: >
       Add github.com to known hosts
     steps:
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
-
 
 # ------------------
 # JOBS
@@ -97,10 +94,10 @@ jobs:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - run:
           name: Build library and run tests
-          command: ./gradlew crime-commons-spring-boot-starter:build
+          command: ./gradlew crime-commons-spring-boot-starter-rest-client:build
       - run:
           name: Run SonarQube
           command: ./gradlew sonar
@@ -111,7 +108,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter/build.gradle" }}
+          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - persist_to_workspace:
           root: .
           paths:
@@ -119,11 +116,10 @@ jobs:
 
   snyk_scan:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - checkout:
-          path:
-            ~/laa-crime-commons
+          path: ~/laa-crime-commons
       - snyk/scan:
           <<: *snyk_options
 
@@ -170,7 +166,6 @@ jobs:
       - authenticate_host
       - publish_artefact:
           type: snapshot
-
 
 # ------------------
 # WORKFLOWS

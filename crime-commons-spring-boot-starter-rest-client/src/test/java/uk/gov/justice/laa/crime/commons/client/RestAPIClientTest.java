@@ -24,7 +24,8 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.CONTENT_LENGTH;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -35,6 +36,7 @@ class RestAPIClientTest {
     private final String MOCK_REP_ID = "1234";
     private RestAPIClient restAPIClient;
     public static final String MOCK_URL = "mock-url";
+    public static final String MOCK_REGISTRATION_ID = "mock-web-client";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final Map<String, String> MOCK_HEADERS = Map.of(Constants.LAA_TRANSACTION_ID, "laaTransactionId");
 
@@ -63,21 +65,13 @@ class RestAPIClientTest {
                 .exchangeFunction(shortCircuitExchangeFunction)
                 .build();
 
-        restAPIClient = Mockito.spy(new RestAPIClient(testWebClient, "mock-web-client"));
+        restAPIClient = Mockito.spy(new RestAPIClient(testWebClient, MOCK_REGISTRATION_ID));
     }
 
     record MockResponse(String id) {
     }
 
     record MockRequestBody() {
-    }
-
-    @Test
-    void givenApiClientException_whenHandleErrorIsInvoked_thenExistingErrorIsReturned() {
-        String mockResponse = "MOCK ERROR RESPONSE";
-        APIClientException mockException = new APIClientException(mockResponse);
-        assertThat(restAPIClient.handleError(mockException))
-                .isInstanceOf(APIClientException.class).hasMessage(mockResponse);
     }
 
     @Test
@@ -184,7 +178,7 @@ class RestAPIClientTest {
 
     @Test
     void givenAnInvalidResponse_whenGetApiResponseIsInvoked_thenErrorIsThrown() {
-        setupInvalidResponseTest();
+        setupBadRequestTest();
         assertThatThrownBy(
                 () -> restAPIClient.getApiResponse(
                         new MockRequestBody(),
@@ -194,7 +188,9 @@ class RestAPIClientTest {
                         HttpMethod.POST,
                         null
                 )
-        ).isInstanceOf(APIClientException.class).cause().isInstanceOf(WebClientResponseException.class);
+        ).isInstanceOf(APIClientException.class)
+                .hasMessage(String.format("Call to service %s failed.", MOCK_REGISTRATION_ID.toUpperCase()))
+                .cause().isInstanceOf(WebClientResponseException.class);
     }
 
     @Test
@@ -238,12 +234,12 @@ class RestAPIClientTest {
                 );
     }
 
-    private void setupInvalidResponseTest() {
+    private void setupBadRequestTest() {
         when(shortCircuitExchangeFunction.exchange(any()))
                 .thenReturn(
                         Mono.just(ClientResponse
-                                .create(HttpStatus.OK)
-                                .body("Invalid response")
+                                .create(HttpStatus.BAD_REQUEST)
+                                .body("Required parameters missing")
                                 .build()
                         )
                 );
@@ -258,7 +254,7 @@ class RestAPIClientTest {
                                 .body(body)
                                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                                 .headers(httpHeaders -> {
-                                    if(headers != null) {
+                                    if (headers != null) {
                                         httpHeaders.setAll(headers);
                                     }
                                 })
