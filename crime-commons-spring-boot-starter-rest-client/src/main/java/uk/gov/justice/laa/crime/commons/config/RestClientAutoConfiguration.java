@@ -151,4 +151,10 @@ public class RestClientAutoConfiguration {
         return new RestAPIClient(webClient, "maat-api");
     }
 
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.evidence.token-uri")
+    RestAPIClient evidenceApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "evidence");
+    }
+
 }
