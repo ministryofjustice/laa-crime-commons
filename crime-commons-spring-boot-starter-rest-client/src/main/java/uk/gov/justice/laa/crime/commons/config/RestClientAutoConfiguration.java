@@ -2,6 +2,7 @@ package uk.gov.justice.laa.crime.commons.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jetty.client.HttpClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,17 +12,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.http.client.reactive.JettyClientHttpConnector;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
-import reactor.netty.resources.ConnectionProvider;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
 import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
 
-import java.time.Duration;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -41,28 +39,11 @@ public class RestClientAutoConfiguration {
 
 
     /**
-     * Configures a <code>ConnectionProvider</code> with sensible defaults
-     *
-     * @return the connection provider
-     */
-    @Bean
-    ConnectionProvider connectionProvider() {
-        return ConnectionProvider.builder("custom")
-                .maxConnections(500)
-                .maxIdleTime(Duration.ofSeconds(20))
-                .maxLifeTime(Duration.ofSeconds(60))
-                .pendingAcquireTimeout(Duration.ofSeconds(60))
-                .evictInBackground(Duration.ofSeconds(120))
-                .build();
-    }
-
-    /**
      * Configures a <code>WebClientCustomizer</code> with default headers and exchange filter functions
      * A <code>ServletOAuth2AuthorizedClientExchangeFilterFunction</code> filter is added to enable OAuth2
      * Requires at least one OAuth2 client to be configured, otherwise the required beans will not be instantiated
      * All <code>WebClient</code> beans built from the <code>WebClient.Builder</code> class will inherit from this customizer
      *
-     * @param connectionProvider  the connection provider
      * @param clientRegistrations the client registration repository
      * @param authorizedClients   the authorized client repository
      * @return the web client customizer
@@ -70,17 +51,13 @@ public class RestClientAutoConfiguration {
      */
     @Bean
     @ConditionalOnBean(OAuth2AuthorizedClientRepository.class)
-    WebClientCustomizer webClientCustomizer(ConnectionProvider connectionProvider,
-                                            ClientRegistrationRepository clientRegistrations,
+    WebClientCustomizer webClientCustomizer(ClientRegistrationRepository clientRegistrations,
                                             OAuth2AuthorizedClientRepository authorizedClients) {
         return webClientBuilder -> {
 
-            webClientBuilder.clientConnector(new ReactorClientHttpConnector(
-                            HttpClient.create(connectionProvider)
-                                    .compress(true)
-                                    .responseTimeout(Duration.ofSeconds(30))
-                    )
-            );
+
+            HttpClient client = new HttpClient();
+            webClientBuilder.clientConnector(new JettyClientHttpConnector(client));
 
             webClientBuilder.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
             webClientBuilder.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
