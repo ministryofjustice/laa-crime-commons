@@ -45,12 +45,6 @@ class RestClientAutoConfigurationTest {
             );
 
     @Test
-    void configurationRegistersConnectionProviderBean() {
-        this.contextRunner
-                .run((context) -> assertThat(context).hasSingleBean(ConnectionProvider.class));
-    }
-
-    @Test
     void restClientConfigurerConfiguresWebClientCustomizer() {
         this.contextRunner
                 .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)

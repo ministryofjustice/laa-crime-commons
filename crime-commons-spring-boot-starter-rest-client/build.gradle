@@ -22,6 +22,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-webflux"
     implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
 
+    implementation "org.eclipse.jetty:jetty-reactive-httpclient:3.0.8"
+
     compileOnly "org.projectlombok:lombok"
 
     implementation "org.jetbrains:annotations:23.0.0"
