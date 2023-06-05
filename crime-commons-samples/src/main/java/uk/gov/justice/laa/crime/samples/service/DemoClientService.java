@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
 import uk.gov.justice.laa.crime.samples.model.FinancialAssessment;
+import uk.gov.justice.laa.crime.samples.model.RepOrderCCOutcome;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,10 +37,21 @@ public class DemoClientService {
 
     public FinancialAssessment getFinancialAssessment(int financialAssessmentId) {
         FinancialAssessment response = maatApiClient.get(
-                FinancialAssessment.class,
+                new ParameterizedTypeReference<FinancialAssessment>() {},
                 maatApiBaseUrl + "/financial-assessments/{financialAssessmentId}",
                 Map.of("LAA_TRANSACTION_ID", UUID.randomUUID().toString()),
                 financialAssessmentId
+        );
+        log.info(String.format(RESPONSE_STRING, response));
+        return response;
+    }
+
+    public List<RepOrderCCOutcome> getRepOrderCCOutcomeByRepId(int repId) {
+        List<RepOrderCCOutcome> response = maatApiClient.get(
+                new ParameterizedTypeReference<List<RepOrderCCOutcome>>() {},
+                maatApiBaseUrl + "/rep-orders/cc-outcome/reporder/{repId}",
+                Map.of("LAA_TRANSACTION_ID", UUID.randomUUID().toString()),
+                repId
         );
         log.info(String.format(RESPONSE_STRING, response));
         return response;
@@ -49,7 +63,7 @@ public class DemoClientService {
         queryParams.add("publish_to_queue", "true");
 
         cdaApiClient.get(
-                Void.class,
+                new ParameterizedTypeReference<Void>() {},
                 cdaBaseUrl + "/api/internal/v2/hearing_results/{hearingId}",
                 Map.of("X-Request-ID", laaTransactionId),
                 queryParams,
