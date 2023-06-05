@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -79,10 +80,12 @@ class RestAPIClientTest {
             throws JsonProcessingException {
 
         MockRequestBody request = new MockRequestBody();
+        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
+        };
         setupValidResponseTest(new MockResponse(MOCK_REP_ID));
-        restAPIClient.post(request, MockResponse.class, MOCK_URL, null);
+        restAPIClient.post(request, typeReference, MOCK_URL, null);
         verify(restAPIClient)
-                .getApiResponse(request, MockResponse.class, MOCK_URL, null, HttpMethod.POST, null);
+                .getApiResponse(request, typeReference, MOCK_URL, null, HttpMethod.POST, null);
     }
 
     @Test
@@ -91,10 +94,18 @@ class RestAPIClientTest {
 
         MockRequestBody request = new MockRequestBody();
         setupValidResponseTest(new MockResponse(MOCK_REP_ID));
-        restAPIClient.put(request, MockResponse.class, MOCK_URL, MOCK_HEADERS);
+        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
+        };
+        restAPIClient.put(request, typeReference, MOCK_URL, MOCK_HEADERS);
 
         verify(restAPIClient)
-                .getApiResponse(request, MockResponse.class, MOCK_URL, MOCK_HEADERS, HttpMethod.PUT, null);
+                .getApiResponse(request,
+                        typeReference,
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.PUT,
+                        null
+                );
     }
 
     @Test
@@ -105,19 +116,33 @@ class RestAPIClientTest {
         restAPIClient.head(MOCK_URL, MOCK_HEADERS);
 
         verify(restAPIClient)
-                .getBodilessApiResponse(null, MOCK_URL, MOCK_HEADERS, HttpMethod.HEAD, null);
+                .getBodilessApiResponse(
+                        null,
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.HEAD,
+                        null
+                );
     }
 
     @Test
     void givenCorrectParams_whenGetIsInvoked_thenGetApiResponseIsCalled()
             throws JsonProcessingException {
 
-
         setupValidResponseTest(new MockResponse(MOCK_REP_ID));
-        restAPIClient.get(MockResponse.class, MOCK_URL, MOCK_REP_ID);
+        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
+        };
+        restAPIClient.get(typeReference, MOCK_URL, MOCK_REP_ID);
 
         verify(restAPIClient)
-                .getApiResponse(null, MockResponse.class, MOCK_URL, null, HttpMethod.GET, null, MOCK_REP_ID);
+                .getApiResponse(
+                        null,
+                        typeReference, MOCK_URL,
+                        null,
+                        HttpMethod.GET,
+                        null,
+                        MOCK_REP_ID
+                );
     }
 
     @Test
@@ -125,24 +150,41 @@ class RestAPIClientTest {
             throws JsonProcessingException {
 
         setupValidResponseTest(new MockResponse(MOCK_REP_ID));
-        restAPIClient.get(MockResponse.class, MOCK_URL, MOCK_HEADERS, MOCK_REP_ID);
+        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
+        };
+        restAPIClient.get(typeReference, MOCK_URL, MOCK_HEADERS, MOCK_REP_ID);
 
         verify(restAPIClient)
-                .getApiResponse(null, MockResponse.class, MOCK_URL, MOCK_HEADERS, HttpMethod.GET, null, MOCK_REP_ID);
+                .getApiResponse(null,
+                        typeReference,
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.GET,
+                        null,
+                        MOCK_REP_ID
+                );
     }
 
     @Test
     void givenCorrectParams_whenGetIsInvokedWithQueryParams_thenGetApiResponseIsCalled()
             throws JsonProcessingException {
 
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
         MultiValueMapAdapter<String, String> queryParams =
                 new MultiValueMapAdapter<>(Map.of("id", List.of("1000")));
-
-        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
-        restAPIClient.get(MockResponse.class, MOCK_URL, MOCK_HEADERS, queryParams);
+        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
+        };
+        restAPIClient.get(typeReference, MOCK_URL, MOCK_HEADERS, queryParams);
 
         verify(restAPIClient)
-                .getApiResponse(null, MockResponse.class, MOCK_URL, MOCK_HEADERS, HttpMethod.GET, queryParams);
+                .getApiResponse(
+                        null,
+                        typeReference,
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.GET,
+                        queryParams
+                );
     }
 
     @Test
@@ -152,7 +194,8 @@ class RestAPIClientTest {
         setupValidResponseTest(new MockResponse(MOCK_REP_ID));
         MockResponse apiResponse = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                MockResponse.class,
+                new ParameterizedTypeReference<MockResponse>() {
+                },
                 MOCK_URL,
                 MOCK_HEADERS,
                 HttpMethod.POST,
@@ -182,7 +225,8 @@ class RestAPIClientTest {
         assertThatThrownBy(
                 () -> restAPIClient.getApiResponse(
                         new MockRequestBody(),
-                        ClientResponse.class,
+                        new ParameterizedTypeReference<MockResponse>() {
+                        },
                         MOCK_URL,
                         MOCK_HEADERS,
                         HttpMethod.POST,
@@ -196,9 +240,10 @@ class RestAPIClientTest {
     @Test
     void givenAnInvalidUrl_whenGetApiResponseIsInvoked_thenReturnsNull() {
         setupNotFoundTest();
-        ClientResponse response = restAPIClient.getApiResponse(
+        MockResponse response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                ClientResponse.class,
+                new ParameterizedTypeReference<MockResponse>() {
+                },
                 MOCK_URL,
                 MOCK_HEADERS,
                 HttpMethod.POST,
@@ -210,9 +255,10 @@ class RestAPIClientTest {
     @Test
     void givenANotFoundException_whenGetApiResponseIsInvoked_thenReturnsNull() {
         setupNotFoundTest();
-        ClientResponse response = restAPIClient.getApiResponse(
+        MockResponse response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                ClientResponse.class,
+                new ParameterizedTypeReference<MockResponse>() {
+                },
                 MOCK_URL,
                 MOCK_HEADERS,
                 HttpMethod.GET,
@@ -220,6 +266,26 @@ class RestAPIClientTest {
                 MOCK_REP_ID
         );
         assertThat(response).isNull();
+    }
+
+    @Test
+    void givenParameterizedResponseSpec_whenGetApiResponseIsInvoked_thenResponseIsCorrectlyDeserialized()
+            throws JsonProcessingException {
+
+        List<MockResponse> expected =
+                List.of(new MockResponse("1"), new MockResponse("2"));
+
+        setupValidResponseTest(expected);
+        List<MockResponse> response = restAPIClient.getApiResponse(
+                new MockRequestBody(),
+                new ParameterizedTypeReference<List<MockResponse>>() {},
+                MOCK_URL,
+                MOCK_HEADERS,
+                HttpMethod.GET,
+                null,
+                MOCK_REP_ID
+        );
+        assertThat(response).isEqualTo(expected);
     }
 
     private void setupNotFoundTest() {
