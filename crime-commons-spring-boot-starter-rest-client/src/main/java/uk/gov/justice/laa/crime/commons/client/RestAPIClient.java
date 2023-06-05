@@ -3,6 +3,7 @@ package uk.gov.justice.laa.crime.commons.client;
 import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class RestAPIClient {
      * @param url          the url
      * @param headers      the map of headers
      * @param urlVariables the map of url variables
-     * @return             the response entity (without a body)
+     * @return the response entity (without a body)
      */
     public ResponseEntity<Void> head(String url, Map<String, String> headers, Object... urlVariables) {
         return getBodilessApiResponse(null, url, headers, HttpMethod.HEAD, null, urlVariables);
@@ -48,77 +49,77 @@ public class RestAPIClient {
     /**
      * Sends a HTTP GET request
      *
-     * @param <T>           the return type
-     * @param responseClass the class used to decode the response body
-     * @param url           the url
-     * @param headers       the map of headers
-     * @param queryParams   the map of query parameters
-     * @param urlVariables  the map of url variables
-     * @return              the decoded response body
+     * @param <R>          the return type
+     * @param url          the url
+     * @param headers      the map of headers
+     * @param queryParams  the map of query parameters
+     * @param urlVariables the map of url variables
+     * @param typeReference specifies the class/type used for deserialization
+     * @return the decoded response body
      */
-    public <T> T get(Class<T> responseClass,
+    public <R> R get(ParameterizedTypeReference<R> typeReference,
                      String url,
                      Map<String, String> headers,
                      MultiValueMap<String, String> queryParams,
                      Object... urlVariables) {
-        return getApiResponse(null, responseClass, url, headers, HttpMethod.GET, queryParams, urlVariables);
+        return getApiResponse(null, typeReference, url, headers, HttpMethod.GET, queryParams, urlVariables);
     }
 
     /**
      * Sends a HTTP GET request
      *
-     * @param <T>           the return type
-     * @param responseClass the class used to decode the response body
-     * @param url           the url
-     * @param headers       the map of headers
-     * @param urlVariables  the map of url variables
-     * @return              the decoded response body
+     * @param <R>          the return type
+     * @param typeReference specifies the class/type used for deserialization
+     * @param url          the url
+     * @param headers      the map of headers
+     * @param urlVariables the map of url variables
+     * @return the decoded response body
      */
-    public <T> T get(Class<T> responseClass, String url, Map<String, String> headers, Object... urlVariables) {
-        return getApiResponse(null, responseClass, url, headers, HttpMethod.GET, null, urlVariables);
+    public <R> R get(ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {
+        return getApiResponse(null, typeReference, url, headers, HttpMethod.GET, null, urlVariables);
     }
 
     /**
      * Sends a HTTP GET request
      *
-     * @param <T>           the return type
-     * @param responseClass the class used to decode the response body
-     * @param url           the url
-     * @param urlVariables  the map of url variables
-     * @return              the decoded response body
+     * @param <R>          the return type
+     * @param typeReference specifies the class/type used for deserialization
+     * @param url          the url
+     * @param urlVariables the map of url variables
+     * @return the decoded response body
      */
-    public <T> T get(Class<T> responseClass, String url, Object... urlVariables) {
-        return getApiResponse(null, responseClass, url, null, HttpMethod.GET, null, urlVariables);
+    public <R> R get(ParameterizedTypeReference<R> typeReference, String url, Object... urlVariables) {
+        return getApiResponse(null, typeReference, url, null, HttpMethod.GET, null, urlVariables);
     }
 
     /**
      * Sends a HTTP POST request
      *
-     * @param <T>           the type of the request body
-     * @param <R>           the return type
-     * @param requestBody   the request body
-     * @param responseClass the class used to decode the response body
-     * @param url           the url
-     * @param headers       the map of headers
-     * @return              the decoded response body
+     * @param <T>          the type of the request body
+     * @param <R>          the return type
+     * @param requestBody  the request body
+     * @param typeReference specifies the class/type used for deserialization
+     * @param url          the url
+     * @param headers      the map of headers
+     * @return the decoded response body
      */
-    public <T, R> R post(T requestBody, Class<R> responseClass, String url, Map<String, String> headers) {
-        return getApiResponse(requestBody, responseClass, url, headers, HttpMethod.POST, null);
+    public <T, R> R post(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers) {
+        return getApiResponse(requestBody, typeReference, url, headers, HttpMethod.POST, null);
     }
 
     /**
      * Sends a HTTP PUT request
      *
-     * @param <T>           the type of the request body
-     * @param <R>           the return type
-     * @param requestBody   the request body
-     * @param responseClass the class used to decode the response body
-     * @param url           the url
-     * @param headers       the map of headers
-     * @return              the decoded response body
+     * @param <T>          the type of the request body
+     * @param <R>          the return type
+     * @param requestBody  the request body
+     * @param typeReference specifies the class/type used for deserialization
+     * @param url          the url
+     * @param headers      the map of headers
+     * @return the decoded response body
      */
-    public <T, R> R put(T requestBody, Class<R> responseClass, String url, Map<String, String> headers) {
-        return getApiResponse(requestBody, responseClass, url, headers, HttpMethod.PUT, null);
+    public <T, R> R put(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers) {
+        return getApiResponse(requestBody, typeReference, url, headers, HttpMethod.PUT, null);
     }
 
     private <T> WebClient.RequestHeadersSpec<?> prepareRequest(T requestBody,
@@ -158,16 +159,16 @@ public class RestAPIClient {
      * @param <T>           the type of the request body
      * @param <R>           the return type
      * @param requestBody   the request body
-     * @param responseClass the class used to decode the response body
+     * @param typeReference  specifies the class/type used for deserialization
      * @param url           the url
      * @param headers       the map of headers
      * @param requestMethod the HTTP request method
      * @param queryParams   the map of query parameters
      * @param urlVariables  the map of url variables
-     * @return              the decoded api response body
+     * @return the decoded api response body
      */
     <T, R> R getApiResponse(T requestBody,
-                            Class<R> responseClass,
+                            ParameterizedTypeReference<R> typeReference,
                             String url,
                             Map<String, String> headers,
                             HttpMethod requestMethod,
@@ -176,7 +177,7 @@ public class RestAPIClient {
 
         WebClient.RequestHeadersSpec<?> requestHeadersSpec =
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
-        return configureErrorResponse(requestHeadersSpec.retrieve().bodyToMono(responseClass)).block();
+        return configureErrorResponse(requestHeadersSpec.retrieve().bodyToMono(typeReference)).block();
     }
 
     /**
@@ -189,7 +190,7 @@ public class RestAPIClient {
      * @param requestMethod the HTTP request method
      * @param queryParams   the map of query parameters
      * @param urlVariables  the map of url variables
-     * @return              the response entity (without a body)
+     * @return the response entity (without a body)
      */
     <T> ResponseEntity<Void> getBodilessApiResponse(T requestBody,
                                                     String url,
