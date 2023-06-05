@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.justice.laa.crime.samples.model.FinancialAssessment;
+import uk.gov.justice.laa.crime.samples.model.RepOrderCCOutcome;
 import uk.gov.justice.laa.crime.samples.service.DemoClientService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -17,9 +20,14 @@ public class DemoApplication {
 
 	private final DemoClientService demoClientService;
 
-	@GetMapping("/")
-	public FinancialAssessment home() {
-		return demoClientService.getFinancialAssessment(1000);
+	@GetMapping("/financial-assessments/{id}")
+	public FinancialAssessment financialAssessment(@PathVariable int id) {
+		return demoClientService.getFinancialAssessment(id);
+	}
+
+	@GetMapping("/outcomes/{repId}")
+	public List<RepOrderCCOutcome> outcomes(@PathVariable int repId) {
+		return demoClientService.getRepOrderCCOutcomeByRepId(repId);
 	}
 
 	@GetMapping("/cda")
