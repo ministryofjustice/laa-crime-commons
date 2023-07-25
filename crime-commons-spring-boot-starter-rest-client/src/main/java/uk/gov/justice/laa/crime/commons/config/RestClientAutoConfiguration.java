@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
+import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
 
 import java.util.Map;
@@ -35,7 +36,6 @@ import java.util.function.Consumer;
 @EnableConfigurationProperties(RetryConfiguration.class)
 public class RestClientAutoConfiguration {
 
-    private static int MAX_IN_MEMORY_SIZE = 10485760; //Limit on the number of bytes that can be buffered whenever the input stream needs to be aggregated.
     private final RetryConfiguration retryConfiguration;
 
 
@@ -62,7 +62,7 @@ public class RestClientAutoConfiguration {
 
             webClientBuilder.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
             webClientBuilder.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            webClientBuilder.codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(MAX_IN_MEMORY_SIZE));
+            webClientBuilder.codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(Constants.MAX_IN_MEMORY_SIZE));
 
             webClientBuilder.filters(filters -> {
                 filters.add(WebClientFilters.logResponse());
