@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 @EnableConfigurationProperties(RetryConfiguration.class)
 public class RestClientAutoConfiguration {
 
-    private static int MAX_IN_MEMORY_SIZE = 4194304; //Limit on the number of bytes that can be buffered whenever the input stream needs to be aggregated.
+    private static int MAX_IN_MEMORY_SIZE = 10485760; //Limit on the number of bytes that can be buffered whenever the input stream needs to be aggregated.
     private final RetryConfiguration retryConfiguration;
 
 
