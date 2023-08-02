@@ -194,7 +194,7 @@ class RestAPIClientTest {
         setupValidResponseTest(new MockResponse(MOCK_REP_ID));
         MockResponse apiResponse = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                new ParameterizedTypeReference<MockResponse>() {
+                new ParameterizedTypeReference<>() {
                 },
                 MOCK_URL,
                 MOCK_HEADERS,
@@ -242,7 +242,7 @@ class RestAPIClientTest {
         setupNotFoundTest();
         MockResponse response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                new ParameterizedTypeReference<MockResponse>() {
+                new ParameterizedTypeReference<>() {
                 },
                 MOCK_URL,
                 MOCK_HEADERS,
@@ -257,7 +257,7 @@ class RestAPIClientTest {
         setupNotFoundTest();
         MockResponse response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                new ParameterizedTypeReference<MockResponse>() {
+                new ParameterizedTypeReference<>() {
                 },
                 MOCK_URL,
                 MOCK_HEADERS,
