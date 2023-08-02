@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
+import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
 
 import java.util.Map;
@@ -61,6 +62,7 @@ public class RestClientAutoConfiguration {
 
             webClientBuilder.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
             webClientBuilder.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            webClientBuilder.codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(Constants.MAX_IN_MEMORY_SIZE));
 
             webClientBuilder.filters(filters -> {
                 filters.add(WebClientFilters.logResponse());
