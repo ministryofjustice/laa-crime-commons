@@ -3,16 +3,21 @@ package uk.gov.justice.laa.crime.commons.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.client.HttpClient;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.reactive.function.client.WebClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.JettyClientHttpConnector;
+import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
@@ -52,10 +57,8 @@ public class RestClientAutoConfiguration {
      */
     @Bean
     @ConditionalOnBean(OAuth2AuthorizedClientRepository.class)
-    WebClientCustomizer webClientCustomizer(ClientRegistrationRepository clientRegistrations,
-                                            OAuth2AuthorizedClientRepository authorizedClients) {
+    WebClientCustomizer webClientCustomizer() {
         return webClientBuilder -> {
-
 
             HttpClient client = new HttpClient();
             webClientBuilder.clientConnector(new JettyClientHttpConnector(client));
@@ -69,14 +72,25 @@ public class RestClientAutoConfiguration {
                 filters.add(WebClientFilters.logRequestHeaders());
                 filters.add(WebClientFilters.retryFilter(retryConfiguration));
                 filters.add(WebClientFilters.handleErrorResponse());
-
-                filters.add(0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(
-                                clientRegistrations, authorizedClients
-                        )
-                );
-
             });
         };
+    }
+
+    @Bean
+    @Order(2)
+    public OAuth2AuthorizedClientManager clientServiceAuthorizedClientManager(
+            OAuth2AuthorizedClientService clientService, ClientRegistrationRepository clientRegistrationRepository) {
+
+        OAuth2AuthorizedClientProvider authorizedClientProvider =
+                OAuth2AuthorizedClientProviderBuilder.builder()
+                        .refreshToken()
+                        .clientCredentials()
+                        .build();
+
+        AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository, clientService);
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+        return authorizedClientManager;
     }
 
     /**
@@ -101,8 +115,25 @@ public class RestClientAutoConfiguration {
      * @see WebClientCustomizer
      */
     @Bean
+    @Primary
     @ConditionalOnBean(WebClient.Builder.class)
-    WebClient maatApiWebClient(WebClient.Builder builder) {
+    WebClient defaultWebClient(WebClient.Builder builder, ClientRegistrationRepository clientRegistrations,
+                               OAuth2AuthorizedClientRepository authorizedClients) {
+        builder.filters(filters -> filters.add(
+                0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(
+                        clientRegistrations, authorizedClients
+                )
+        ));
+        return builder.build();
+    }
+
+    @Bean
+    @ConditionalOnBean({WebClient.Builder.class, AuthorizedClientServiceOAuth2AuthorizedClientManager.class})
+    WebClient nonServletWebClient(WebClient.Builder builder,
+                                  @Qualifier("clientServiceAuthorizedClientManager") OAuth2AuthorizedClientManager authorizedClientManager) {
+        builder.filters(filters ->
+                filters.add(0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager)
+                ));
         return builder.build();
     }
 
@@ -134,6 +165,14 @@ public class RestClientAutoConfiguration {
     @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.evidence.token-uri")
     RestAPIClient evidenceApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "evidence");
+    }
+
+    @Bean
+    @ConditionalOnProperty("spring.security.oauth2.client.provider.maat-api.token-uri")
+    @ConditionalOnExpression("#{${feature.prosecution-concluded-schedule.enabled:false} or " +
+            "${feature.prosecution-concluded-listener.enabled:false}}")
+    RestAPIClient maatApiSchedulerClient(@Qualifier("nonServletWebClient") WebClient webClient) {
+        return new RestAPIClient(webClient, "maat-api");
     }
 
 }
