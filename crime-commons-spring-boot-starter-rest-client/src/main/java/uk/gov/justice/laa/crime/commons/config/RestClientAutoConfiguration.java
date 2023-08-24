@@ -128,7 +128,7 @@ public class RestClientAutoConfiguration {
      */
     @Bean
     @Primary
-    @ConditionalOnBean(WebClient.Builder.class)
+    @ConditionalOnBean({WebClient.Builder.class, OAuth2AuthorizedClientRepository.class, ClientRegistrationRepository.class})
     WebClient defaultWebClient(WebClient.Builder builder, ClientRegistrationRepository clientRegistrations,
                                OAuth2AuthorizedClientRepository authorizedClients) {
         builder.filters(filters -> filters.add(
@@ -151,7 +151,7 @@ public class RestClientAutoConfiguration {
      * @see AuthorizedClientServiceOAuth2AuthorizedClientManager
      */
     @Bean
-    @ConditionalOnBean(value = {WebClient.Builder.class}, name = {"clientServiceAuthorizedClientManager"})
+    @ConditionalOnBean(value = {WebClient.Builder.class}, name = "clientServiceAuthorizedClientManager")
     WebClient nonServletWebClient(WebClient.Builder builder,
                                   @Qualifier("clientServiceAuthorizedClientManager")
                                   OAuth2AuthorizedClientManager authorizedClientManager) {
@@ -194,9 +194,8 @@ public class RestClientAutoConfiguration {
      * @return the rest api client
      */
     @Bean
-    @ConditionalOnProperty(name = {"spring.cloud.aws.credentials.access-key",
-            "spring.security.oauth2.client.provider.maat-api.token-uri"}
-    )
+    @ConditionalOnBean(name = "nonServletWebClient")
+    @ConditionalOnProperty("spring.security.oauth2.client.provider.maat-api.token-uri")
     RestAPIClient maatApiNonServletClient(@Qualifier("nonServletWebClient") WebClient webClient) {
         return new RestAPIClient(webClient, "maat-api");
     }
