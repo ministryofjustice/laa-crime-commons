@@ -209,4 +209,12 @@ public class RestClientAutoConfiguration {
     RestAPIClient evidenceApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "evidence");
     }
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.hardship.token-uri")
+    RestAPIClient hardshipApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "hardship");
+    }
+
+
 }
