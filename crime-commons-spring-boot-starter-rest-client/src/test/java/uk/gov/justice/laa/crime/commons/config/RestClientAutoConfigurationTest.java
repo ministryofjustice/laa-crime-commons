@@ -33,10 +33,12 @@ class RestClientAutoConfigurationTest {
     private static final String CDA_REGISTRATION_ID = "cda";
     private static final String MAAT_API_REGISTRATION_ID = "maat-api";
     private static final String EVIDENCE_REGISTRATION_ID = "evidence";
+    private static final String HARDSHIP_REGISTRATION_ID = "hardship";
     private static final String CDA_API_CLIENT_BEAN = "cdaApiClient";
     private static final String MAAT_API_CLIENT_BEAN = "maatApiClient";
     private static final String MAAT_API_NON_SERVLET_CLIENT_BEAN = "maatApiNonServletClient";
     private static final String EVIDENCE_API_CLIENT_BEAN = "evidenceApiClient";
+    private static final String HARDSHIP_API_CLIENT_BEAN = "hardshipApiClient";
     private static final String REGISTRATION_PREFIX = "spring.security.oauth2.client.registration";
     private static final String SPRING_CLOUD_PREFIX = "spring.cloud.aws.credentials";
     private static final String REGISTRATION_KEY_NAME =
@@ -191,6 +193,23 @@ class RestClientAutoConfigurationTest {
                 .withPropertyValues(getOAuthPropertyValuesForClient(EVIDENCE_REGISTRATION_ID))
                 .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".evidence.token-uri=mock-url")
                 .run((context) -> assertThat(context).hasBean(EVIDENCE_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void hardshipApiClientIsConditionalOnOAuthConfiguration() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(HARDSHIP_REGISTRATION_ID))
+                .run((context) -> assertThat(context).doesNotHaveBean(HARDSHIP_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void restApiClientConfigurerConfiguresHardshipApiClient() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(HARDSHIP_REGISTRATION_ID))
+                .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".hardship.token-uri=mock-url")
+                .run((context) -> assertThat(context).hasBean(HARDSHIP_API_CLIENT_BEAN));
     }
 
     @Test
