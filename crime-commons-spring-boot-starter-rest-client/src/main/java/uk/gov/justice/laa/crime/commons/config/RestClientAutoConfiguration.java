@@ -49,8 +49,6 @@ public class RestClientAutoConfiguration {
      * Requires at least one OAuth2 client to be configured, otherwise the required beans will not be instantiated
      * All <code>WebClient</code> beans built from the <code>WebClient.Builder</code> class will inherit from this customizer
      *
-     * @param clientRegistrations the client registration repository
-     * @param authorizedClients   the authorized client repository
      * @return the web client customizer
      * @see WebClientFilters
      */
