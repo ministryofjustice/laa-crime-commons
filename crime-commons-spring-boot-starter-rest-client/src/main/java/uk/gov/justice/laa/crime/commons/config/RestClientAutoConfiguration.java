@@ -184,7 +184,7 @@ public class RestClientAutoConfiguration {
     }
 
     /**
-     * Configures a RestApiClient bean for communicating with MaatApi in non-servlet environments
+     * Configures a <code>RestApiClient</code> bean for communicating with MaatApi in non-servlet environments
      * (e.g. SQS listeners, scheduled tasks) if an OAuth2 configuration for MaatAPI is found and Spring Cloud
      * access credentials are configured
      *
@@ -199,7 +199,7 @@ public class RestClientAutoConfiguration {
     }
 
     /**
-     * Configures a RestApiClient bean if an OAuth2 configuration for the Evidence service is found
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the Evidence service is found
      *
      * @param webClient the web client
      * @return the rest api client
@@ -210,6 +210,12 @@ public class RestClientAutoConfiguration {
         return new RestAPIClient(webClient, "evidence");
     }
 
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the Hardship service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
     @Bean
     @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.hardship.token-uri")
     RestAPIClient hardshipApiClient(WebClient webClient) {
