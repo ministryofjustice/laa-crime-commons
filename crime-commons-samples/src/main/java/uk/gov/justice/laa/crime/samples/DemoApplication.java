@@ -30,6 +30,11 @@ public class DemoApplication {
 		return demoClientService.getRepOrderCCOutcomeByRepId(repId);
 	}
 
+	@GetMapping("/test")
+	public List<RepOrderCCOutcome> test() {
+		return demoClientService.getRepOrderCCOutcomeByRepId(5635503);
+	}
+
 	@GetMapping("/cda")
 	public void cda() {
 		demoClientService.triggerHearingProcessing(UUID.randomUUID(), UUID.randomUUID().toString());
