@@ -40,7 +40,7 @@ class RestClientAutoConfigurationTest {
     private static final String EVIDENCE_API_CLIENT_BEAN = "evidenceApiClient";
     private static final String HARDSHIP_API_CLIENT_BEAN = "hardshipApiClient";
     private static final String REGISTRATION_PREFIX = "spring.security.oauth2.client.registration";
-    private static final String SPRING_CLOUD_PREFIX = "spring.cloud.aws.credentials";
+    private static final String SPRING_CLOUD_PREFIX = "spring.cloud.aws";
     private static final String REGISTRATION_KEY_NAME =
             "org.springframework.security.oauth2.client.OAuth2AuthorizedClient.CLIENT_REGISTRATION_ID";
     private static final String OAUTH_CLIENT_PROVIDER_PREFIX = "spring.security.oauth2.client.provider";
@@ -240,7 +240,7 @@ class RestClientAutoConfigurationTest {
 
     private String[] getSpringCloudPropertyValuesForClient() {
         return new String[]{
-                SPRING_CLOUD_PREFIX + ".use-default-aws-credentials-chain=true",
+                SPRING_CLOUD_PREFIX + ".region.static=eu-west2"
         };
     }
 
