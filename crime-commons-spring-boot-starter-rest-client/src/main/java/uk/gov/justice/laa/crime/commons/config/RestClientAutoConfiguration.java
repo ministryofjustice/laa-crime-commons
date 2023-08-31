@@ -86,7 +86,7 @@ public class RestClientAutoConfiguration {
      */
     @Bean
     @Order(2)
-    @ConditionalOnProperty(name = "spring.cloud.aws.credentials.access-key")
+    @ConditionalOnProperty(name = "spring.cloud.aws.credentials.use-default-aws-credentials-chain")
     public OAuth2AuthorizedClientManager clientServiceAuthorizedClientManager(
             OAuth2AuthorizedClientService clientService, ClientRegistrationRepository clientRegistrationRepository) {
 
