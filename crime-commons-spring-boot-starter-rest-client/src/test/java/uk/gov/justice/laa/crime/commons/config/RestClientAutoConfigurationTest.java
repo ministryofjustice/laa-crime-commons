@@ -240,9 +240,7 @@ class RestClientAutoConfigurationTest {
 
     private String[] getSpringCloudPropertyValuesForClient() {
         return new String[]{
-                SPRING_CLOUD_PREFIX + ".access-key=abc",
-                SPRING_CLOUD_PREFIX + ".secret-key=secret",
-                SPRING_CLOUD_PREFIX + ".region.static=eu-west2"
+                SPRING_CLOUD_PREFIX + ".use-default-aws-credentials-chain=true",
         };
     }
 
