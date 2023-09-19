@@ -32,8 +32,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -243,6 +242,40 @@ class WebClientFiltersTest {
                 response::block
         ).isInstanceOf(APIClientException.class)
                 .hasMessageContaining("Call to service failed. Retries exhausted: 2/2");
+    }
+
+    @Test
+    void givenRetriesNotExhausted_whenRetryFilterIsInvoked_thenOKResponseIsReceived() {
+
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+
+        RetryableWebClientResponseException retryableException = new RetryableWebClientResponseException();
+        WebClientRequestException timeoutException = new WebClientRequestException(
+                new ReadTimeoutException(), HttpMethod.GET, DEFAULT_URL, new HttpHeaders()
+        );
+
+        LinkedList<RuntimeException> errors = new LinkedList<>(
+                Arrays.asList(retryableException, timeoutException)
+        );
+
+        Mono<ClientResponse> responseMono = Mono.fromCallable(
+                () -> {
+                    if (errors.isEmpty()) {
+                        return ClientResponse.create(HttpStatus.OK).build();
+                    }
+                    throw errors.pop();
+                }
+        );
+
+        when(exchangeFunction.exchange(request))
+                .thenReturn(responseMono);
+
+        Mono<ClientResponse> clientResponse =
+                WebClientFilters.retryFilter(retryConfiguration).filter(request, exchangeFunction);
+
+        ClientResponse response = clientResponse.block();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
