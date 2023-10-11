@@ -222,5 +222,16 @@ public class RestClientAutoConfiguration {
         return new RestAPIClient(webClient, "hardship");
     }
 
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the CMA service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.cma.token-uri")
+    RestAPIClient cmaApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "cma");
+    }
 
 }
