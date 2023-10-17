@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * TraceIdHandler is designed to get the current traceId for REST API Exception Handlers.
- * In the case of any service level errors or exceptions, TraceIdHandler can be used to add the
- * current traceId to Error response which helps to track down errors easily.
- *
+ * Helper class for REST API Exception Handler to add the traceId in Error Response.
  */
 @RequiredArgsConstructor
 @Component
