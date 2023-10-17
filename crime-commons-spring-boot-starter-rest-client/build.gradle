@@ -33,6 +33,7 @@ dependencies {
 
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    //spring-boot-starter-actuator library contains the Auto-configuration for the Micrometer Tracing API.
     implementation "org.springframework.boot:spring-boot-starter-actuator"
 
 

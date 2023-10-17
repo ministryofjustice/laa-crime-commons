@@ -236,6 +236,11 @@ public class RestClientAutoConfiguration {
         return new RestAPIClient(webClient, "cma");
     }
 
+    /**
+     * Configures a <code>TraceIdHandler</code> bean for REST API Exception Handler
+     * @param tracer
+     * @return TraceIdHandler
+     */
     @Bean
     @ConditionalOnBean(Tracer.class)
     TraceIdHandler traceIdHandler(Tracer tracer) {
