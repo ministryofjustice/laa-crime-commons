@@ -78,12 +78,12 @@ publishing {
     }
 }
 
-//signing {
-//    sign publishing.publications.maven
-//    def signingKey = findProperty("signingKey")
-//    def signingPassword = findProperty("signingPassword")
-//    useInMemoryPgpKeys(signingKey, signingPassword)
-//}
+signing {
+    sign publishing.publications.maven
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+}
 
 test {
     finalizedBy jacocoTestReport
