@@ -2,6 +2,7 @@ package uk.gov.justice.laa.crime.commons.config;
 
 import org.eclipse.jetty.util.ArrayUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -228,6 +230,19 @@ class RestClientAutoConfigurationTest {
                     assertThat(attributes).hasSize(1);
                     assertThat(attributes).containsValue(MAAT_API_REGISTRATION_ID);
                 });
+    }
+
+    @Test
+    void traceIdHandlerIsConditionalOnTracerBean() {
+        this.contextRunner
+                .run((context) -> assertThat(context).doesNotHaveBean(TraceIdHandler.class));
+    }
+
+    @Test
+    void restApiClientConfigurerConfiguresTraceIdHandler() {
+        this.contextRunner
+                .withUserConfiguration(BraveAutoConfiguration.class)
+                .run((context) -> assertThat(context).hasSingleBean(TraceIdHandler.class));
     }
 
     private String[] getOAuthPropertyValuesForClient(String client) {
