@@ -239,7 +239,7 @@ class RestClientAutoConfigurationTest {
     }
 
     @Test
-    void braveAutoConfigurerConfiguresTraceIdHandler() {
+    void restApiClientConfigurerConfiguresTraceIdHandler() {
         this.contextRunner
                 .withUserConfiguration(BraveAutoConfiguration.class)
                 .run((context) -> assertThat(context).hasSingleBean(TraceIdHandler.class));
