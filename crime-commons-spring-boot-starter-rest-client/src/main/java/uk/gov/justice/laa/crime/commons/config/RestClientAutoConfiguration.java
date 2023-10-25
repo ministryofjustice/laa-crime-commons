@@ -1,5 +1,6 @@
 package uk.gov.justice.laa.crime.commons.config;
 
+import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.client.HttpClient;
@@ -24,6 +25,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
 import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
+import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -232,6 +234,17 @@ public class RestClientAutoConfiguration {
     @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.cma.token-uri")
     RestAPIClient cmaApiClient(WebClient webClient) {
         return new RestAPIClient(webClient, "cma");
+    }
+
+    /**
+     * Configures a <code>TraceIdHandler</code> bean for REST API Exception Handler
+     * @param tracer
+     * @return TraceIdHandler
+     */
+    @Bean
+    @ConditionalOnBean(Tracer.class)
+    TraceIdHandler traceIdHandler(Tracer tracer) {
+         return new TraceIdHandler(tracer);
     }
 
 }
