@@ -1,8 +1,8 @@
 package uk.gov.justice.laa.crime.commons.config;
 
-import io.micrometer.tracing.Tracer;
 import org.eclipse.jetty.util.ArrayUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
@@ -236,9 +236,12 @@ class RestClientAutoConfigurationTest {
     void traceIdHandlerIsConditionalOnTracerBean() {
         this.contextRunner
                 .run((context) -> assertThat(context).doesNotHaveBean(TraceIdHandler.class));
+    }
 
+    @Test
+    void braveAutoConfigurerConfiguresTraceIdHandler() {
         this.contextRunner
-                .withUserConfiguration(TracerTestConfig.class)
+                .withUserConfiguration(BraveAutoConfiguration.class)
                 .run((context) -> assertThat(context).hasSingleBean(TraceIdHandler.class));
     }
 
@@ -279,16 +282,6 @@ class RestClientAutoConfigurationTest {
         @Bean
         TomcatServletWebServerFactory tomcat() {
             return new TomcatServletWebServerFactory(0);
-        }
-
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    static class TracerTestConfig {
-
-        @Bean
-        Tracer tracerBean() {
-            return Tracer.NOOP;
         }
 
     }
