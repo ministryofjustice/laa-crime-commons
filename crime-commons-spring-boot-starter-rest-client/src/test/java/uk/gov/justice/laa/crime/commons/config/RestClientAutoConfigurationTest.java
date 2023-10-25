@@ -1,5 +1,6 @@
 package uk.gov.justice.laa.crime.commons.config;
 
+import io.micrometer.tracing.Tracer;
 import org.eclipse.jetty.util.ArrayUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -230,6 +232,16 @@ class RestClientAutoConfigurationTest {
                 });
     }
 
+    @Test
+    void traceIdHandlerIsConditionalOnTracerBean() {
+        this.contextRunner
+                .run((context) -> assertThat(context).doesNotHaveBean(TraceIdHandler.class));
+
+        this.contextRunner
+                .withUserConfiguration(TracerTestConfig.class)
+                .run((context) -> assertThat(context).hasSingleBean(TraceIdHandler.class));
+    }
+
     private String[] getOAuthPropertyValuesForClient(String client) {
         return new String[]{
                 String.format(REGISTRATION_PREFIX + ".%s.client-id=abc", client),
@@ -267,6 +279,16 @@ class RestClientAutoConfigurationTest {
         @Bean
         TomcatServletWebServerFactory tomcat() {
             return new TomcatServletWebServerFactory(0);
+        }
+
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    static class TracerTestConfig {
+
+        @Bean
+        Tracer tracerBean() {
+            return Tracer.NOOP;
         }
 
     }
