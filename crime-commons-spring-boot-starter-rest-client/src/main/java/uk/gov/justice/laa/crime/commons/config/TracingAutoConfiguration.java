@@ -24,7 +24,7 @@ public class TracingAutoConfiguration {
     /**
      * Configures a <code>TraceIdHandler</code> bean for REST API Exception Handler
      *
-     * @param tracer
+     * @param tracer The underlying tracer to use
      * @return TraceIdHandler
      */
     @Bean
