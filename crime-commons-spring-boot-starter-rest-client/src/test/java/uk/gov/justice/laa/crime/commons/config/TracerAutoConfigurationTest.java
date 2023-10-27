@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TracerAutoConfigurationTest {
 
     private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(TraceAutoConfiguration.class));
+            .withConfiguration(AutoConfigurations.of(TracingAutoConfiguration.class));
 
     @Test
     void traceIdHandlerIsConditionalOnTracerBean() {

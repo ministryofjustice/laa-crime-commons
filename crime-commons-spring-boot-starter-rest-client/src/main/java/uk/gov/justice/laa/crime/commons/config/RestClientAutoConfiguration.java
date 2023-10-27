@@ -34,7 +34,7 @@ import java.util.function.Consumer;
  * for communicating with LAA crime APIs
  */
 @Slf4j
-@Configuration()
+@Configuration
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RetryConfiguration.class)
