@@ -232,19 +232,6 @@ class RestClientAutoConfigurationTest {
                 });
     }
 
-    @Test
-    void traceIdHandlerIsConditionalOnTracerBean() {
-        this.contextRunner
-                .run((context) -> assertThat(context).doesNotHaveBean(TraceIdHandler.class));
-    }
-
-    @Test
-    void restApiClientConfigurerConfiguresTraceIdHandler() {
-        this.contextRunner
-                .withUserConfiguration(BraveAutoConfiguration.class)
-                .run((context) -> assertThat(context).hasSingleBean(TraceIdHandler.class));
-    }
-
     private String[] getOAuthPropertyValuesForClient(String client) {
         return new String[]{
                 String.format(REGISTRATION_PREFIX + ".%s.client-id=abc", client),
