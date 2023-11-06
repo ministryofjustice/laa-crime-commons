@@ -13,7 +13,7 @@ configurations {
 }
 
 dependencies {
-    implementation platform("io.sentry:sentry-bom:6.15.0")
+    implementation platform("io.sentry:sentry-bom:6.26.0")
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
