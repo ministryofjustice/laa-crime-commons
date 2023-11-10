@@ -36,11 +36,17 @@ class RestClientAutoConfigurationTest {
     private static final String MAAT_API_REGISTRATION_ID = "maat-api";
     private static final String EVIDENCE_REGISTRATION_ID = "evidence";
     private static final String HARDSHIP_REGISTRATION_ID = "hardship";
+    private static final String CCC_REGISTRATION_ID = "ccc";
+    private static final String CCP_REGISTRATION_ID = "ccp";
+    private static final String VALIDATION_REGISTRATION_ID = "validation";
     private static final String CDA_API_CLIENT_BEAN = "cdaApiClient";
     private static final String MAAT_API_CLIENT_BEAN = "maatApiClient";
     private static final String MAAT_API_NON_SERVLET_CLIENT_BEAN = "maatApiNonServletClient";
     private static final String EVIDENCE_API_CLIENT_BEAN = "evidenceApiClient";
     private static final String HARDSHIP_API_CLIENT_BEAN = "hardshipApiClient";
+    private static final String CCC_API_CLIENT_BEAN = "cccApiClient";
+    private static final String CCP_API_CLIENT_BEAN = "ccpApiClient";
+    private static final String VALIDATION_API_CLIENT_BEAN = "validationApiClient";
     private static final String REGISTRATION_PREFIX = "spring.security.oauth2.client.registration";
     private static final String SPRING_CLOUD_PREFIX = "spring.cloud.aws";
     private static final String REGISTRATION_KEY_NAME =
@@ -212,6 +218,57 @@ class RestClientAutoConfigurationTest {
                 .withPropertyValues(getOAuthPropertyValuesForClient(HARDSHIP_REGISTRATION_ID))
                 .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".hardship.token-uri=mock-url")
                 .run((context) -> assertThat(context).hasBean(HARDSHIP_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void cccApiClientIsConditionalOnOAuthConfiguration() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(CCC_REGISTRATION_ID))
+                .run((context) -> assertThat(context).doesNotHaveBean(CCC_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void restApiClientConfigurerConfiguresCccApiClient() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(CCC_REGISTRATION_ID))
+                .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".ccc.token-uri=mock-url")
+                .run((context) -> assertThat(context).hasBean(CCC_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void ccpApiClientIsConditionalOnOAuthConfiguration() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(CCP_REGISTRATION_ID))
+                .run((context) -> assertThat(context).doesNotHaveBean(CCP_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void restApiClientConfigurerConfiguresCcpApiClient() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(CCP_REGISTRATION_ID))
+                .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".ccp.token-uri=mock-url")
+                .run((context) -> assertThat(context).hasBean(CCP_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void validationApiClientIsConditionalOnOAuthConfiguration() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(VALIDATION_REGISTRATION_ID))
+                .run((context) -> assertThat(context).doesNotHaveBean(VALIDATION_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void restApiClientConfigurerConfiguresValidationApiClient() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(VALIDATION_REGISTRATION_ID))
+                .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".validation.token-uri=mock-url")
+                .run((context) -> assertThat(context).hasBean(VALIDATION_API_CLIENT_BEAN));
     }
 
     @Test

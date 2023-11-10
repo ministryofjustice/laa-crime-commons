@@ -234,4 +234,40 @@ public class RestClientAutoConfiguration {
         return new RestAPIClient(webClient, "cma");
     }
 
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the CCC service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.ccc.token-uri")
+    RestAPIClient cccApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "ccc");
+    }
+
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the CCP service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.ccp.token-uri")
+    RestAPIClient ccpApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "ccp");
+    }
+
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the Validation service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.validation.token-uri")
+    RestAPIClient validationApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "validation");
+    }
+
 }
