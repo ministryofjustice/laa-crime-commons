@@ -1,1 +1,2 @@
 uk.gov.justice.laa.crime.commons.config.RestClientAutoConfiguration
+uk.gov.justice.laa.crime.commons.config.TracingAutoConfiguration

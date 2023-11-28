@@ -1,6 +1,5 @@
 package uk.gov.justice.laa.crime.commons.config;
 
-import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.client.HttpClient;
@@ -25,7 +24,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
 import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
-import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -36,7 +34,7 @@ import java.util.function.Consumer;
  * for communicating with LAA crime APIs
  */
 @Slf4j
-@Configuration()
+@Configuration
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RetryConfiguration.class)
@@ -237,14 +235,39 @@ public class RestClientAutoConfiguration {
     }
 
     /**
-     * Configures a <code>TraceIdHandler</code> bean for REST API Exception Handler
-     * @param tracer
-     * @return TraceIdHandler
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the CCC service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
      */
     @Bean
-    @ConditionalOnBean(Tracer.class)
-    TraceIdHandler traceIdHandler(Tracer tracer) {
-         return new TraceIdHandler(tracer);
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.ccc.token-uri")
+    RestAPIClient cccApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "ccc");
+    }
+
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the CCP service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.ccp.token-uri")
+    RestAPIClient ccpApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "ccp");
+    }
+
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the Validation service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.validation.token-uri")
+    RestAPIClient validationApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "validation");
     }
 
 }

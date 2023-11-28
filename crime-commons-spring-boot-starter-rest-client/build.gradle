@@ -13,7 +13,7 @@ configurations {
 }
 
 dependencies {
-    implementation platform("io.sentry:sentry-bom:6.15.0")
+    implementation platform("io.sentry:sentry-bom:6.33.0")
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
@@ -24,11 +24,11 @@ dependencies {
     //spring-boot-starter-actuator library contains the Auto-configuration for the Micrometer Tracing API.
     implementation "org.springframework.boot:spring-boot-starter-actuator"
 
-    implementation "org.eclipse.jetty:jetty-reactive-httpclient:3.0.8"
+    implementation "org.eclipse.jetty:jetty-reactive-httpclient:4.0.1"
 
     compileOnly "org.projectlombok:lombok"
 
-    implementation "org.jetbrains:annotations:23.0.0"
+    implementation "org.jetbrains:annotations:24.0.1"
 
     implementation("io.sentry:sentry-spring-boot-starter")
     implementation("io.sentry:sentry-logback")

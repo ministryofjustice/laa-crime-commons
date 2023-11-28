@@ -11,8 +11,8 @@ import java.util.Optional;
 /**
  * Helper class for REST API Exception Handler to add the traceId in Error Response.
  */
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class TraceIdHandler {
 
     private final Tracer tracer;
