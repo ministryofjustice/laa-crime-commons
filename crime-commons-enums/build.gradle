@@ -21,16 +21,14 @@ dependencies {
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
-    implementation platform("io.sentry:sentry-bom:6.17.0")
-    implementation("io.sentry:sentry-spring-boot-starter")
+    implementation platform("io.sentry:sentry-bom:7.0.0")
+    implementation("io.sentry:sentry-spring-boot-starter-jakarta")
     implementation("io.sentry:sentry-logback")
 
-    implementation "org.springframework.boot:spring-boot-starter"
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    implementation "org.springframework.boot:spring-boot-starter-validation"
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.16.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.16.0'
+    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
 
     implementation "org.apache.commons:commons-lang3"
 
