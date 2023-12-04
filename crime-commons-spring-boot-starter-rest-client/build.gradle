@@ -24,7 +24,7 @@ dependencies {
     //spring-boot-starter-actuator library contains the Auto-configuration for the Micrometer Tracing API.
     implementation "org.springframework.boot:spring-boot-starter-actuator"
 
-    implementation "org.eclipse.jetty:jetty-reactive-httpclient:3.0.8"
+    implementation "org.eclipse.jetty:jetty-reactive-httpclient:4.0.1"
 
     compileOnly "org.projectlombok:lombok"
 
