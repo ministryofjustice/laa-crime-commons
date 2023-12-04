@@ -54,7 +54,7 @@ publishing {
 
             pom {
                 artifactId = project.name
-                name = "Sprint Boot Starter REST Client"
+                name = "Crime Apps Common Enums"
                 url = "https://github.com/ministryofjustice/laa-crime-commons"
                 description = "A Spring Boot auto-configuration library with all common enums"
 
@@ -90,18 +90,7 @@ signing {
 }
 
 test {
-    finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.required = true
-        csv.required = false
-        html.required = false
-    }
-}
-
-tasks.named('test') {
     useJUnitPlatform()
 }
+
+
