@@ -112,13 +112,11 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key:
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
+          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key:
-            - v1-gradle-cache-{{ checksum "crime-commons-enums/build.gradle" }}
+          key: v1-gradle-cache-{{ checksum "crime-commons-enums/build.gradle" }}
       - persist_to_workspace:
           root: .
           paths:
