@@ -13,7 +13,10 @@ configurations {
 }
 
 dependencies {
-    implementation platform("io.sentry:sentry-bom:6.33.0")
+    implementation platform("io.sentry:sentry-bom:7.0.0")
+    implementation("io.sentry:sentry-spring-boot-starter-jakarta")
+    implementation("io.sentry:sentry-logback")
+
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
@@ -30,13 +33,9 @@ dependencies {
 
     implementation "org.jetbrains:annotations:24.0.1"
 
-    implementation("io.sentry:sentry-spring-boot-starter")
-    implementation("io.sentry:sentry-logback")
-
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-
-
+    
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
