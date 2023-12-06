@@ -2,3 +2,5 @@ rootProject.name = 'laa-crime-commons'
 
 include 'crime-commons-samples'
 include 'crime-commons-spring-boot-starter-rest-client'
+include 'crime-commons-enums'
+

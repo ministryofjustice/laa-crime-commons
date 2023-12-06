@@ -1,0 +1,94 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'java'
+    id "jacoco"
+    id "signing"
+    id "maven-publish"
+}
+
+def versions = [
+        jacksonDatabind                      : "2.0.1",
+        jacksonCore                          : "2.16.0",
+        jakartaValidation                    : "3.0.2"
+]
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
+
+    implementation platform("io.sentry:sentry-bom:7.0.0")
+    implementation("io.sentry:sentry-spring-boot-starter-jakarta")
+    implementation("io.sentry:sentry-logback")
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonCore
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonCore
+    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
+
+    implementation "org.apache.commons:commons-lang3"
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+
+            from components.java
+
+            pom {
+                artifactId = project.name
+                name = "Crime Apps Common Enums"
+                url = "https://github.com/ministryofjustice/laa-crime-commons"
+                description = "A Spring Boot auto-configuration library with all common enums"
+
+                licenses {
+                    license {
+                        name = "MIT"
+                        url = "https://opensource.org/licenses/MIT"
+                    }
+                }
+                organization {
+                    name = "Justice Digital"
+                }
+                developers {
+                    developer {
+                        id = "Muthu"
+                        name = "Muthu Subramanian"
+                        email = "muthu.subramanian@digital.justice.gov.uk"
+                    }
+                }
+                scm {
+                    url = "https://github.com/ministryofjustice/laa-crime-commons.git"
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.maven
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
