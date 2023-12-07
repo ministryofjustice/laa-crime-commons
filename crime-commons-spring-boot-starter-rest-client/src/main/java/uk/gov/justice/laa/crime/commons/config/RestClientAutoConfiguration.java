@@ -1,8 +1,10 @@
 package uk.gov.justice.laa.crime.commons.config;
 
+import io.netty.resolver.DefaultAddressResolverGroup;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jetty.client.HttpClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -16,6 +18,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.JettyClientHttpConnector;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
@@ -25,6 +28,7 @@ import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
 import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -57,8 +61,21 @@ public class RestClientAutoConfiguration {
     WebClientCustomizer webClientCustomizer() {
         return webClientBuilder -> {
 
-            HttpClient client = new HttpClient();
-            webClientBuilder.clientConnector(new JettyClientHttpConnector(client));
+            ConnectionProvider provider =
+                    ConnectionProvider.builder("custom")
+                            .maxConnections(500)
+                            .maxIdleTime(Duration.ofSeconds(20))
+                            .maxLifeTime(Duration.ofSeconds(60))
+                            .pendingAcquireTimeout(Duration.ofSeconds(60))
+                            .evictInBackground(Duration.ofSeconds(120))
+                            .build();
+
+            webClientBuilder.clientConnector(new ReactorClientHttpConnector(
+                    reactor.netty.http.client.HttpClient.create(provider)
+                            .resolver(DefaultAddressResolverGroup.INSTANCE)
+                            .compress(true)
+                            .responseTimeout(Duration.ofSeconds(30))
+            ));
 
             webClientBuilder.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
             webClientBuilder.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
