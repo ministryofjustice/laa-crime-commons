@@ -216,6 +216,21 @@ public class RestClientAutoConfiguration {
     }
 
     /**
+     * Configures a <code>RestApiClient</code> bean for communicating with MaatApi in non-servlet environments
+     * (e.g. SQS listeners, scheduled tasks) if an OAuth2 configuration for CDA API is found and Spring Cloud
+     * access credentials are configured
+     *
+     * @param webClient
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnBean(name = "nonServletWebClient")
+    @ConditionalOnProperty("spring.security.oauth2.client.provider.cda.token-uri")
+    RestAPIClient cdaApiNonServletClient(@Qualifier("nonServletWebClient") WebClient webClient) {
+        return new RestAPIClient(webClient, "cda");
+    }
+
+    /**
      * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the Evidence service is found
      *
      * @param webClient the web client
