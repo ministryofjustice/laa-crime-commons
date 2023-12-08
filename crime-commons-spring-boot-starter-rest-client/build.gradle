@@ -7,6 +7,10 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
+def versions = [
+        commonsLang3Version    : "3.3.12"
+]
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -27,8 +31,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
     //spring-boot-starter-actuator library contains the Auto-configuration for the Micrometer Tracing API.
     implementation "org.springframework.boot:spring-boot-starter-actuator"
-
-    implementation "org.eclipse.jetty:jetty-reactive-httpclient:3.0.8"
+    implementation "org.apache.commons:commons-lang3:$versions.commonsLang3Version"
 
     compileOnly "org.projectlombok:lombok"
 
