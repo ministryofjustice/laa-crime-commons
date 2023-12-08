@@ -7,7 +7,7 @@ plugins {
 }
 
 def versions = [
-        crimeCommonsVersion    : "2.7.0"
+        commonsLang3Version    : "3.3.12"
 ]
 
 configurations {
