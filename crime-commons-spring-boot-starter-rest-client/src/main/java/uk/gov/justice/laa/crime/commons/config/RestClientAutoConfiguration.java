@@ -1,8 +1,6 @@
 package uk.gov.justice.laa.crime.commons.config;
 
 import io.netty.resolver.DefaultAddressResolverGroup;
-import reactor.netty.http.client.HttpClient;
-import reactor.netty.resources.ConnectionProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,13 +15,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.JettyClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.resources.ConnectionProvider;
 import uk.gov.justice.laa.crime.commons.client.RestAPIClient;
 import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.filters.WebClientFilters;
@@ -46,6 +44,18 @@ public class RestClientAutoConfiguration {
 
     private final RetryConfiguration retryConfiguration;
 
+    /**
+     * Modifies request attributes to include the registrationId to be used to
+     * look up the <code>OAuth2AuthorizedClient.</code>
+     *
+     * @param registrationId the registrationId
+     * @return <code>Consumer</code> to populate the attributes
+     * @see Consumer
+     * @see ServletOAuth2AuthorizedClientExchangeFilterFunction
+     */
+    public static Consumer<Map<String, Object>> getExchangeFilterWith(String registrationId) {
+        return ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId(registrationId);
+    }
 
     /**
      * Configures a <code>WebClientCustomizer</code> with default headers and exchange filter functions
@@ -117,19 +127,6 @@ public class RestClientAutoConfiguration {
                 new AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository, clientService);
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
         return authorizedClientManager;
-    }
-
-    /**
-     * Modifies request attributes to include the registrationId to be used to
-     * look up the <code>OAuth2AuthorizedClient.</code>
-     *
-     * @param registrationId the registrationId
-     * @return <code>Consumer</code> to populate the attributes
-     * @see Consumer
-     * @see ServletOAuth2AuthorizedClientExchangeFilterFunction
-     */
-    public static Consumer<Map<String, Object>> getExchangeFilterWith(String registrationId) {
-        return ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId(registrationId);
     }
 
     /**

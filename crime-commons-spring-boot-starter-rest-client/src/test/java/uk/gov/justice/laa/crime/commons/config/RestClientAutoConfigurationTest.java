@@ -1,8 +1,6 @@
 package uk.gov.justice.laa.crime.commons.config;
 
-import org.eclipse.jetty.util.ArrayUtil;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
@@ -21,7 +19,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +105,7 @@ class RestClientAutoConfigurationTest {
     void restApiClientConfigurerConfiguresNonServletWebClientBean() {
         this.contextRunner
                 .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
-                .withPropertyValues(ArrayUtil.add(
+                .withPropertyValues(ArrayUtils.addAll(
                                 getSpringCloudPropertyValuesForClient(),
                                 getOAuthPropertyValuesForClient(MAAT_API_CLIENT_BEAN)
                         )
