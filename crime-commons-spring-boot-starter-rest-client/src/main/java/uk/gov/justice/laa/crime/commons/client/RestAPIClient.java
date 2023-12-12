@@ -221,6 +221,7 @@ public class RestAPIClient {
                 .bodyValue(graphQLBody)
                 .retrieve()
                 .bodyToMono(responseClass)
+                .onErrorResume(WebClientResponseException.NotFound.class, notFound -> Mono.empty())
                 .onErrorMap(this::handleError)
                 .doOnError(Sentry::captureException)
                 .block();
