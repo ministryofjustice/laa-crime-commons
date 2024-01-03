@@ -8,7 +8,7 @@ plugins {
 }
 
 def versions = [
-        commonsLang3Version    : "3.3.12"
+        commonsLang3Version    : "3.14.0"
 ]
 
 configurations {
