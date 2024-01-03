@@ -52,9 +52,9 @@ publishing {
 
             pom {
                 artifactId = project.name
-                name = "Crime Apps Common Enums"
+                name = "Crime Apps Common Classes"
                 url = "https://github.com/ministryofjustice/laa-crime-commons"
-                description = "A Spring Boot auto-configuration library with all common enums"
+                description = "A Spring Boot auto-configuration library with all common classes"
 
                 licenses {
                     license {
