@@ -2,6 +2,7 @@ package uk.gov.justice.laa.crime.util;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,5 +47,58 @@ class DateUtilTest {
     void givenANullDate_whenToTimeStampIsInvoked_thenNullIsReturned() {
         assertThat(DateUtil.toTimeStamp(null))
                 .isNull();
+    }
+    @Test
+    void givenAValidLocalDate_whenGetLocalDateTimeIsInvoked_thenReturnDateTime() {
+        String dateModified = "2022-12-09";
+        assertThat(DateUtil.getLocalDateTime(dateModified)).isNotNull();
+    }
+
+    @Test
+    void givenAEmptyLocalDate_whenGetLocalDateTimeIsInvoked_thenReturnNull() {
+        assertThat(DateUtil.getLocalDateTime(null)).isNull();
+    }
+
+    @Test
+    void givenAEmptyStringDate_whenParseIsInvoked_thenReturnNull() {
+        assertThat(DateUtil.parse(null)).isNull();
+    }
+
+    @Test
+    void givenAValidDate_whenParseIsInvoked_thenReturnDate() {
+        String dateModified = "2023-01-01";
+        assertThat(DateUtil.parse(dateModified)).isNotNull();
+    }
+
+    @Test
+    void givenAEmptyLocalDate_whenParseIsInvoked_thenReturnNull() {
+        assertThat(DateUtil.parseLocalDate(null)).isNull();
+    }
+
+    @Test
+    void givenAValidLocalDate_whenParseIsInvoked_thenReturnDate() {
+        LocalDateTime dateModified = LocalDateTime.now();
+        assertThat(DateUtil.parseLocalDate(dateModified)).isNotNull();
+    }
+
+    @Test
+    void givenAValidLocalDate_whenConvertDateToDateTimeIsInvoked_thenReturnDateTime() {
+        LocalDate dateModified = LocalDate.now();
+        assertThat(DateUtil.convertDateToDateTime(dateModified)).isNotNull();
+    }
+
+    @Test
+    void givenAEmptyLocalDate_whenConvertDateToDateTimeIsInvoked_thenReturnNull() {
+        assertThat(DateUtil.convertDateToDateTime(null)).isNull();
+    }
+
+    @Test
+    void givenNullLocalDate_whenGetLocalDateStringIsInvoked_thenReturnNull() {
+        assertThat(DateUtil.getLocalDateString(null)).isNull();
+    }
+
+    @Test
+    void givenAValidLocalDate_whenGetLocalDateStringIsInvoked_thenReturnCorrectString() {
+        assertThat(DateUtil.getLocalDateString(LocalDate.of(2023, 10, 6))).isEqualTo("06-Oct-2023");
     }
 }
