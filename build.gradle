@@ -65,11 +65,11 @@ project(":crime-commons-spring-boot-starter-rest-client") {
 }
 
 
-project(":crime-commons-enums") {
+project(":crime-commons-classes") {
     sonar {
         properties {
             property "sonar.coverage.jacoco.xmlReportPaths",
-                    "${project(":crime-commons-enums").buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+                    "${project(":crime-commons-classes").buildDir}/reports/jacoco/test/jacocoTestReport.xml"
             property "sonar.exclusions", "**/exception/**.java, **/enums/**.java"
             property "sonar.coverage.exclusions", "**/exception/**.java, **/enums/**.java"
         }

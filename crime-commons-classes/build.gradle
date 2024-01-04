@@ -30,6 +30,8 @@ dependencies {
     implementation platform("io.sentry:sentry-bom:7.0.0")
     implementation("io.sentry:sentry-spring-boot-starter-jakarta")
     implementation("io.sentry:sentry-logback")
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonCore
@@ -41,7 +43,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    implementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 publishing {
@@ -52,9 +54,9 @@ publishing {
 
             pom {
                 artifactId = project.name
-                name = "Crime Apps Common Enums"
+                name = "Crime Apps Common Classes"
                 url = "https://github.com/ministryofjustice/laa-crime-commons"
-                description = "A Spring Boot auto-configuration library with all common enums"
+                description = "A Spring Boot auto-configuration library with all common classes"
 
                 licenses {
                     license {
