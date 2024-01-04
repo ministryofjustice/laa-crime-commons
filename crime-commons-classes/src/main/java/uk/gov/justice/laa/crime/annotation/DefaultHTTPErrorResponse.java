@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.MediaType;
-import uk.gov.justice.laa.crime.orchestration.dto.ErrorDTO;
+import uk.gov.justice.laa.crime.dto.ErrorDTO;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

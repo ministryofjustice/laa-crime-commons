@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.exception;
+package uk.gov.justice.laa.crime.commons.exception;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,9 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;
-import uk.gov.justice.laa.crime.orchestration.dto.ErrorDTO;
+import uk.gov.justice.laa.crime.commons.dto.ErrorDTO;
 
 @Slf4j
 @RestControllerAdvice
