@@ -90,6 +90,19 @@ signing {
 }
 
 test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = false
+    }
+}
+
+tasks.named("test") {
     useJUnitPlatform()
 }
 
