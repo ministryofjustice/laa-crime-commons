@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public enum AssessmentType {
-    INIT("INIT"), FULL("FULL");
+    INIT("INIT"), FULL("FULL"), PASSPORT("PASSPORT"), HARDSHIP("HARDSHIP");
 
     @NotNull
     @JsonPropertyDescription("Determines the assessment type")
