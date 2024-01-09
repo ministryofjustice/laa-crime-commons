@@ -211,4 +211,20 @@ public class RestAPIClient {
         String serviceName = registrationId.toUpperCase();
         return new APIClientException(String.format("Call to service %s failed.", serviceName), error);
     }
+
+    public <R> R getGraphQLApiResponse(Class<R> responseClass,
+                                       String url,
+                                       Map<String, Object> graphQLBody) {
+        return webClient
+                .post()
+                .uri(url)
+                .bodyValue(graphQLBody)
+                .retrieve()
+                .bodyToMono(responseClass)
+                .onErrorResume(WebClientResponseException.NotFound.class, notFound -> Mono.empty())
+                .onErrorMap(this::handleError)
+                .doOnError(Sentry::captureException)
+                .block();
+    }
+
 }
