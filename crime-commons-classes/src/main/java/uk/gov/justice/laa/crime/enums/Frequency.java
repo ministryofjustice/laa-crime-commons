@@ -17,15 +17,16 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public enum Frequency {
-    WEEKLY("WEEKLY", 52),
-    TWO_WEEKLY("2WEEKLY", 26),
-    FOUR_WEEKLY("4WEEKLY", 13),
-    MONTHLY("MONTHLY", 12),
-    ANNUALLY("ANNUALLY", 1);
+    WEEKLY("WEEKLY", "Weekly", 52),
+    TWO_WEEKLY("2WEEKLY", "2 Weekly", 26),
+    FOUR_WEEKLY("4WEEKLY", "4 Weekly", 13),
+    MONTHLY("MONTHLY", "Monthly", 12),
+    ANNUALLY("ANNUALLY", "Annually", 1);
 
     @NotNull
     @JsonPropertyDescription("This will have the frequency code of the selection")
     private String code;
+    private final String description;
     private int weighting;
 
     @JsonValue
