@@ -1,7 +1,6 @@
-package uk.gov.justice.laa.crime.crowncourt.staticdata.enums;
+package uk.gov.justice.laa.crime.enums;
 
 import org.junit.jupiter.api.Test;
-import uk.gov.justice.laa.crime.enums.CaseType;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;

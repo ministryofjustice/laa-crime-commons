@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.orchestration.enums;
+package uk.gov.justice.laa.crime.enums;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -19,7 +19,6 @@ public enum DecisionReason {
     FAILMEANS("FAILMEANS", "Failed the Means Test"),
     FAILIOJ("FAILIOJ", "Failed the IoJ Test"),
     FAILMEIOJ("FAILMEIOJ", "Failed Means and IoJ Tests");
-
 
     @NotNull
     @JsonPropertyDescription("The decision reason code")
