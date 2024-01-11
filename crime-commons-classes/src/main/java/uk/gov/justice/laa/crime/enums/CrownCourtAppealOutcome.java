@@ -1,5 +1,6 @@
 package uk.gov.justice.laa.crime.enums;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import uk.gov.justice.laa.crime.exception.ValidationException;
@@ -28,5 +29,17 @@ public enum CrownCourtAppealOutcome {
 
         return Optional.ofNullable(outcome).orElseThrow(
                 () -> new ValidationException("Crown Court appeal outcome can't be empty."));
+    }
+
+    public static CrownCourtAppealOutcome getFrom(String value) {
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        return Stream.of(CrownCourtAppealOutcome.values())
+                .filter(appealOutcome -> appealOutcome.value.equals(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("Appeal Outcome with value: %s does not exist.", value)));
     }
 }
