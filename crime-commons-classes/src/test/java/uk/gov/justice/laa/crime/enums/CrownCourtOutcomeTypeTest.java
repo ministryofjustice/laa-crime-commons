@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-public class CrownCourtOutcomeTypeTest {
+class CrownCourtOutcomeTypeTest {
 
     @Test
     void givenValidType_whenGetFromIsInvoked_thenCorrectEnumIsReturned() {
@@ -14,7 +14,7 @@ public class CrownCourtOutcomeTypeTest {
 
     @Test
     void givenBlankString_whenGetFromIsInvoked_thenNullIsReturned() {
-        assertThat(CrownCourtOutcomeType.getFrom("")).isEqualTo(null);
+        assertThat(CrownCourtOutcomeType.getFrom("")).isNull();
     }
 
     @Test
