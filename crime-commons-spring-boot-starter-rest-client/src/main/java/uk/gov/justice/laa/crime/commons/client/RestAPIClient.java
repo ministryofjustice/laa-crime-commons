@@ -239,7 +239,7 @@ public class RestAPIClient {
      * @param headers      the map of headers
      * @return the decoded response body
      */
-    public <T, R> R patch(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers) {
-        return getApiResponse(requestBody, typeReference, url, headers, HttpMethod.PATCH, null);
+    public <T, R> R patch(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {
+        return getApiResponse(requestBody, typeReference, url, headers, HttpMethod.PATCH, null, urlVariables);
     }
 }
