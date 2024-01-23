@@ -19,6 +19,6 @@ public enum CrownCourtOutcomeType {
         return Stream.of(CrownCourtOutcomeType.values())
                 .filter(ccoType -> ccoType.type.equals(type))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(String.format("CrownCourtOutcomeType with value: %s does not exist.", type)));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("CrownCourtOutcomeType with value: [%s] does not exist.", type)));
     }
 }
