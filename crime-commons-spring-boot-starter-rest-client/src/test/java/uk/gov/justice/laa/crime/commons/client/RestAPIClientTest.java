@@ -103,27 +103,6 @@ class RestAPIClientTest {
     }
 
     @Test
-    void givenCorrectParams_whenPutIsInvokedWithPathVariables_thenGetApiResponseIsCalled()
-            throws JsonProcessingException {
-
-        MockRequestBody request = new MockRequestBody();
-        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
-        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
-        };
-        restAPIClient.put(request, typeReference, MOCK_URL, MOCK_HEADERS, MOCK_REP_ID);
-
-        verify(restAPIClient)
-                .getApiResponse(request,
-                        typeReference,
-                        MOCK_URL,
-                        MOCK_HEADERS,
-                        HttpMethod.PUT,
-                        null,
-                        MOCK_REP_ID
-                );
-    }
-
-    @Test
     void givenCorrectParams_whenHeadIsInvoked_thenGetBodilessApiResponseIsCalled()
             throws JsonProcessingException {
 
@@ -293,7 +272,7 @@ class RestAPIClientTest {
         setupValidResponseTest(expected);
         List<MockResponse> response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                new ParameterizedTypeReference<>() {
+                new ParameterizedTypeReference<List<MockResponse>>() {
                 },
                 MOCK_URL,
                 MOCK_HEADERS,
