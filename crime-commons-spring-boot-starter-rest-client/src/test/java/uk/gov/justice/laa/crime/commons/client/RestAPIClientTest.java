@@ -34,13 +34,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @ExtendWith(MockitoExtension.class)
 class RestAPIClientTest {
 
-    private final String MOCK_REP_ID = "1234";
-    private RestAPIClient restAPIClient;
     public static final String MOCK_URL = "mock-url";
     public static final String MOCK_REGISTRATION_ID = "mock-web-client";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final Map<String, String> MOCK_HEADERS = Map.of(Constants.LAA_TRANSACTION_ID, "laaTransactionId");
-
+    private static final Map<String, Object> MOCK_GRAPHQL_BODY = Map.of("variables", "", "filter", "");
+    private final String MOCK_REP_ID = "1234";
+    private RestAPIClient restAPIClient;
     @Mock
     private ExchangeFunction shortCircuitExchangeFunction;
 
@@ -67,12 +67,6 @@ class RestAPIClientTest {
                 .build();
 
         restAPIClient = Mockito.spy(new RestAPIClient(testWebClient, MOCK_REGISTRATION_ID));
-    }
-
-    record MockResponse(String id) {
-    }
-
-    record MockRequestBody() {
     }
 
     @Test
@@ -278,7 +272,8 @@ class RestAPIClientTest {
         setupValidResponseTest(expected);
         List<MockResponse> response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                new ParameterizedTypeReference<List<MockResponse>>() {},
+                new ParameterizedTypeReference<List<MockResponse>>() {
+                },
                 MOCK_URL,
                 MOCK_HEADERS,
                 HttpMethod.GET,
@@ -332,4 +327,56 @@ class RestAPIClientTest {
     private <T> void setupValidResponseTest(T returnBody) throws JsonProcessingException {
         setupValidResponseTest(returnBody, null);
     }
+
+    @Test
+    void givenAValidInput_whenGetGraphQLApiResponseIsInvoked_thenResponseIsReturned()
+            throws JsonProcessingException {
+        MockResponse expected = new MockResponse("1");
+        setupValidResponseTest(expected);
+        MockResponse response = restAPIClient.getGraphQLApiResponse(
+                MockResponse.class,
+                MOCK_URL,
+                MOCK_GRAPHQL_BODY
+        );
+        assertThat(response).isEqualTo(expected);
+    }
+
+    @Test
+    void givenInvalidData_whenGetGraphQLApiResponseIsInvoked_thenReturnsNull() {
+        setupNotFoundTest();
+        MockResponse response = restAPIClient.getGraphQLApiResponse(
+                MockResponse.class,
+                MOCK_URL,
+                MOCK_GRAPHQL_BODY
+        );
+        assertThat(response).isNull();
+    }
+
+    record MockResponse(String id) {
+    }
+
+    record MockRequestBody() {
+    }
+
+
+    @Test
+    void givenCorrectParams_whenPatchIsInvoked_thenGetApiResponseIsCalled()
+            throws JsonProcessingException {
+
+        MockRequestBody request = new MockRequestBody();
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
+        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
+        };
+        restAPIClient.patch(request, typeReference, MOCK_URL, MOCK_HEADERS);
+
+        verify(restAPIClient)
+                .getApiResponse(request,
+                        typeReference,
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.PATCH,
+                        null
+                );
+    }
+
 }

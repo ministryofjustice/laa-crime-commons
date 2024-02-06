@@ -1,15 +1,21 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
+    id 'java'
     id "jacoco"
     id "signing"
     id "maven-publish"
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 def versions = [
-        commonsLang3Version    : "3.14.0"
+        jacksonDatabind                      : "2.0.1",
+        jacksonCore                          : "2.16.0",
+        jakartaValidation                    : "3.0.2"
 ]
+
+java {
+    sourceCompatibility = '17'
+}
 
 configurations {
     compileOnly {
@@ -18,32 +24,26 @@ configurations {
 }
 
 dependencies {
-    implementation platform("io.sentry:sentry-bom:7.2.0")
-    implementation("io.sentry:sentry-spring-boot-starter-jakarta")
-    implementation("io.sentry:sentry-logback")
-
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
-    implementation "org.springframework.boot:spring-boot-starter"
+    implementation platform("io.sentry:sentry-bom:7.0.0")
+    implementation("io.sentry:sentry-spring-boot-starter-jakarta")
+    implementation("io.sentry:sentry-logback")
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-webflux"
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
-    //spring-boot-starter-actuator library contains the Auto-configuration for the Micrometer Tracing API.
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.apache.commons:commons-lang3:$versions.commonsLang3Version"
+    implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
 
-    compileOnly "org.projectlombok:lombok"
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonCore
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonCore
+    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
 
-    implementation "org.jetbrains:annotations:24.1.0"
+    implementation "org.apache.commons:commons-lang3"
 
-    implementation 'io.micrometer:micrometer-tracing'
-    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-    
-    annotationProcessor "org.projectlombok:lombok"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 publishing {
@@ -54,9 +54,9 @@ publishing {
 
             pom {
                 artifactId = project.name
-                name = "Sprint Boot Starter REST Client"
+                name = "Crime Apps Common Classes"
                 url = "https://github.com/ministryofjustice/laa-crime-commons"
-                description = "A Spring Boot auto-configuration library that facilitates communication with LAA Crime APIs"
+                description = "A Spring Boot auto-configuration library with all common classes"
 
                 licenses {
                     license {
@@ -69,9 +69,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id = "mhowell494"
-                        name = "Matthew Howell"
-                        email = "matthew.howell@digital.justice.gov.uk"
+                        id = "Muthu"
+                        name = "Muthu Subramanian"
+                        email = "muthu.subramanian@digital.justice.gov.uk"
                     }
                 }
                 scm {
@@ -105,3 +105,5 @@ jacocoTestReport {
 tasks.named("test") {
     useJUnitPlatform()
 }
+
+

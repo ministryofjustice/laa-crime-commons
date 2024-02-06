@@ -211,4 +211,35 @@ public class RestAPIClient {
         String serviceName = registrationId.toUpperCase();
         return new APIClientException(String.format("Call to service %s failed.", serviceName), error);
     }
+
+    public <R> R getGraphQLApiResponse(Class<R> responseClass,
+                                       String url,
+                                       Map<String, Object> graphQLBody) {
+        return webClient
+                .post()
+                .uri(url)
+                .bodyValue(graphQLBody)
+                .retrieve()
+                .bodyToMono(responseClass)
+                .onErrorResume(WebClientResponseException.NotFound.class, notFound -> Mono.empty())
+                .onErrorMap(this::handleError)
+                .doOnError(Sentry::captureException)
+                .block();
+    }
+
+
+    /**
+     * Sends a HTTP PATCH request
+     *
+     * @param <T>          the type of the request body
+     * @param <R>          the return type
+     * @param requestBody  the request body
+     * @param typeReference specifies the class/type used for deserialization
+     * @param url          the url
+     * @param headers      the map of headers
+     * @return the decoded response body
+     */
+    public <T, R> R patch(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {
+        return getApiResponse(requestBody, typeReference, url, headers, HttpMethod.PATCH, null, urlVariables);
+    }
 }

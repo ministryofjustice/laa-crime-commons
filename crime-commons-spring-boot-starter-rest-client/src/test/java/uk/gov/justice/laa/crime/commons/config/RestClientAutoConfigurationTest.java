@@ -1,8 +1,6 @@
 package uk.gov.justice.laa.crime.commons.config;
 
-import org.eclipse.jetty.util.ArrayUtil;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
@@ -21,7 +19,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +40,7 @@ class RestClientAutoConfigurationTest {
     private static final String CDA_API_CLIENT_BEAN = "cdaApiClient";
     private static final String MAAT_API_CLIENT_BEAN = "maatApiClient";
     private static final String MAAT_API_NON_SERVLET_CLIENT_BEAN = "maatApiNonServletClient";
+    private static final String CDA_API_NON_SERVLET_CLIENT_BEAN = "cdaApiNonServletClient";
     private static final String EVIDENCE_API_CLIENT_BEAN = "evidenceApiClient";
     private static final String HARDSHIP_API_CLIENT_BEAN = "hardshipApiClient";
     private static final String CCC_API_CLIENT_BEAN = "cccApiClient";
@@ -106,7 +105,7 @@ class RestClientAutoConfigurationTest {
     void restApiClientConfigurerConfiguresNonServletWebClientBean() {
         this.contextRunner
                 .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
-                .withPropertyValues(ArrayUtil.add(
+                .withPropertyValues(ArrayUtils.addAll(
                                 getSpringCloudPropertyValuesForClient(),
                                 getOAuthPropertyValuesForClient(MAAT_API_CLIENT_BEAN)
                         )
@@ -184,6 +183,24 @@ class RestClientAutoConfigurationTest {
                 .withPropertyValues(getOAuthPropertyValuesForClient(MAAT_API_REGISTRATION_ID))
                 .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".maat-api.token-uri=mock-url")
                 .run((context) -> assertThat(context).hasBean(MAAT_API_NON_SERVLET_CLIENT_BEAN));
+    }
+
+    @Test
+    void cdaApiNonServletClientIsConditionalOnOAuthConfigurationAndNonServletWebClient() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(CDA_REGISTRATION_ID))
+                .run((context) -> assertThat(context).doesNotHaveBean(CDA_API_NON_SERVLET_CLIENT_BEAN));
+    }
+
+    @Test
+    void restApiClientConfigurerConfiguresCdaApiNonServletClient() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getSpringCloudPropertyValuesForClient())
+                .withPropertyValues(getOAuthPropertyValuesForClient(CDA_REGISTRATION_ID))
+                .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".cda.token-uri=mock-url")
+                .run((context) -> assertThat(context).hasBean(CDA_API_NON_SERVLET_CLIENT_BEAN));
     }
 
     @Test
