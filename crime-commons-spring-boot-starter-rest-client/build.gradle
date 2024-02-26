@@ -18,7 +18,7 @@ configurations {
 }
 
 dependencies {
-    implementation platform("io.sentry:sentry-bom:7.2.0")
+    implementation platform("io.sentry:sentry-bom:7.4.0")
     implementation("io.sentry:sentry-spring-boot-starter-jakarta")
     implementation("io.sentry:sentry-logback")
 
