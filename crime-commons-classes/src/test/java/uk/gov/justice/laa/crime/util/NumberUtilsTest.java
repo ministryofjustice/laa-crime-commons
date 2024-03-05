@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -21,8 +22,20 @@ class NumberUtilsTest {
     }
 
     @Test
+    void givenBigDecimal_whenToDoubleIsInvoked_thenValidCurrencyIsReturned() {
+        assertThat(NumberUtils.toDouble(BigDecimal.TEN)).isEqualTo(10.0);
+    }
+
+    @Test
+    void givenNullInteger_whenToDoubleIsInvoked_NullIsReturned() {
+        Integer empty = null;
+        assertThat(NumberUtils.toDouble(empty)).isNull();
+    }
+
+    @Test
     void givenNull_whenToDoubleIsInvoked_NullIsReturned() {
-        assertThat(NumberUtils.toDouble(null)).isNull();
+        BigDecimal empty = null;
+        assertThat(NumberUtils.toDouble(empty)).isNull();
     }
 
     @Test
