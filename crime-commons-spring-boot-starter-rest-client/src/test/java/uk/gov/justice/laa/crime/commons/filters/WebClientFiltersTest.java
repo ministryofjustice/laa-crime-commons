@@ -170,7 +170,7 @@ class WebClientFiltersTest {
                 .when(exchangeFunction).exchange(request);
 
         when(clientResponse.statusCode())
-                .thenReturn(HttpStatus.NOT_IMPLEMENTED);
+                .thenReturn(HttpStatus.INTERNAL_SERVER_ERROR);
 
         Mono<ClientResponse> response = WebClientFilters.handleErrorResponse()
                 .filter(request, exchangeFunction);
@@ -178,7 +178,7 @@ class WebClientFiltersTest {
         assertThatThrownBy(
                 response::block
         ).isInstanceOf(HttpServerErrorException.class)
-                .hasMessage("501 Received error 501 due to Not Implemented");
+                .hasMessage("500 Received error 500 due to Internal Server Error");
     }
 
     @Test
@@ -188,7 +188,7 @@ class WebClientFiltersTest {
                 .when(exchangeFunction).exchange(request);
 
         when(clientResponse.statusCode())
-                .thenReturn(HttpStatus.INTERNAL_SERVER_ERROR);
+                .thenReturn(HttpStatus.REQUEST_TIMEOUT);
 
         Mono<ClientResponse> response = WebClientFilters.handleErrorResponse()
                 .filter(request, exchangeFunction);
@@ -196,7 +196,7 @@ class WebClientFiltersTest {
         assertThatThrownBy(
                 response::block
         ).isInstanceOf(RetryableWebClientResponseException.class)
-                .hasMessage("Received error 500 due to Internal Server Error");
+                .hasMessage("Received error 408 due to Request Timeout");
     }
 
     @Test
