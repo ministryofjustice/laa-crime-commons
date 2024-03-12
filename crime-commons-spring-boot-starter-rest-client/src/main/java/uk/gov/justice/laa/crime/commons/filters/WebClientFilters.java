@@ -83,7 +83,7 @@ public class WebClientFilters {
 
         List<HttpStatus> retryableStatuses = List.of(
                 HttpStatus.REQUEST_TIMEOUT, HttpStatus.TOO_EARLY, HttpStatus.TOO_MANY_REQUESTS, HttpStatus.BAD_GATEWAY,
-                HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.SERVICE_UNAVAILABLE, HttpStatus.GATEWAY_TIMEOUT
+                HttpStatus.SERVICE_UNAVAILABLE, HttpStatus.GATEWAY_TIMEOUT
         );
 
         return ExchangeFilterFunctions.statusError(
