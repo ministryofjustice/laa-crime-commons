@@ -5,6 +5,8 @@ plugins {
     id "signing"
     id "maven-publish"
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id "org.springframework.boot" version "3.1.5"
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 def versions = [
@@ -17,13 +19,18 @@ configurations {
     }
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 dependencies {
     implementation platform("io.sentry:sentry-bom:7.5.0")
     implementation("io.sentry:sentry-spring-boot-starter-jakarta")
     implementation("io.sentry:sentry-logback")
-
-    implementation platform(SpringBootPlugin.BOM_COORDINATES)
-    annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-web"
