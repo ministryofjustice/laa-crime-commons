@@ -1,10 +1,12 @@
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     id 'java'
     id "jacoco"
     id "signing"
     id "maven-publish"
+    id "org.springframework.boot" version "3.1.5"
+    id 'io.spring.dependency-management' version '1.1.4'
+
 }
 
 def versions = [
@@ -23,9 +25,15 @@ configurations {
     }
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 dependencies {
-    implementation platform(SpringBootPlugin.BOM_COORDINATES)
-    annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
     implementation platform("io.sentry:sentry-bom:7.0.0")
     implementation("io.sentry:sentry-spring-boot-starter-jakarta")
