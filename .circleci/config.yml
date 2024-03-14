@@ -249,7 +249,7 @@ jobs:
           root: .
           paths:
             - .
-  snyk_scan_crime_common_classes:
+  snyk_scan_crime_commons_classes:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
@@ -258,7 +258,7 @@ jobs:
       - snyk/scan:
           <<: *snyk_options
 
-  publish_major_release_crime_common_classes:
+  publish_major_release_crime_commons_classes:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons/crime-commons-classes
     steps:
@@ -266,10 +266,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_common_classes:
+      - publish_artefact_crime_commons_classes:
           type: major
 
-  publish_minor_release_crime_common_classes:
+  publish_minor_release_crime_commons_classes:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons/crime-commons-classes
     steps:
@@ -277,10 +277,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_common_classes:
+      - publish_artefact_crime_commons_classes:
           type: minor
 
-  publish_patch_release_crime_common_classes:
+  publish_patch_release_crime_commons_classes:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons/crime-commons-classes
     steps:
@@ -288,10 +288,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_common_classes:
+      - publish_artefact_crime_commons_classes:
           type: patch
 
-  publish_snapshot_release_crime_common_classes:
+  publish_snapshot_release_crime_commons_classes:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons/crime-commons-classes
     steps:
@@ -299,7 +299,7 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_common_classes:
+      - publish_artefact_crime_commons_classes:
           type: snapshot
 
 # ------------------
@@ -375,47 +375,47 @@ workflows:
           requires:
             - snapshot_release_approval
 
-  build_publish_crime_common_classes_main:
+  build_publish_crime_commons_classes_main:
     jobs:
-      - build_and_test_crime_common_classes:
+      - build_and_test_crime_commons_classes:
           filters:
             branches:
               only:
                 - main
           context: SonarCloud
 
-      - snyk_scan_crime_common_classes:
+      - snyk_scan_crime_commons_classes:
           requires:
             - build_and_test
 
       - major_release_approval:
           type: approval
           requires:
-            - snyk_scan_crime_common_classes
+            - snyk_scan_crime_commons_classes
 
-      - publish_major_release_crime_common_classes:
+      - publish_major_release_crime_commons_classes:
           requires:
             - major_release_approval
 
       - minor_release_approval:
           type: approval
           requires:
-            - snyk_scan_crime_common_classes
+            - snyk_scan_crime_commons_classes
 
-      - publish_minor_release_crime_common_classes:
+      - publish_minor_release_crime_commons_classes:
           requires:
             - minor_release_approval
 
       - patch_release_approval:
           type: approval
           requires:
-            - snyk_scan_crime_common_classes
+            - snyk_scan_crime_commons_classes
 
-      - publish_patch_release_crime_common_classes:
+      - publish_patch_release_crime_commons_classes:
           requires:
             - patch_release_approval
 
-  build_publish_crime_common_classes_branch:
+  build_publish_crime_commons_classes_branch:
     jobs:
       - branch_build_approval:
           type: approval
@@ -424,20 +424,20 @@ workflows:
               ignore:
                 - main
 
-      - build_and_test_crime_common_classes:
+      - build_and_test_crime_commons_classes:
           requires:
             - branch_build_approval
           context: SonarCloud
 
-      - snyk_scan_crime_common_classes:
+      - snyk_scan_crime_commons_classes:
           requires:
-            - build_and_test_crime_common_classes
+            - build_and_test_crime_commons_classes
 
       - snapshot_release_approval:
           type: approval
           requires:
-            - snyk_scan_crime_common_classes
+            - snyk_scan_crime_commons_classes
 
-      - publish_snapshot_release_crime_common_classes:
+      - publish_snapshot_release_crime_commons_classes:
           requires:
             - snapshot_release_approval
