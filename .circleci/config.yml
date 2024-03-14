@@ -319,7 +319,7 @@ workflows:
 
       - snyk_scan_rest_client:
           requires:
-            - build_and_test
+            - build_and_test_rest_client
 
       - major_release_approval:
           type: approval
@@ -369,7 +369,7 @@ workflows:
       - snapshot_release_approval:
           type: approval
           requires:
-            - snyk_scan
+            - snyk_scan_rest_client
 
       - publish_snapshot_release_rest_client:
           requires:
@@ -386,7 +386,7 @@ workflows:
 
       - snyk_scan_crime_commons_classes:
           requires:
-            - build_and_test
+            - build_and_test_crime_commons_classes
 
       - major_release_approval:
           type: approval
