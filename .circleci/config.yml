@@ -132,7 +132,7 @@ jobs:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=t --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - checkout
       - attach_workspace:
@@ -162,7 +162,7 @@ jobs:
 
   snyk_scan_rest_client:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - checkout:
           path: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
@@ -222,7 +222,7 @@ jobs:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=t --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-classes
     steps:
       - checkout
       - attach_workspace:
@@ -251,7 +251,7 @@ jobs:
             - .
   snyk_scan_crime_commons_classes:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-classes
     steps:
       - checkout:
           path: ~/laa-crime-commons/crime-commons-classes
