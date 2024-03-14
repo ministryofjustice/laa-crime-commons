@@ -1,6 +1,5 @@
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
-
 plugins {
+    id "nebula.release" version "17.2.0"
     id "jacoco"
     id "signing"
     id "maven-publish"
@@ -83,6 +82,15 @@ publishing {
                 }
                 scm {
                     url = "https://github.com/ministryofjustice/laa-crime-commons.git"
+                }
+            }
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
                 }
             }
         }

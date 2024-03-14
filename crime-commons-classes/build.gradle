@@ -1,5 +1,6 @@
 
 plugins {
+    id "nebula.release" version "17.2.0"
     id 'java'
     id "jacoco"
     id "signing"
@@ -84,6 +85,15 @@ publishing {
                 }
                 scm {
                     url = "https://github.com/ministryofjustice/laa-crime-commons.git"
+                }
+            }
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
                 }
             }
         }
