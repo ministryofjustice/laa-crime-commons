@@ -5,6 +5,7 @@ plugins {
     id "jacoco"
     id "signing"
     id "maven-publish"
+    id "org.sonarqube" version "4.0.0.2929"
     id "org.springframework.boot" version "3.1.5"
     id 'io.spring.dependency-management' version '1.1.4'
 
@@ -32,6 +33,31 @@ bootJar {
 
 jar {
     enabled = true
+}
+
+nebulaRelease {
+    // Enable release from branches beginning with this pattern
+    addReleaseBranchPattern("/LCAM-/")
+}
+
+sonar {
+    properties {
+        property "sonar.projectName", "laa-crime-commons"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.organization", "ministryofjustice"
+        property "sonar.projectKey", "ministryofjustice_laa-crime-commons"
+    }
+}
+
+project(":crime-commons-classes") {
+    sonar {
+        properties {
+            property "sonar.coverage.jacoco.xmlReportPaths",
+                    "${project(":crime-commons-classes").buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+            property "sonar.exclusions", "**/exception/**.java, **/enums/**.java"
+            property "sonar.coverage.exclusions", "**/exception/**.java, **/enums/**.java"
+        }
+    }
 }
 
 dependencies {
