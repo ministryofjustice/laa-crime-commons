@@ -18,6 +18,7 @@ public enum HardshipReviewStatus {
 
     @NotNull
     @JsonPropertyDescription("This will have the status of the hardship review")
+    @JsonValue
     private String status;
     private String description;
 
