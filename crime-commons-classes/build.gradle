@@ -1,5 +1,6 @@
 
 plugins {
+    id "com.javiersc.semver.project" version "0.5.0"
     id 'java'
     id "jacoco"
     id "signing"

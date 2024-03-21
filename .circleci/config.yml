@@ -25,7 +25,7 @@ executors:
 # COMMANDS
 # ------------------
 commands:
-  publish_artefact:
+  publish_artefact_rest_client:
     description: >
       Publish artefact to Maven Central
     parameters:
@@ -46,14 +46,14 @@ commands:
           steps:
             - run:
                 name: Publish major release to Maven Central
-                command: ./gradlew final -Prelease.scope=major publish publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=rc" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
             equal: ["minor", << parameters.type >>]
           steps:
             - run:
                 name: Publish minor release to Maven Central
-                command: ./gradlew final publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=rc" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -61,7 +61,7 @@ commands:
           steps:
             - run:
                 name: Publish patch release to Maven Central
-                command: ./gradlew final -Prelease.scope=patch publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=rc" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -69,7 +69,55 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew snapshot publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=auto" "-Psemver.tagPrefix=rc" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+  publish_artefact_crime_commons_classes:
+    description: >
+      Publish artefact to Maven Central
+    parameters:
+      type:
+        type: enum
+        default: "minor"
+        enum: ["minor", "major", "patch", "snapshot"]
+        description: Specifies the type of release (major, minor, patch, snapshot)
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
+      - when:
+          condition:
+            equal: ["major", << parameters.type >>]
+          steps:
+            - run:
+                name: Publish major release to Maven Central
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+      - when:
+          condition:
+            equal: ["minor", << parameters.type >>]
+          steps:
+            - run:
+                name: Publish minor release to Maven Central
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+      - when:
+          condition:
+            equal: ["patch", << parameters.type >>]
+          steps:
+            - run:
+                name: Publish patch release to Maven Central
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+      - when:
+          condition:
+            equal: ["snapshot", << parameters.type >>]
+          steps:
+            - run:
+                name: Publish snapshot release to Maven Central
+                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=auto" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+
 
   authenticate_host:
     description: >
@@ -131,49 +179,95 @@ jobs:
       - snyk/scan:
           <<: *snyk_options
 
-  publish_major_release:
+  publish_major_release_rest_client:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact:
+      - publish_artefact_rest_client:
           type: major
 
-  publish_minor_release:
+  publish_minor_release_rest_client:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact:
+      - publish_artefact_rest_client:
           type: minor
 
-  publish_patch_release:
+  publish_patch_release_rest_client:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact:
+      - publish_artefact_rest_client:
           type: patch
 
-  publish_snapshot_release:
+  publish_snapshot_release_rest_client:
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/crime-commons-spring-boot-starter-rest-client
     steps:
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact:
+      - publish_artefact_rest_client:
           type: snapshot
+
+  publish_major_release_crime_commons_classes:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-classes
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact_crime_commons_classes:
+          type: major
+
+  publish_minor_release_crime_commons_classes:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-classes
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact_crime_commons_classes:
+          type: minor
+
+  publish_patch_release_crime_commons_classes:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-classes
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact_crime_commons_classes:
+          type: patch
+
+  publish_snapshot_release_crime_commons_classes:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-classes
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact_crime_commons_classes:
+          type: snapshot
+
+
 
 # ------------------
 # WORKFLOWS
@@ -181,7 +275,7 @@ jobs:
 workflows:
   version: 2
 
-  build_publish_main:
+  build_publish_main_rest_client:
     jobs:
       - build_and_test:
           filters:
@@ -199,7 +293,7 @@ workflows:
           requires:
             - snyk_scan
 
-      - publish_major_release:
+      - publish_major_release_rest_client:
           requires:
             - major_release_approval
 
@@ -208,7 +302,7 @@ workflows:
           requires:
             - snyk_scan
 
-      - publish_minor_release:
+      - publish_minor_release_rest_client:
           requires:
             - minor_release_approval
 
@@ -217,11 +311,11 @@ workflows:
           requires:
             - snyk_scan
 
-      - publish_patch_release:
+      - publish_patch_release_rest_client:
           requires:
             - patch_release_approval
 
-  build_publish_branch:
+  build_publish_branch_rest_client:
     jobs:
       - branch_build_approval:
           type: approval
@@ -244,6 +338,76 @@ workflows:
           requires:
             - snyk_scan
 
-      - publish_snapshot_release:
+      - publish_snapshot_release_rest_client:
+          module: rest_client
           requires:
             - snapshot_release_approval
+
+  build_publish_main_crime_commons_classes:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only:
+                - main
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - major_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_major_release_crime_commons_classes:
+          requires:
+            - major_release_approval
+
+      - minor_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_minor_release_crime_commons_classes:
+          requires:
+            - minor_release_approval
+
+      - patch_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_patch_release_crime_commons_classes:
+          requires:
+            - patch_release_approval
+
+  build_publish_branch_crime_commons_classes:
+    jobs:
+      - branch_build_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - main
+
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - snapshot_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_snapshot_release_crime_commons_classes:
+          requires:
+            - snapshot_release_approval
+
+
