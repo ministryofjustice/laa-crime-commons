@@ -339,7 +339,6 @@ workflows:
             - snyk_scan
 
       - publish_snapshot_release_rest_client:
-          module: rest_client
           requires:
             - snapshot_release_approval
 
