@@ -92,14 +92,14 @@ commands:
           steps:
             - run:
                 name: Publish major release to Maven Central
-                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=cc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
             equal: ["minor", << parameters.type >>]
           steps:
             - run:
                 name: Publish minor release to Maven Central
-                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=cc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -107,7 +107,7 @@ commands:
           steps:
             - run:
                 name: Publish patch release to Maven Central
-                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=cc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -115,7 +115,7 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=auto" "-Psemver.tagPrefix=rc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=auto" "-Psemver.tagPrefix=cc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
 
 
