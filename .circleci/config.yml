@@ -69,7 +69,7 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=auto" "-Psemver.tagPrefix=rc" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=rc" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   publish_artefact_crime_commons_classes:
     description: >
@@ -115,7 +115,7 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=auto" "-Psemver.tagPrefix=cc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew createSemverTag "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=cc" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
 
 
