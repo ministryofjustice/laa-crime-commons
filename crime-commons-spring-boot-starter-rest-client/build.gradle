@@ -90,6 +90,19 @@ publishing {
             }
         }
     }
+    repositories {
+        maven {
+            credentials {
+                username = project.findProperty("sonatypeUsername") ?: System.getenv("OSSRH_USERNAME")
+                password = project.findProperty("sonatypePassword") ?: System.getenv("OSSRH_PASSWORD")
+            }
+            if (project.version.endsWith("-SNAPSHOT")) {
+                url "https://s01.oss.sonatype.org/service/local/"
+            } else {
+                url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            }
+        }
+    }
 }
 
 signing {
