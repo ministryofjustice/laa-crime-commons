@@ -57,7 +57,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation "org.springframework.boot:spring-boot-starter-test"
 }
-
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 publishing {
 
     publications {
@@ -95,14 +95,12 @@ publishing {
     }
     repositories {
         maven {
+            def releaseRepo = "https://s01.oss.sonatype.org/service/local/"
+            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = isReleaseVersion ? releaseRepo : snapshotRepo
             credentials {
                 username = project.findProperty("sonatypeUsername") ?: System.getenv("OSSRH_USERNAME")
                 password = project.findProperty("sonatypePassword") ?: System.getenv("OSSRH_PASSWORD")
-            }
-            if (project.version.endsWith("-SNAPSHOT")) {
-                url "https://s01.oss.sonatype.org/service/local/"
-            } else {
-                url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
             }
         }
     }
