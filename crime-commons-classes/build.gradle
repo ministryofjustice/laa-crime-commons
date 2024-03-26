@@ -95,9 +95,11 @@ publishing {
     }
     repositories {
         maven {
-            def releaseRepo = "https://s01.oss.sonatype.org/service/local/"
-            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = isReleaseVersion ? releaseRepo : snapshotRepo
+            if(project.property("semver.stage") == "snapshot") {
+                url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            } else {
+                url = "https://s01.oss.sonatype.org/service/local/"
+            }
             credentials {
                 username = project.findProperty("sonatypeUsername") ?: System.getenv("OSSRH_USERNAME")
                 password = project.findProperty("sonatypePassword") ?: System.getenv("OSSRH_PASSWORD")
