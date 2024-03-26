@@ -57,7 +57,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation "org.springframework.boot:spring-boot-starter-test"
 }
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 publishing {
 
     publications {
