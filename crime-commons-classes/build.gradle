@@ -94,10 +94,12 @@ publishing {
     }
     repositories {
         maven {
-            if(project.property("semver.stage") == "snapshot") {
-                url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            } else {
-                url = "https://s01.oss.sonatype.org/service/local/"
+            if(project.hasProperty("semver.stage")) {
+                if(project.property("semver.stage") == "snapshot") {
+                    url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                } else {
+                    url = "https://s01.oss.sonatype.org/service/local/"
+                }
             }
             credentials {
                 username = project.findProperty("sonatypeUsername") ?: System.getenv("OSSRH_USERNAME")
