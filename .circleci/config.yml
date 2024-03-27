@@ -117,8 +117,6 @@ commands:
                 name: Publish snapshot release to Maven Central
                 command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=crime-commons-classes-" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
-
-
   authenticate_host:
     description: >
       Add github.com to known hosts
@@ -267,8 +265,6 @@ jobs:
       - publish_artefact_crime_commons_classes:
           type: snapshot
 
-
-
 # ------------------
 # WORKFLOWS
 # ------------------
@@ -408,5 +404,3 @@ workflows:
       - publish_snapshot_release_crime_commons_classes:
           requires:
             - snapshot_release_approval
-
-
