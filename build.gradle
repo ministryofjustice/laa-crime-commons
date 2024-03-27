@@ -1,5 +1,5 @@
 plugins {
-    id "nebula.release" version "17.2.0"
+    id "com.javiersc.semver.project" version "0.5.0"
     id "org.sonarqube" version "4.0.0.2929"
     id "org.springframework.boot" version "3.1.5"
     id 'io.spring.dependency-management' version '1.1.4'
@@ -29,11 +29,6 @@ subprojects {
     }
 }
 
-nebulaRelease {
-    // Enable release from branches beginning with this pattern
-    addReleaseBranchPattern("/LCAM-/")
-}
-
 nexusPublishing {
     repositories {
         sonatype {
@@ -43,6 +38,9 @@ nexusPublishing {
             password = project.findProperty("sonatypePassword") ?: System.getenv("OSSRH_PASSWORD")
         }
     }
+    useStaging.set(provider {
+        !project.property("isSnapshot") as Boolean
+    })
 }
 
 sonar {
