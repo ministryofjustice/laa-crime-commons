@@ -38,6 +38,9 @@ nexusPublishing {
             password = project.findProperty("sonatypePassword") ?: System.getenv("OSSRH_PASSWORD")
         }
     }
+    useStaging.set(provider {
+        !project.property("isSnapshot") as Boolean
+    })
 }
 
 sonar {

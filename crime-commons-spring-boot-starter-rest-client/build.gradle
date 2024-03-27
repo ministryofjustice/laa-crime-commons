@@ -9,7 +9,7 @@ plugins {
 }
 
 semver {
-    tagPrefix.set("rc")
+    tagPrefix.set("rest-client-")
 }
 
 def versions = [
@@ -55,6 +55,7 @@ dependencies {
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
+
 publishing {
     publications {
         maven(MavenPublication) {
@@ -89,24 +90,7 @@ publishing {
             }
         }
     }
-    repositories {
-        maven {
-            if (project.hasProperty("semver.stage")) {
-                if (project.property("semver.stage") == "snapshot") {
-                    url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                } else {
-                    url = "https://s01.oss.sonatype.org/service/local/"
-                }
-            }
-            credentials {
-                username = project.findProperty("sonatypeUsername") ?: System.getenv("OSSRH_USERNAME")
-                password = project.findProperty("sonatypePassword") ?: System.getenv("OSSRH_PASSWORD")
-            }
-        }
-    }
 }
-
-
 
 signing {
     sign publishing.publications.maven
