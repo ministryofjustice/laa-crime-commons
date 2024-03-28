@@ -32,7 +32,7 @@ commands:
       type:
         type: enum
         default: "minor"
-        enum: [ "minor", "major", "patch", "snapshot" ]
+        enum: ["minor", "major", "patch", "snapshot"]
         description: Specifies the type of release (major, minor, patch, snapshot)
       tagPrefix:
         default: "rest-client-"
@@ -51,14 +51,14 @@ commands:
             - v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
       - when:
           condition:
-            equal: [ "major", << parameters.type >> ]
+            equal: ["major", << parameters.type >>]
           steps:
             - run:
                 name: Publish major release to Maven Central
                 command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
-            equal: [ "minor", << parameters.type >> ]
+            equal: ["minor", << parameters.type >>]
           steps:
             - run:
                 name: Publish minor release to Maven Central
@@ -66,7 +66,7 @@ commands:
 
       - when:
           condition:
-            equal: [ "patch", << parameters.type >> ]
+            equal: ["patch", << parameters.type >>]
           steps:
             - run:
                 name: Publish patch release to Maven Central
@@ -74,7 +74,7 @@ commands:
 
       - when:
           condition:
-            equal: [ "snapshot", << parameters.type >> ]
+            equal: ["snapshot", << parameters.type >>]
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
