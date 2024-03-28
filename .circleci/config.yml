@@ -34,6 +34,14 @@ commands:
         default: "minor"
         enum: ["minor", "major", "patch", "snapshot"]
         description: Specifies the type of release (major, minor, patch, snapshot)
+      tagPrefix:
+        default: "rest-client-"
+        type: string
+        description: Tag prefix for semver plugin
+      module:
+        default: "crime-commons-spring-boot-starter-rest-client"
+        type: string
+        description: Module name for release and publish
     steps:
       - checkout
       - restore_cache:
@@ -80,6 +88,14 @@ commands:
         default: "minor"
         enum: ["minor", "major", "patch", "snapshot"]
         description: Specifies the type of release (major, minor, patch, snapshot)
+      tagPrefix:
+        default: "rest-client-"
+        type: string
+        description: Tag prefix for semver plugin
+      module:
+        default: "crime-commons-spring-boot-starter-rest-client"
+        type: string
+        description: Module name for release and publish
     steps:
       - checkout
       - restore_cache:
@@ -115,7 +131,7 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=crime-commons-classes-" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   authenticate_host:
     description: >
@@ -264,6 +280,8 @@ jobs:
       - authenticate_host
       - publish_artefact_crime_commons_classes:
           type: snapshot
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
 
 # ------------------
 # WORKFLOWS
