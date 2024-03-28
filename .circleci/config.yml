@@ -25,97 +25,60 @@ executors:
 # COMMANDS
 # ------------------
 commands:
-  publish_artefact_rest_client:
+  publish_artefact:
     description: >
       Publish artefact to Maven Central
     parameters:
       type:
         type: enum
         default: "minor"
-        enum: ["minor", "major", "patch", "snapshot"]
+        enum: [ "minor", "major", "patch", "snapshot" ]
         description: Specifies the type of release (major, minor, patch, snapshot)
+      tagPrefix:
+        default: "rest-client-"
+        type: string
+        description: Tag prefix for semver plugin
+      module:
+        default: "crime-commons-spring-boot-starter-rest-client"
+        type: string
+        description: Module name for release and publish
     steps:
       - checkout
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
             - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
-      - when:
-          condition:
-            equal: ["major", << parameters.type >>]
-          steps:
-            - run:
-                name: Publish major release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=rest-client-" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
-      - when:
-          condition:
-            equal: ["minor", << parameters.type >>]
-          steps:
-            - run:
-                name: Publish minor release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=rest-client-" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
-
-      - when:
-          condition:
-            equal: ["patch", << parameters.type >>]
-          steps:
-            - run:
-                name: Publish patch release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=rest-client-" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
-
-      - when:
-          condition:
-            equal: ["snapshot", << parameters.type >>]
-          steps:
-            - run:
-                name: Publish snapshot release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=rest-client-" :crime-commons-spring-boot-starter-rest-client:publishToSonatype closeAndReleaseSonatypeStagingRepository
-
-  publish_artefact_crime_commons_classes:
-    description: >
-      Publish artefact to Maven Central
-    parameters:
-      type:
-        type: enum
-        default: "minor"
-        enum: ["minor", "major", "patch", "snapshot"]
-        description: Specifies the type of release (major, minor, patch, snapshot)
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
             - v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
       - when:
           condition:
-            equal: ["major", << parameters.type >>]
+            equal: [ "major", << parameters.type >> ]
           steps:
             - run:
                 name: Publish major release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=crime-commons-classes-" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
-            equal: ["minor", << parameters.type >>]
+            equal: [ "minor", << parameters.type >> ]
           steps:
             - run:
                 name: Publish minor release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=crime-commons-classes-" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
-            equal: ["patch", << parameters.type >>]
+            equal: [ "patch", << parameters.type >> ]
           steps:
             - run:
                 name: Publish patch release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=crime-commons-classes-" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
-            equal: ["snapshot", << parameters.type >>]
+            equal: [ "snapshot", << parameters.type >> ]
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=crime-commons-classes-" :crime-commons-classes:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   authenticate_host:
     description: >
@@ -185,8 +148,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_rest_client:
+      - publish_artefact:
           type: major
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
 
   publish_minor_release_rest_client:
     executor: openjdk-executor
@@ -196,8 +161,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_rest_client:
+      - publish_artefact:
           type: minor
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
 
   publish_patch_release_rest_client:
     executor: openjdk-executor
@@ -207,8 +174,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_rest_client:
+      - publish_artefact:
           type: patch
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
 
   publish_snapshot_release_rest_client:
     executor: openjdk-executor
@@ -218,8 +187,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_rest_client:
+      - publish_artefact:
           type: snapshot
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
 
   publish_major_release_crime_commons_classes:
     executor: openjdk-executor
@@ -229,8 +200,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_commons_classes:
+      - publish_artefact:
           type: major
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
 
   publish_minor_release_crime_commons_classes:
     executor: openjdk-executor
@@ -240,8 +213,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_commons_classes:
+      - publish_artefact:
           type: minor
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
 
   publish_patch_release_crime_commons_classes:
     executor: openjdk-executor
@@ -251,8 +226,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_commons_classes:
+      - publish_artefact:
           type: patch
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
 
   publish_snapshot_release_crime_commons_classes:
     executor: openjdk-executor
@@ -262,8 +239,10 @@ jobs:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
-      - publish_artefact_crime_commons_classes:
+      - publish_artefact:
           type: snapshot
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
 
 # ------------------
 # WORKFLOWS
