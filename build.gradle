@@ -39,8 +39,8 @@ nexusPublishing {
         }
     }
     useStaging.set(provider {
-        !project.property("isSnapshot") as Boolean
-    })
+        !(project.property("isSnapshot").toString()).toBoolean()
+    } as Provider<? extends Boolean>)
 }
 
 sonar {
