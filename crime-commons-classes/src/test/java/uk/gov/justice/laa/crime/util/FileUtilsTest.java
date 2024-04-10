@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.justice.laa.crime.exception.FileReadException;
 
 import java.io.File;
 import java.io.UTFDataFormatException;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
-public class FileUtilsTest {
+class FileUtilsTest {
 
     @Test
     void verifyThatFileIsReadToStringWhenSpecifiedFileExists() {
@@ -24,14 +25,14 @@ public class FileUtilsTest {
 
     @Test
     void verifyThatRuntimeExceptionIsThrownWhenSpecifiedFileDoesNotExist() {
-        assertThrows(RuntimeException.class, () -> FileUtils.readFileToString("data/nofileexists.json"));
+        assertThrows(FileReadException.class, () -> FileUtils.readFileToString("data/nofileexists.json"));
     }
 
     @Test
     void verifyThatRunTimeExceptionIsThrownOnValidIOException() {
         try(MockedStatic<org.apache.commons.io.FileUtils> fileUtils = Mockito.mockStatic(org.apache.commons.io.FileUtils.class)) {
             fileUtils.when(() -> org.apache.commons.io.FileUtils.readFileToString(any(File.class), any(Charset.class))).thenThrow(UTFDataFormatException.class);
-            assertThrows(RuntimeException.class, () -> FileUtils.readFileToString("data/reporder_dto.json"));
+            assertThrows(FileReadException.class, () -> FileUtils.readFileToString("data/reporder_dto.json"));
         }
     }
 
