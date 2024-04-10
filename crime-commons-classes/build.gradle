@@ -12,9 +12,10 @@ semver {
 }
 
 def versions = [
-        jacksonDatabind                      : "2.0.1",
-        jacksonCore                          : "2.16.0",
-        jakartaValidation                    : "3.0.2"
+        jacksonDatabind  : "2.0.1",
+        jacksonCore      : "2.16.0",
+        jakartaValidation: "3.0.2",
+        commonsioVersion : "2.16.1"
 ]
 
 java {
@@ -47,6 +48,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonCore
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonCore
     implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
+    implementation group: 'commons-io', name: 'commons-io', version: versions.commonsioVersion
 
     implementation "org.apache.commons:commons-lang3"
 
