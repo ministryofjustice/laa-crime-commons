@@ -16,7 +16,7 @@ public class FileUtils {
     /**
      * Read the entire contents of a file and return it as a String.
      *
-     * @param filePath e.g. "data/repoder_dto.json"
+     * @param filePath e.g. "data/reporder_dto.json"
      * @return String representation of the file contents
      */
     public String readFileToString(String filePath) {
