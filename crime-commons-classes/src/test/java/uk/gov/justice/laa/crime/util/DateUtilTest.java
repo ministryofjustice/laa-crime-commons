@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -100,5 +101,17 @@ class DateUtilTest {
     @Test
     void givenAValidLocalDate_whenGetLocalDateStringIsInvoked_thenReturnCorrectString() {
         assertThat(DateUtil.getLocalDateString(LocalDate.of(2023, 10, 6))).isEqualTo("06-Oct-2023");
+    }
+
+    @Test
+    void givenAValidLocalDateTime_whenToZonedDateTimeIsInvoked_thenReturnZonedDateTime() {
+        ZonedDateTime expected = ZonedDateTime.parse("2011-12-03T10:15:30.342+00:00");
+        ZonedDateTime actual = DateUtil.toZonedDateTime(LocalDateTime.parse("2011-12-03T10:15:30.342"));
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void givenNullLocalDateTime_whenToZonedDateTimeIsInvoked_thenReturnNull() {
+        assertThat(DateUtil.toZonedDateTime(null)).isNull();
     }
 }
