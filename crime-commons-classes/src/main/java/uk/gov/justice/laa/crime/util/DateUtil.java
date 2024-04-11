@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -45,4 +46,8 @@ public class DateUtil {
         return (date != null) ? date.atTime(0, 0) : null;
     }
 
+    public static ZonedDateTime toZonedDateTime(LocalDateTime localDateTime) {
+        return (localDateTime == null) ? null :
+        ZonedDateTime.parse(localDateTime.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    }
 }
