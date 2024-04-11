@@ -1,0 +1,378 @@
+{
+  "id": 5788163,
+  "caseId": "vvelp-300",
+  "catyCaseType": "INDICTABLE",
+  "appealTypeCode": null,
+  "arrestSummonsNo": "2011999999999999ASND",
+  "userModified": "HUB",
+  "dateCreated": "2024-03-01",
+  "dateModified": "2024-03-01T18:00:25",
+  "magsOutcome": "SENT FOR TRIAL",
+  "magsOutcomeDate": "01-MAR-24",
+  "magsOutcomeDateSet": "2024-03-01T16:43:17",
+  "committalDate": "2023-11-14",
+  "decisionReasonCode": "GRANTED",
+  "crownRepOrderDecision": "Granted - Failed Means Test",
+  "crownRepOrderType": "Through Order",
+  "crownRepOrderDate": "2024-03-01",
+  "assessmentDateCompleted": "2024-03-01",
+  "sentenceOrderDate": null,
+  "evidenceFeeLevel": null,
+  "rorsStatus": "CURR",
+  "passportAssessments": [],
+  "financialAssessments": [
+    {
+      "id": 3102714,
+      "repId": null,
+      "initialAscrId": 34,
+      "assessmentType": "FULL",
+      "newWorkReason": "FMA",
+      "dateCreated": "2024-03-01T16:47:33",
+      "userCreated": "test-s",
+      "cmuId": 253,
+      "fassInitStatus": "COMPLETE",
+      "initialAssessmentDate": "2024-03-01T00:00:00",
+      "initOtherBenefitNote": null,
+      "initOtherIncomeNote": null,
+      "initTotAggregatedIncome": 18000,
+      "initAdjustedIncomeValue": 18000,
+      "initNotes": null,
+      "initResult": "FULL",
+      "initResultReason": "Gross income in between the upper and lower thresholds",
+      "incomeEvidenceDueDate": null,
+      "incomeUpliftRemoveDate": null,
+      "incomeUpliftApplyDate": null,
+      "incomeEvidenceNotes": null,
+      "initApplicationEmploymentStatus": "EMPLOY",
+      "fassFullStatus": "COMPLETE",
+      "fullAssessmentDate": "2024-03-01T00:00:00",
+      "fullResultReason": "Disposable income above the threshold",
+      "fullAssessmentNotes": null,
+      "fullResult": "FAIL",
+      "fullAdjustedLivingAllowance": 5676,
+      "fullTotalAnnualDisposableIncome": 12323,
+      "fullOtherHousingNote": null,
+      "fullTotalAggregatedExpenses": 5677,
+      "fullAscrId": 34,
+      "valid": "Y",
+      "dateCompleted": "2024-03-01T16:48:06",
+      "updated": "2024-03-01T16:48:07.37176",
+      "userModified": "test-s",
+      "usn": null,
+      "rtCode": null,
+      "replaced": "N",
+      "firstReminderDate": null,
+      "secondReminderDate": null,
+      "evidenceReceivedDate": null,
+      "assessmentDetails": [
+        {
+          "id": 45768813,
+          "criteriaDetailId": 135,
+          "applicantAmount": 18000,
+          "applicantFrequency": "ANNUALLY",
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.753792"
+        },
+        {
+          "id": 45768814,
+          "criteriaDetailId": 136,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.755482"
+        },
+        {
+          "id": 45768815,
+          "criteriaDetailId": 137,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.75683"
+        },
+        {
+          "id": 45768816,
+          "criteriaDetailId": 138,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.758072"
+        },
+        {
+          "id": 45768817,
+          "criteriaDetailId": 139,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.759254"
+        },
+        {
+          "id": 45768818,
+          "criteriaDetailId": 140,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.760416"
+        },
+        {
+          "id": 45768819,
+          "criteriaDetailId": 141,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.76157"
+        },
+        {
+          "id": 45768820,
+          "criteriaDetailId": 142,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.762722"
+        },
+        {
+          "id": 45768821,
+          "criteriaDetailId": 143,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.764945"
+        },
+        {
+          "id": 45768822,
+          "criteriaDetailId": 144,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.766119"
+        },
+        {
+          "id": 45768823,
+          "criteriaDetailId": 145,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.767301"
+        },
+        {
+          "id": 45768824,
+          "criteriaDetailId": 132,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.769552"
+        },
+        {
+          "id": 45768825,
+          "criteriaDetailId": 133,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.770725"
+        },
+        {
+          "id": 45768826,
+          "criteriaDetailId": 134,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:47:33.771872"
+        },
+        {
+          "id": 45768827,
+          "criteriaDetailId": 128,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.071671"
+        },
+        {
+          "id": 45768828,
+          "criteriaDetailId": 129,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.073194"
+        },
+        {
+          "id": 45768829,
+          "criteriaDetailId": 130,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.074508"
+        },
+        {
+          "id": 45768830,
+          "criteriaDetailId": 131,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.075679"
+        },
+        {
+          "id": 45768831,
+          "criteriaDetailId": 146,
+          "applicantAmount": 0,
+          "applicantFrequency": "ANNUALLY",
+          "partnerAmount": 0,
+          "partnerFrequency": "ANNUALLY",
+          "dateModified": "2024-03-01T16:48:07.077203"
+        },
+        {
+          "id": 45768832,
+          "criteriaDetailId": 125,
+          "applicantAmount": 1,
+          "applicantFrequency": "ANNUALLY",
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.078355"
+        },
+        {
+          "id": 45768833,
+          "criteriaDetailId": 126,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.079639"
+        },
+        {
+          "id": 45768834,
+          "criteriaDetailId": 127,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.08078"
+        },
+        {
+          "id": 45768835,
+          "criteriaDetailId": 147,
+          "applicantAmount": 0,
+          "applicantFrequency": null,
+          "partnerAmount": 0,
+          "partnerFrequency": null,
+          "dateModified": "2024-03-01T16:48:07.081951"
+        }
+      ],
+      "childWeightings": [
+        {
+          "id": 21129097,
+          "childWeightingId": 37,
+          "noOfChildren": 0
+        },
+        {
+          "id": 21129098,
+          "childWeightingId": 38,
+          "noOfChildren": 0
+        },
+        {
+          "id": 21129099,
+          "childWeightingId": 39,
+          "noOfChildren": 0
+        },
+        {
+          "id": 21129100,
+          "childWeightingId": 40,
+          "noOfChildren": 0
+        },
+        {
+          "id": 21129101,
+          "childWeightingId": 41,
+          "noOfChildren": 0
+        },
+        {
+          "id": 21129102,
+          "childWeightingId": 42,
+          "noOfChildren": 0
+        },
+        {
+          "id": 21129103,
+          "childWeightingId": 43,
+          "noOfChildren": 0
+        }
+      ],
+      "finAssIncomeEvidences": [
+        {
+          "id": 238586838,
+          "dateReceived": null,
+          "dateCreated": "2024-03-01T16:47:36.872842",
+          "userCreated": "test-s",
+          "dateModified": "2024-03-01T16:48:07.37176",
+          "userModified": "test-s",
+          "active": "Y",
+          "removedDate": null,
+          "mandatory": "Y",
+          "otherText": null,
+          "adhoc": null,
+          "incomeEvidence": "NINO",
+          "applicant": 238586833
+        },
+        {
+          "id": 238586839,
+          "dateReceived": null,
+          "dateCreated": "2024-03-01T16:47:36.872842",
+          "userCreated": "test-s",
+          "dateModified": "2024-03-01T16:48:07.37176",
+          "userModified": "test-s",
+          "active": "Y",
+          "removedDate": null,
+          "mandatory": "Y",
+          "otherText": null,
+          "adhoc": null,
+          "incomeEvidence": "WAGE SLIP",
+          "applicant": 238586833
+        }
+      ]
+    }
+  ],
+  "contributions": [
+    {
+      "id": 238586879,
+      "applId": 238586833,
+      "repId": null,
+      "contributionFileId": null,
+      "effectiveDate": "2024-03-01",
+      "calcDate": "2024-03-01",
+      "contributionCap": 29453,
+      "monthlyContributions": 924,
+      "upfrontContributions": 4620,
+      "upliftApplied": "N",
+      "basedOn": "Means",
+      "transferStatus": "REQUESTED",
+      "dateUpliftApplied": null,
+      "dateUpliftRemoved": null,
+      "dateCreated": "2024-03-01T16:48:07.379144",
+      "userCreated": "test-s",
+      "dateModified": "2024-03-01T16:54:07.45278",
+      "userModified": "test-s",
+      "createContributionOrder": "Y",
+      "correspondenceId": null,
+      "active": "Y",
+      "replacedDate": null,
+      "latest": true,
+      "ccOutcomeCount": 0,
+      "seHistoryId": null
+    }
+  ],
+  "repOrderCCOutcome": [],
+  "iojAppeal": []
+}
