@@ -86,17 +86,22 @@ See below for more information on our versioning strategy for published modules.
 
 ### Version Management
 
-The Nebula Release Gradle plugin is used to implement [Semantic versioning](https://semver.org/).
+The Semver Gradle Plugin is used to implement [Semantic versioning](https://semver.org/).
 
 Once the Jar files for each module have been built in CircleCI, the latest commit will be tagged with
 a new version number, by default, the minor version number is incremented. However, It is possible to manually bump other parts of the version string:
 
-* bump the major number: ```./gradlew final -Prelease.scope=major```
-* bump the patch number: ```./gradlew final -Prelease.scope=patch```
+#### For 'crime-commons-spring-boot-starter-rest-client' module:
+* bump the major number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=rest-client-"```
+* bump the patch number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=rest-client-"```
+
+
+#### For 'crime-commons-classes' module:
+* bump the major number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=crime-commons-classes-"```
+* bump the patch number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=crime-commons-classes-"```
 
 New releases will be automatically tagged and published when changes are merged into the main branch. Artifacts can also be published
 from feature branches, however, these require manual approval through CircleCI.
-
 
 ## Contributing
 
