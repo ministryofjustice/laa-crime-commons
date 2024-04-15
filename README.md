@@ -2,9 +2,8 @@
 
 This repository contains shared libraries that support laa crime microservices.
 
-It currently contains a single module (**crime-commons-spring-boot-starter**) that autoconfigures web clients for 
+It currently contains a single module (**crime-commons-spring-boot-starter**) that autoconfigures web clients for
 communicating with other services and also provides several related utility classes.
-
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/ministryofjustice/laa-crime-commons/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ministryofjustice/laa-crime-commons/tree/main)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -16,10 +15,11 @@ communicating with other services and also provides several related utility clas
 
 ### Pre-requisites
 
-* JDK 17
-* Spring Boot 3.0.4
+- JDK 17
+- Spring Boot 3.0.4
 
 Install dependencies and build modules with Gradle:
+
 ```
 ./gradlew clean build
 ```
@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.example:package'
 }
 ```
+
 3. Add the repository to your build.gradle file
 
 ```groovy
@@ -65,7 +66,7 @@ The Jacoco Gradle plugin is used to generate coverage reports:
 ```
 
 These are used by SonarCloud to evaluate code quality and maintainability. Jacoco coverage reports are auto generated when builds
-are performed through CircleCI or new changes are merged into the main branch. 
+are performed through CircleCI or new changes are merged into the main branch.
 
 Click the SonarCloud badge above to view these metrics.
 
@@ -77,6 +78,7 @@ Each time changes are merged into the main branch, a new release is tagged and p
 To perform a manual release, you will need to authenticate with GitHub (see above).
 
 This enables you to run the following command:
+
 ```
 ./gradlew publish
 ```
@@ -92,20 +94,21 @@ Once the Jar files for each module have been built in CircleCI, the latest commi
 a new version number, by default, the minor version number is incremented. However, It is possible to manually bump other parts of the version string:
 
 #### For 'crime-commons-spring-boot-starter-rest-client' module:
-* bump the major number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=rest-client-"```
-* bump the patch number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=rest-client-"```
 
+- bump the major number: `./gradlew "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=rest-client-"`
+- bump the patch number: `./gradlew "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=rest-client-"`
 
 #### For 'crime-commons-classes' module:
-* bump the major number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=crime-commons-classes-"```
-* bump the patch number: ```./gradlew "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=crime-commons-classes-"```
+
+- bump the major number: `./gradlew "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=crime-commons-classes-"`
+- bump the patch number: `./gradlew "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=crime-commons-classes-"`
 
 New releases will be automatically tagged and published when changes are merged into the main branch. Artifacts can also be published
 from feature branches, however, these require manual approval through CircleCI.
 
 ## Contributing
 
-Bug reports and pull requests are welcome. However, please make sure your changes are covered by tests and follow modern software development best practices. 
+Bug reports and pull requests are welcome. However, please make sure your changes are covered by tests and follow modern software development best practices.
 Otherwise, it is likely that your changes will be rejected.
 
 1. Clone the project (`git clone https://github.com/ministryofjustice/laa-crime-commons.git`)
@@ -113,5 +116,3 @@ Otherwise, it is likely that your changes will be rejected.
 3. Commit until you are happy with your contribution (`git commit -am 'Add some feature'`)
 4. Push the branch (`git push origin my-new-feature`)
 5. Open a new pull request, specifying your changes in detail.
-
-
