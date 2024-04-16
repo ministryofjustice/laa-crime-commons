@@ -1,0 +1,64 @@
+{
+  "title": "Case Details",
+  "description": "Represents the details of the case for which the application for Legal Aid is related to.",
+  "type": "object",
+  "properties": {
+    "urn": {
+      "type": "string",
+      "nullable": true,
+      "description": "The Unique Reference Number for the case e.g. 12AB3456789"
+    },
+    "caseType": {
+      "type": "string",
+      "description": "The case type, based on data from TOGDATA.CASE_TYPES table. Note 'COMMITAL' is spelt as it appears in the DB and no attempt has been made to correct it to 'COMMITTAL'",
+      "enum": ["INDICTABLE", "SUMMARY ONLY", "CC ALREADY", "APPEAL CC", "COMMITAL", "EITHER WAY"]
+    },
+    "offenceClass": {
+      "type": "string",
+      "description": "The class to which the offence is classified as. Note that different offences can be under the same class",
+      "enum": [
+        "MURDER",
+        "SERIOUS VIOL/DRUGS",
+        "LESSER VIOL/DRUGS",
+        "SEX",
+        "BURGLARY",
+        "DISHONESTY < 30K",
+        "DISHONESTY 30K-100K",
+        "OTHER",
+        "REVENUE/PUBLIC ORDER",
+        "COMPLEX SEX",
+        "DISHONESTY > 100K"
+      ],
+      "javaEnumNames": [
+        "MURDER",
+        "SERIOUS_VIOL_DRUGS",
+        "LESSER_VIOL_DRUGS",
+        "SEX",
+        "BURGLARY",
+        "DISHONESTY_LT_30_K",
+        "DISHONESTY_30_K_100_K",
+        "OTHER",
+        "REVENUE_PUBLIC_ORDER",
+        "COMPLEX_SEX",
+        "DISHONESTY_GT_100_K"
+      ]
+    },
+    "appealMaatId": {
+      "type": "string",
+      "nullable": true
+    },
+    "appealWithChangesMaatId": {
+      "type": "string",
+      "nullable": true
+    },
+    "appealWithChangesDetails": {
+      "type": "string",
+      "nullable": true
+    },
+    "appealReceivedDate": {
+      "type": "string",
+      "nullable": true
+    }
+  },
+  "required": ["caseType", "offenceClass"]
+}

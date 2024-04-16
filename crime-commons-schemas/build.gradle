@@ -1,0 +1,95 @@
+plugins {
+    id "com.javiersc.semver.project" version "0.5.0"
+    id "signing"
+    id "maven-publish"
+    id 'org.jsonschema2dataclass' version '6.0.0'
+}
+
+semver {
+    tagPrefix.set("crime-commons-schemas-")
+}
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+def versions = [
+        jacksonVersion   : "2.17.0",
+        validationapiVersion: '2.0.1.Final'
+]
+
+dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
+    implementation "javax.validation:validation-api:$versions.validationapiVersion"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+
+            from components.java
+
+            pom {
+                artifactId = project.name
+                name = "Crime Apps Common Schemas"
+                url = "https://github.com/ministryofjustice/laa-crime-commons"
+                description = "A library of shared Crime Apps schemas"
+
+                licenses {
+                    license {
+                        name = "MIT"
+                        url = "https://opensource.org/licenses/MIT"
+                    }
+                }
+                organization {
+                    name = "Justice Digital"
+                }
+                developers {
+                    developer {
+                        id = "Michael"
+                        name = "Michael Clancy"
+                        email = "michael.clancy@digital.justice.gov.uk"
+                    }
+                }
+                scm {
+                    url = "https://github.com/ministryofjustice/laa-crime-commons.git"
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.maven
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+}
+
+jsonSchema2Pojo {
+    executions {
+        main {
+            io.source.setFrom files("${project.rootDir}/crime-commons-schemas/src/main/resources/schemas")
+            klass.targetPackage = 'uk.gov.justice.laa.crime.model.common'
+            klass.jackson2InclusionLevel = "NON_EMPTY"
+            methods.builders = true
+            methods.annotateJsr303 = true
+            methods.buildersDynamic = true
+            fields.floatUseBigDecimal = true
+            dateTime.dateTimeType = "java.time.LocalDateTime"
+        }
+    }
+}
+
+tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigMain")
+
+
+
+
+

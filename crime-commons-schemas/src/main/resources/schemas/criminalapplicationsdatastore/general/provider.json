@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "ministryofjustice/laa-criminal-legal-aid-schemas/main/schemas/1.0/general/provider.json",
+  "title": "Provider",
+  "description": "Holds common attributes of a provider",
+  "type": "object",
+  "properties": {
+    "office_code": { "type": "string" },
+    "provider_email": { "type": "string" },
+    "legal_rep_first_name": { "type": "string" },
+    "legal_rep_last_name": { "type": "string" },
+    "legal_rep_telephone": { "type": "string" }
+  },
+  "required": ["office_code", "provider_email", "legal_rep_first_name", "legal_rep_last_name", "legal_rep_telephone"]
+}

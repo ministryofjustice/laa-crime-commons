@@ -1,0 +1,190 @@
+{
+  "type": "object",
+  "description": "Means assessment application object",
+  "properties": {
+    "statusReason": {
+      "type": "string",
+      "description": "Currently has a fixed value of current."
+    },
+    "solicitorName": {
+      "type": "string",
+      "description": "The full name of the solicitor."
+    },
+    "repId": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "maatRef": {
+      "type": "integer",
+      "nullable": true,
+      "description": "The MAAT reference for the associated with the USN"
+    },
+    "applicationType": {
+      "type": "string",
+      "nullable": true,
+      "description": "The type of application, possible values include New application, and initial."
+    },
+    "caseDetails": {
+      "$ref": "#/definitions/caseDetails"
+    },
+    "magsCourt": {
+      "$ref": "#/definitions/magistrateCourt"
+    },
+    "interestsOfJustice": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/interestsOfJustice"
+      },
+      "description": "(IOJ)"
+    },
+    "areaId": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "usn": {
+      "type": "number",
+      "description": "Each eForms application has an ID (created by eForms) called the USN (Unique Sequence Number)"
+    },
+    "commonPlatformData": {
+      "type": "object",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "caseId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "offence": {
+      "type": "object",
+      "nullable": true,
+      "description": "Currently not populated.",
+      "properties": {
+        "offenceType": {
+          "type": "string"
+        }
+      },
+      "required": ["offenceType"]
+    },
+    "arrestSummonsNumber": {
+      "type": "string",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "solicitorAdminEmail": {
+      "type": "string"
+    },
+    "courtCustody": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "welshCorrespondence": {
+      "type": "boolean",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "dateCreated": {
+      "type": "string",
+      "format": "date",
+      "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    },
+    "dateStamp": {
+      "type": "string",
+      "format": "date",
+      "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    },
+    "hearingDate": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "The date of the next hearing for the case."
+    },
+    "committalDate": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "dateOfSignature": {
+      "type": "string",
+      "format": "date",
+      "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    },
+    "dateReceived": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "applicant": {
+      "$ref": "#/definitions/applicant"
+    },
+    "supplier": {
+      "$ref": "#/definitions/supplier"
+    },
+    "passported": {
+      "$ref": "#/definitions/passported"
+    },
+    "assessment": {
+      "type": "object",
+      "description": "Means assessment information",
+      "properties": {
+        "initialMeansAssessment": {
+          "$ref": "#/definitions/initialMeansAssessment"
+        },
+        "fullMeansAssessment": {
+          "$ref": "#/definitions/fullMeansAssessment"
+        }
+      }
+    },
+    "capitalEquity": {
+      "type": "object",
+      "nullable": true,
+      "description": "Capital equity information - not required for Iteration 1"
+    },
+    "iojBypass": {
+      "description": "Indicates whether the Interests of Justice was skipped or not",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "statusReason",
+    "applicationType",
+    "caseDetails",
+    "magsCourt",
+    "usn",
+    "solicitorName",
+    "solicitorAdminEmail",
+    "courtCustody",
+    "dateCreated",
+    "passported"
+  ],
+  "definitions": {
+    "applicant": {
+      "$ref": "common/applicant.json"
+    },
+    "supplier": {
+      "$ref": "common/supplier.json"
+    },
+    "caseDetails": {
+      "$ref": "common/caseDetails.json"
+    },
+    "magistrateCourt": {
+      "$ref": "common/magistrateCourt.json"
+    },
+    "interestsOfJustice": {
+      "$ref": "common/interestOfJustice.json"
+    },
+    "passported": {
+      "$ref": "common/passported.json"
+    },
+    "initialMeansAssessment": {
+      "$ref": "common/initialMeansAssessment.json"
+    },
+    "fullMeansAssessment": {
+      "$ref": "common/fullMeansAssessment.json"
+    }
+  }
+}

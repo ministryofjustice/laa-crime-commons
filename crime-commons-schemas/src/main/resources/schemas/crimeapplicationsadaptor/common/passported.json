@@ -1,0 +1,41 @@
+{
+  "title": "Passported",
+  "description": "Details relevant to the passported status of the applicant, typically based on offence and offence class.",
+  "type": "object",
+  "properties": {
+    "benefitIncomeSupport": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "benefitGuaranteedStatePension": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "benefitJobSeeker": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "benefitUniversalCredit": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "benefitEmploymentSupport": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "benefitClaimedByPartner": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "whoDwpChecked": {
+      "type": "string",
+      "nullable": true,
+      "description": "Currently has a fixed value of 'null'",
+      "enum": ["PARTNER", "APPLICANT"]
+    },
+    "meansPassport": {
+      "type": "string",
+      "nullable": true
+    }
+  }
+}
