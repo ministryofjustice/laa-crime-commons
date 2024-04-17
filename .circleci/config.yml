@@ -244,6 +244,58 @@ jobs:
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
 
+  publish_major_release_crime_commons_schemas:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-schemas
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact:
+          type: major
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+
+  publish_minor_release_crime_commons_schemas:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-schemas
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact:
+          type: minor
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+
+  publish_patch_release_crime_commons_schemas:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-schemas
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact:
+          type: patch
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+
+  publish_snapshot_release_crime_commons_schemas:
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons/crime-commons-schemas
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
+      - authenticate_host
+      - publish_artefact:
+          type: snapshot
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+
 # ------------------
 # WORKFLOWS
 # ------------------
@@ -381,5 +433,72 @@ workflows:
             - snyk_scan
 
       - publish_snapshot_release_crime_commons_classes:
+          requires:
+            - snapshot_release_approval
+
+  build_publish_main_crime_commons_schemas:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only:
+                - main
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - major_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_major_release_crime_commons_schemas:
+          requires:
+            - major_release_approval
+
+      - minor_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_minor_release_crime_commons_schemas:
+          requires:
+            - minor_release_approval
+
+      - patch_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_patch_release_crime_commons_schemas:
+          requires:
+            - patch_release_approval
+
+  build_publish_branch_crime_commons_schemas:
+    jobs:
+      - branch_build_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - main
+
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - snapshot_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_snapshot_release_crime_commons_schemas:
           requires:
             - snapshot_release_approval
