@@ -101,7 +101,6 @@ public class RestClientAutoConfiguration {
                 filters.add(WebClientFilters.retryFilter(retryConfiguration));
                 filters.add(WebClientFilters.handleErrorResponse());
             });
-            webClientBuilder.observationRegistry(ObservationRegistry.create());
         };
     }
 
@@ -150,6 +149,7 @@ public class RestClientAutoConfiguration {
                         clientRegistrations, authorizedClients
                 )
         ));
+        builder.observationRegistry(ObservationRegistry.create());
         return builder.build();
     }
 
@@ -172,6 +172,7 @@ public class RestClientAutoConfiguration {
         builder.filters(filters ->
                 filters.add(0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager)
                 ));
+        builder.observationRegistry(ObservationRegistry.create());
         return builder.build();
     }
 
