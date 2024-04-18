@@ -1,6 +1,5 @@
 package uk.gov.justice.laa.crime.commons.config;
 
-import io.micrometer.observation.ObservationRegistry;
 import io.netty.resolver.DefaultAddressResolverGroup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -149,7 +148,6 @@ public class RestClientAutoConfiguration {
                         clientRegistrations, authorizedClients
                 )
         ));
-        builder.observationRegistry(ObservationRegistry.create());
         return builder.build();
     }
 
@@ -172,7 +170,6 @@ public class RestClientAutoConfiguration {
         builder.filters(filters ->
                 filters.add(0, new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager)
                 ));
-        builder.observationRegistry(ObservationRegistry.create());
         return builder.build();
     }
 

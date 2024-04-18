@@ -52,6 +52,7 @@ dependencies {
 
     implementation "org.apache.commons:commons-lang3"
 
+    compileOnly 'io.projectreactor:reactor-core'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
