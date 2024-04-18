@@ -13,7 +13,7 @@ import reactor.core.publisher.Hooks;
 @Order(2)
 @Component
 @Slf4j
-public class ContextPropagationInitializingSingleton implements ApplicationRunner {
+public class ContextPropagationInitialiser implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
