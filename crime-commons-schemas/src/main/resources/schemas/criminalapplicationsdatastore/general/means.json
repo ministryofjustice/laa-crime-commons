@@ -269,6 +269,300 @@
         }
       },
       "required": []
+    },
+    "capital_details": {
+      "type": "object",
+      "properties": {
+        "premium_bonds_total_value": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "trust_fund_amount_held": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "savings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "saving_type": {
+                "type": "string",
+                "enum": ["bank", "building_society", "cash_isa", "national_savings_or_post_office", "other"]
+              },
+              "account_balance": {
+                "type": "integer"
+              },
+              "provider_name": {
+                "type": "string"
+              },
+              "sort_code": {
+                "type": "string"
+              },
+              "ownership_type": {
+                "type": "string",
+                "enum": ["applicant", "applicant_and_partner", "partner"]
+              },
+              "is_overdrawn": {
+                "type": "string",
+                "enum": ["yes", "no"]
+              },
+              "account_number": {
+                "type": "string"
+              },
+              "are_wages_paid_into_account": {
+                "type": "string",
+                "enum": ["yes", "no"]
+              }
+            },
+            "required": [
+              "saving_type",
+              "account_balance",
+              "provider_name",
+              "sort_code",
+              "ownership_type",
+              "is_overdrawn",
+              "account_number",
+              "are_wages_paid_into_account"
+            ]
+          }
+        },
+        "national_savings_certificates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "integer"
+              },
+              "holder_number": {
+                "type": "string"
+              },
+              "ownership_type": {
+                "type": "string",
+                "enum": ["applicant", "partner"]
+              },
+              "certificate_number": {
+                "type": "string"
+              }
+            },
+            "required": ["value", "holder_number", "ownership_type", "certificate_number"]
+          }
+        },
+        "investments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "investment_type": {
+                "type": "string",
+                "enum": ["bond", "pep", "share", "share_isa", "stock", "unit_trust", "other"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "value": {
+                "type": "integer"
+              },
+              "ownership_type": {
+                "type": "string",
+                "enum": ["applicant", "applicant_and_partner", "partner"]
+              }
+            },
+            "required": ["investment_type", "value", "description", "ownership_type"]
+          }
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "property_type": {
+                "type": "string",
+                "enum": ["residential", "commercial", "land"]
+              },
+              "house_type": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "enum": ["bungalow", "detached", "flat_or_maisonette", "semidetached", "terraced", "other", null]
+              },
+              "other_house_type": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "bedrooms": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              },
+              "value": {
+                "type": "integer"
+              },
+              "outstanding_mortgage": {
+                "type": "integer"
+              },
+              "percentage_applicant_owned": {
+                "type": "number"
+              },
+              "percentage_partner_owned": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "is_home_address": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["yes", "no"]
+                  }
+                ]
+              },
+              "address": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ],
+                "address_line_one": {
+                  "type": "string"
+                },
+                "address_line_two": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "city": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "postcode": {
+                  "type": "string"
+                }
+              },
+              "property_owners": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "relationship": {
+                      "type": "string",
+                      "enum": [
+                        "business_associates",
+                        "ex_partner",
+                        "family_members",
+                        "friends",
+                        "house_builder",
+                        "housing_association",
+                        "local_authority",
+                        "partner_with_a_contrary_interest",
+                        "property_company",
+                        "other"
+                      ]
+                    },
+                    "other_relationship": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "percentage_owned": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": ["name", "relationship", "percentage_owned"]
+              },
+              "has_other_owners": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["yes", "no"]
+                  }
+                ]
+              },
+              "usage": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "size_in_acres": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              }
+            }
+          },
+          "required": ["property_type", "value", "outstanding_mortgage", "percentage_applicant_owned", "has_other_owners"]
+        }
+      },
+      "required": []
     }
   },
   "required": []
