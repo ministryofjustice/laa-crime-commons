@@ -57,6 +57,7 @@
     },
     "appealReceivedDate": {
       "type": "string",
+      "format": "date",
       "nullable": true
     }
   },

@@ -87,12 +87,12 @@
     },
     "dateCreated": {
       "type": "string",
-      "format": "date",
+      "format": "date-time",
       "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     },
     "dateStamp": {
       "type": "string",
-      "format": "date",
+      "format": "date-time",
       "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     },
     "hearingDate": {
@@ -109,7 +109,7 @@
     },
     "dateOfSignature": {
       "type": "string",
-      "format": "date",
+      "format": "date-time",
       "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     },
     "dateReceived": {
