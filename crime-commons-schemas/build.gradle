@@ -21,12 +21,12 @@ configurations {
 
 def versions = [
         jacksonVersion   : "2.17.0",
-        validationapiVersion: '2.0.1.Final'
+        validationapiVersion: '3.0.2'
 ]
 
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "javax.validation:validation-api:$versions.validationapiVersion"
+    implementation "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
 }
 
 publishing {
@@ -79,9 +79,10 @@ jsonSchema2Pojo {
             klass.targetPackage = 'uk.gov.justice.laa.crime.model.common'
             klass.jackson2InclusionLevel = "NON_EMPTY"
             methods.builders = true
-            methods.annotateJsr303 = true
+            methods.annotateJsr303Jakarta = true
             methods.buildersDynamic = true
             fields.floatUseBigDecimal = true
+            dateTime.dateType = "java.time.LocalDate"
             dateTime.dateTimeType = "java.time.LocalDateTime"
         }
     }
