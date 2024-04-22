@@ -135,7 +135,7 @@ jobs:
     parameters:
       release_type:
         type: enum
-        enum: [ "minor", "major", "patch", "snapshot" ]
+        enum: ["minor", "major", "patch", "snapshot"]
         description: Specifies the type of release (major, minor, patch, snapshot)
       module:
         type: string
@@ -185,7 +185,7 @@ workflows:
           tagPrefix: "rest-client-"
           requires:
             - major_release_approval
-          name:  "Publish major release: rest client"
+          name: "Publish major release: rest client"
 
       - minor_release_approval:
           type: approval
@@ -198,7 +198,7 @@ workflows:
           tagPrefix: "rest-client-"
           requires:
             - minor_release_approval
-          name:  "Publish minor release: rest client"
+          name: "Publish minor release: rest client"
 
       - patch_release_approval:
           type: approval
@@ -211,7 +211,7 @@ workflows:
           tagPrefix: "rest-client-"
           requires:
             - patch_release_approval
-          name:  "Publish patch release: rest client"
+          name: "Publish patch release: rest client"
 
   build_publish_branch_rest_client:
     jobs:
@@ -242,7 +242,7 @@ workflows:
           tagPrefix: "rest-client-"
           requires:
             - snapshot_release_approval
-          name:  "Publish snapshot release: rest client"
+          name: "Publish snapshot release: rest client"
 
   build_publish_main_crime_commons_classes:
     jobs:
@@ -268,7 +268,7 @@ workflows:
           tagPrefix: "crime-commons-classes-"
           requires:
             - major_release_approval
-          name:  "Publish major release: commons classes"
+          name: "Publish major release: commons classes"
 
       - minor_release_approval:
           type: approval
@@ -281,7 +281,7 @@ workflows:
           tagPrefix: "crime-commons-classes-"
           requires:
             - minor_release_approval
-          name:  "Publish minor release: commons classes"
+          name: "Publish minor release: commons classes"
 
       - patch_release_approval:
           type: approval
@@ -294,7 +294,7 @@ workflows:
           tagPrefix: "crime-commons-classes-"
           requires:
             - patch_release_approval
-          name:  "Publish patch release: commons classes"
+          name: "Publish patch release: commons classes"
 
   build_publish_branch_crime_commons_classes:
     jobs:
@@ -325,7 +325,7 @@ workflows:
           tagPrefix: "crime-commons-classes-"
           requires:
             - snapshot_release_approval
-          name:  "Publish snapshot release: commons classes"
+          name: "Publish snapshot release: commons classes"
 
   build_publish_main_crime_commons_schemas:
     jobs:
@@ -351,7 +351,7 @@ workflows:
           tagPrefix: "crime-commons-schemas-"
           requires:
             - major_release_approval
-          name:  "Publish major release: commons schemas"
+          name: "Publish major release: commons schemas"
 
       - minor_release_approval:
           type: approval
@@ -364,7 +364,7 @@ workflows:
           tagPrefix: "crime-commons-schemas-"
           requires:
             - minor_release_approval
-          name:  "Publish minor release: commons schemas"
+          name: "Publish minor release: commons schemas"
 
       - patch_release_approval:
           type: approval
@@ -377,8 +377,7 @@ workflows:
           tagPrefix: "crime-commons-schemas-"
           requires:
             - patch_release_approval
-          name:  "Publish patch release: commons schemas"
-
+          name: "Publish patch release: commons schemas"
 
   build_publish_branch_crime_commons_schemas:
     jobs:
@@ -409,4 +408,4 @@ workflows:
           tagPrefix: "crime-commons-schemas-"
           requires:
             - snapshot_release_approval
-          name:  "Publish snapshot release: commons schemas"
+          name: "Publish snapshot release: commons schemas"
