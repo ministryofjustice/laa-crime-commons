@@ -9,9 +9,8 @@ semver {
     tagPrefix.set("crime-commons-schemas-")
 }
 
-java {
-    sourceCompatibility = '1.8'
-}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
     compileOnly {
