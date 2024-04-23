@@ -85,6 +85,10 @@
       "nullable": true,
       "description": "Currently not populated."
     },
+    "callEform": {
+      "type": "boolean",
+      "default": false
+    },
     "dateCreated": {
       "type": "string",
       "format": "date-time",
