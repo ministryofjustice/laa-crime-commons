@@ -1,0 +1,31 @@
+{
+  "title": "ThirdPartOwner",
+  "description": "Some other people who have some ownership in a property.",
+  "type": "object",
+  "properties": {
+    "ownerRelation": {
+      "type": "string",
+      "enum": [
+        "EX_PARTNER",
+        "BUILDER",
+        "HOUSING_ASSOC",
+        "FAMILY",
+        "FRIENDS",
+        "BUSINESS",
+        "PPROPERTY_CO",
+        "LOCAL_AUTH",
+        "NOT_DEC",
+        "PARTNER_CONT",
+        "OTHER"
+      ]
+    },
+    "otherRelation": {
+      "type": "string",
+      "description": "The owner's relation."
+    },
+    "ownerName": {
+      "type": "string",
+      "description": "The owner's name."
+    }
+  }
+}

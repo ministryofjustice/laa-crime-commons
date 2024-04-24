@@ -1,0 +1,27 @@
+{
+  "title": "Interest Of Justice",
+  "description": "Details of one of the merits of the case (interest of justice)",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "loss_of_liberty",
+        "suspended_sentence",
+        "loss_of_livelihood",
+        "reputation",
+        "question_of_law",
+        "understanding",
+        "witness_tracing",
+        "expert_examination",
+        "interest_of_another",
+        "other"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": ["type", "reason"]
+}
