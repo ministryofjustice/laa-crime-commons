@@ -1,0 +1,31 @@
+{
+  "title": "CapitalOther",
+  "description": "Some other capital.",
+  "type": "object",
+  "properties": {
+    "capitalType": {
+      "type": "string",
+      "enum": ["SAVINGS", "CASH ISA", "PREMIUM BONDS", "TRUST FUND", "SHARES", "PEPS", "SHARE ISA", "STOCKS", "INVESTMENT", "OTHER"]
+    },
+    "assetAmount": {
+      "type": "number",
+      "description": "Asset amount."
+    },
+    "otherDescription": {
+      "type": "string",
+      "description": "Some other description."
+    },
+    "bankName": {
+      "type": "string",
+      "description": "The bank's name."
+    },
+    "branchSortCode": {
+      "type": "string",
+      "description": "The bank's sort code."
+    },
+    "accountOwner": {
+      "type": "string",
+      "enum": ["APPLICANT", "JOINT", "PARTNER"]
+    }
+  }
+}

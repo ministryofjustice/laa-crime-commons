@@ -358,4 +358,25 @@ class RestAPIClientTest {
     record MockRequestBody() {
     }
 
+
+    @Test
+    void givenCorrectParams_whenPatchIsInvoked_thenGetApiResponseIsCalled()
+            throws JsonProcessingException {
+
+        MockRequestBody request = new MockRequestBody();
+        setupValidResponseTest(new MockResponse(MOCK_REP_ID));
+        ParameterizedTypeReference<MockResponse> typeReference = new ParameterizedTypeReference<>() {
+        };
+        restAPIClient.patch(request, typeReference, MOCK_URL, MOCK_HEADERS);
+
+        verify(restAPIClient)
+                .getApiResponse(request,
+                        typeReference,
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.PATCH,
+                        null
+                );
+    }
+
 }

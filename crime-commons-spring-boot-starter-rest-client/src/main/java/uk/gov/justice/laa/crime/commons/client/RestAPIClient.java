@@ -227,4 +227,19 @@ public class RestAPIClient {
                 .block();
     }
 
+
+    /**
+     * Sends a HTTP PATCH request
+     *
+     * @param <T>          the type of the request body
+     * @param <R>          the return type
+     * @param requestBody  the request body
+     * @param typeReference specifies the class/type used for deserialization
+     * @param url          the url
+     * @param headers      the map of headers
+     * @return the decoded response body
+     */
+    public <T, R> R patch(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {
+        return getApiResponse(requestBody, typeReference, url, headers, HttpMethod.PATCH, null, urlVariables);
+    }
 }

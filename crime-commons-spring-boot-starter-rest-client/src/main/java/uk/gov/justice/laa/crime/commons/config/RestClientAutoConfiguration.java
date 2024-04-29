@@ -299,4 +299,15 @@ public class RestClientAutoConfiguration {
         return new RestAPIClient(webClient, "validation");
     }
 
+    /**
+     * Configures a <code>RestApiClient</code> bean if an OAuth2 configuration for the Cat service is found
+     *
+     * @param webClient the web client
+     * @return the rest api client
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.security.oauth2.client.provider.cat.token-uri")
+    RestAPIClient catApiClient(WebClient webClient) {
+        return new RestAPIClient(webClient, "cat");
+    }
 }

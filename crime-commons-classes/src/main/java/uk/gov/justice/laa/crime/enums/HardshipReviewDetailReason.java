@@ -37,4 +37,11 @@ public enum HardshipReviewDetailReason {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Hardship review detail reason: %s does not exist.", reason)));
     }
+
+    public static HardshipReviewDetailReason getFrom(int id) {
+        return Stream.of(HardshipReviewDetailReason.values())
+                .filter(hardshipReviewDetailReason -> hardshipReviewDetailReason.id == id)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Hardship review detail reason: %s does not exist.", id)));
+    }
 }

@@ -34,26 +34,34 @@ commands:
         default: "minor"
         enum: ["minor", "major", "patch", "snapshot"]
         description: Specifies the type of release (major, minor, patch, snapshot)
+      tagPrefix:
+        default: "rest-client-"
+        type: string
+        description: Tag prefix for semver plugin
+      module:
+        default: "crime-commons-spring-boot-starter-rest-client"
+        type: string
+        description: Module name for release and publish
     steps:
       - checkout
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "build.gradle" }}
       - when:
           condition:
             equal: ["major", << parameters.type >>]
           steps:
             - run:
                 name: Publish major release to Maven Central
-                command: ./gradlew final -Prelease.scope=major publish publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
       - when:
           condition:
             equal: ["minor", << parameters.type >>]
           steps:
             - run:
                 name: Publish minor release to Maven Central
-                command: ./gradlew final publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=minor" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -61,7 +69,7 @@ commands:
           steps:
             - run:
                 name: Publish patch release to Maven Central
-                command: ./gradlew final -Prelease.scope=patch publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=false" "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - when:
           condition:
@@ -69,7 +77,7 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew snapshot publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   authenticate_host:
     description: >
@@ -94,14 +102,10 @@ jobs:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "build.gradle" }}
       - run:
           name: Build library and run tests
-          command: ./gradlew shadowJar crime-commons-spring-boot-starter-rest-client:build
-      - run:
-          name: Build library and run tests
-          command: ./gradlew crime-commons-classes:build
+          command: ./gradlew clean build shadowJar
       - run:
           name: Run SonarQube
           command: ./gradlew sonar
@@ -112,11 +116,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
       - persist_to_workspace:
           root: .
           paths:
@@ -131,49 +131,29 @@ jobs:
       - snyk/scan:
           <<: *snyk_options
 
-  publish_major_release:
+  publish_release:
+    parameters:
+      release_type:
+        type: enum
+        enum: ["minor", "major", "patch", "snapshot"]
+        description: Specifies the type of release (major, minor, patch, snapshot)
+      module:
+        type: string
+        description: Module name for release and publish
+      tagPrefix:
+        type: string
+        description: Tag prefix for semver plugin
     executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
+    working_directory: ~/laa-crime-commons/<< parameters.module >>
     steps:
       - add_ssh_keys:
           fingerprints:
             - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
       - authenticate_host
       - publish_artefact:
-          type: major
-
-  publish_minor_release:
-    executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
-      - authenticate_host
-      - publish_artefact:
-          type: minor
-
-  publish_patch_release:
-    executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
-      - authenticate_host
-      - publish_artefact:
-          type: patch
-
-  publish_snapshot_release:
-    executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "6b:a8:8f:5d:a4:fc:7e:03:b2:0f:e2:a5:0a:ae:8f:8b"
-      - authenticate_host
-      - publish_artefact:
-          type: snapshot
+          type: << parameters.release_type >>
+          module: << parameters.module >>
+          tagPrefix: << parameters.tagPrefix >>
 
 # ------------------
 # WORKFLOWS
@@ -181,7 +161,7 @@ jobs:
 workflows:
   version: 2
 
-  build_publish_main:
+  build_publish_main_rest_client:
     jobs:
       - build_and_test:
           filters:
@@ -199,29 +179,41 @@ workflows:
           requires:
             - snyk_scan
 
-      - publish_major_release:
+      - publish_release:
+          release_type: "major"
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
           requires:
             - major_release_approval
+          name: "Publish major release: rest client"
 
       - minor_release_approval:
           type: approval
           requires:
             - snyk_scan
 
-      - publish_minor_release:
+      - publish_release:
+          release_type: "minor"
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
           requires:
             - minor_release_approval
+          name: "Publish minor release: rest client"
 
       - patch_release_approval:
           type: approval
           requires:
             - snyk_scan
 
-      - publish_patch_release:
+      - publish_release:
+          release_type: "patch"
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
           requires:
             - patch_release_approval
+          name: "Publish patch release: rest client"
 
-  build_publish_branch:
+  build_publish_branch_rest_client:
     jobs:
       - branch_build_approval:
           type: approval
@@ -244,6 +236,176 @@ workflows:
           requires:
             - snyk_scan
 
-      - publish_snapshot_release:
+      - publish_release:
+          release_type: "snapshot"
+          module: "crime-commons-spring-boot-starter-rest-client"
+          tagPrefix: "rest-client-"
           requires:
             - snapshot_release_approval
+          name: "Publish snapshot release: rest client"
+
+  build_publish_main_crime_commons_classes:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only:
+                - main
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - major_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "major"
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
+          requires:
+            - major_release_approval
+          name: "Publish major release: commons classes"
+
+      - minor_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "minor"
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
+          requires:
+            - minor_release_approval
+          name: "Publish minor release: commons classes"
+
+      - patch_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "patch"
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
+          requires:
+            - patch_release_approval
+          name: "Publish patch release: commons classes"
+
+  build_publish_branch_crime_commons_classes:
+    jobs:
+      - branch_build_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - main
+
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - snapshot_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "snapshot"
+          module: "crime-commons-classes"
+          tagPrefix: "crime-commons-classes-"
+          requires:
+            - snapshot_release_approval
+          name: "Publish snapshot release: commons classes"
+
+  build_publish_main_crime_commons_schemas:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only:
+                - main
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - major_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "major"
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+          requires:
+            - major_release_approval
+          name: "Publish major release: commons schemas"
+
+      - minor_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "minor"
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+          requires:
+            - minor_release_approval
+          name: "Publish minor release: commons schemas"
+
+      - patch_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "patch"
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+          requires:
+            - patch_release_approval
+          name: "Publish patch release: commons schemas"
+
+  build_publish_branch_crime_commons_schemas:
+    jobs:
+      - branch_build_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - main
+
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - snapshot_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "snapshot"
+          module: "crime-commons-schemas"
+          tagPrefix: "crime-commons-schemas-"
+          requires:
+            - snapshot_release_approval
+          name: "Publish snapshot release: commons schemas"

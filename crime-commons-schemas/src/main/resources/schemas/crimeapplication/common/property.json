@@ -1,0 +1,50 @@
+{
+  "title": "Property",
+  "description": "The applicant's property.",
+  "type": "object",
+  "properties": {
+    "propertyType": {
+      "type": "string",
+      "enum": ["TERRACE", "DETACHED", "SEMI", "FLAT", "MAISONETTE", "BUNGALOW", "COMMERCIAL", "LAND", "OTHER"]
+    },
+    "bedrooms": {
+      "type": "string",
+      "description": "This is the number bedrooms. If there are more than six it's 6+."
+    },
+    "declaredMortgageCharges": {
+      "type": "number",
+      "description": "Declared mortgage charges."
+    },
+    "declaredMarketValue": {
+      "type": "number",
+      "description": "Declared market value."
+    },
+    "percentageOwnedApplicant": {
+      "type": "number",
+      "description": "Percentage applicant owned."
+    },
+    "percentageOwnedPartner": {
+      "type": "number",
+      "description": "Percentage partner owned."
+    },
+    "address": {
+      "$ref": "#/definitions/address",
+      "nullable": true
+    },
+    "thirdPartyOwner": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/thirdPartyOwner"
+      },
+      "description": "Third party owner."
+    }
+  },
+  "definitions": {
+    "address": {
+      "$ref": "address.json"
+    },
+    "thirdPartyOwner": {
+      "$ref": "thirdPartyOwner.json"
+    }
+  }
+}

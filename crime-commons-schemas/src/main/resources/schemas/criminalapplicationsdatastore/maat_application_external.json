@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "ministryofjustice/laa-criminal-legal-aid-schemas/main/schemas/1.0/maat_application.json",
+  "title": "An application for criminal legal aid for MAAT",
+  "description": "Attributes of a criminal legal aid application for MAAT",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "schema_version": { "type": "number" },
+    "reference": { "type": "integer" },
+    "application_type": { "type": "string", "enum": ["initial", "post_submission_evidence", "change_in_financial_circumstances"] },
+    "submitted_at": { "type": "string", "format": "date-time", "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" },
+    "declaration_signed_at": { "type": "string", "format": "date-time", "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" },
+    "date_stamp": { "type": "string", "format": "date-time", "customDateTimePattern": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" },
+    "ioj_bypass": {
+      "description": "Indicates whether the Interests of Justice page was skipped or not",
+      "type": "boolean"
+    },
+    "means_passport": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["on_age_under18", "on_benefit_check"] }
+    },
+    "provider_details": {
+      "$ref": "#/definitions/provider"
+    },
+    "client_details": {
+      "type": "object",
+      "properties": {
+        "applicant": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string" },
+            "last_name": { "type": "string" },
+            "other_names": { "type": ["string", "null"] },
+            "date_of_birth": { "type": "string", "format": "date" },
+            "nino": { "type": ["string", "null"] },
+            "benefit_type": { "type": ["string", "null"], "enum": ["universal_credit", "guarantee_pension", "jsa", "esa", "income_support", null] },
+            "telephone_number": { "type": ["string", "null"] },
+            "correspondence_address_type": { "type": "string", "enum": ["other_address", "home_address", "providers_office_address"] },
+            "home_address": { "$ref": "#/definitions/address" },
+            "correspondence_address": { "$ref": "#/definitions/address" }
+          },
+          "required": ["first_name", "last_name", "date_of_birth", "correspondence_address_type"]
+        }
+      },
+      "required": ["applicant"]
+    },
+    "case_details": {
+      "type": "object",
+      "properties": {
+        "urn": { "type": ["string", "null"] },
+        "case_type": {
+          "type": "string",
+          "enum": [
+            "summary_only",
+            "either_way",
+            "indictable",
+            "already_in_crown_court",
+            "committal",
+            "appeal_to_crown_court",
+            "appeal_to_crown_court_with_changes"
+          ]
+        },
+        "appeal_maat_id": { "type": ["string", "null"] },
+        "appeal_lodged_date": { "type": ["string", "null"], "format": "date" },
+        "appeal_with_changes_details": { "type": ["string", "null"] },
+        "offence_class": { "type": ["string", "null"], "enum": ["A", "K", "G", "B", "I", "J", "D", "C", "H", "F", "E", null] },
+        "hearing_court_name": { "type": "string" },
+        "hearing_date": { "type": "string", "format": "date" }
+      },
+      "required": ["case_type", "hearing_court_name", "hearing_date", "offence_class"]
+    },
+    "means_details": { "$ref": "#/definitions/means" }
+  },
+  "required": [
+    "id",
+    "schema_version",
+    "reference",
+    "application_type",
+    "submitted_at",
+    "date_stamp",
+    "declaration_signed_at",
+    "ioj_bypass",
+    "means_passport",
+    "provider_details",
+    "client_details",
+    "case_details",
+    "means_details"
+  ],
+  "definitions": {
+    "provider": { "$ref": "general/provider.json" },
+    "address": { "$ref": "general/address.json" },
+    "means": { "$ref": "general/means.json" }
+  }
+}

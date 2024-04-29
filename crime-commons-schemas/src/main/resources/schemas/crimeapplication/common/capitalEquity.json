@@ -1,0 +1,36 @@
+{
+  "title": "CapitalEquity",
+  "description": "Capital and Equity object",
+  "type": "object",
+  "properties": {
+    "equity": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/property"
+      },
+      "description": "Array of properties"
+    },
+    "capitalProperty": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/property"
+      },
+      "description": "Array of properties, again"
+    },
+    "capital": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/capitalOther"
+      },
+      "description": "Array of other capital"
+    }
+  },
+  "definitions": {
+    "property": {
+      "$ref": "property.json"
+    },
+    "capitalOther": {
+      "$ref": "capitalOther.json"
+    }
+  }
+}

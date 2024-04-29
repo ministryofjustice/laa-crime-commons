@@ -37,4 +37,15 @@ class HardshipReviewDetailReasonTest {
         assertThat(7).isEqualTo(HardshipReviewDetailReason.EVIDENCE_SUPPLIED.getId());
     }
 
+    @Test
+    void givenValidReasonId_whenGetFromIsInvoked_thenCorrectEnumIsReturned() {
+        assertThat(HardshipReviewDetailReason.getFrom(7)).isEqualTo(HardshipReviewDetailReason.EVIDENCE_SUPPLIED);
+    }
+
+    @Test
+    void givenInvalidResultId_whenGetFromIsInvoked_thenExceptionIsThrown() {
+        assertThatThrownBy(
+                () -> HardshipReviewDetailReason.getFrom(99)
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
 }

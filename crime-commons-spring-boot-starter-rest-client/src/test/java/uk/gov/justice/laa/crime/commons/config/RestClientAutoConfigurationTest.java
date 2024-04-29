@@ -36,6 +36,8 @@ class RestClientAutoConfigurationTest {
     private static final String HARDSHIP_REGISTRATION_ID = "hardship";
     private static final String CCC_REGISTRATION_ID = "ccc";
     private static final String CCP_REGISTRATION_ID = "ccp";
+    private static final String CAT_REGISTRATION_ID = "cat";
+
     private static final String VALIDATION_REGISTRATION_ID = "validation";
     private static final String CDA_API_CLIENT_BEAN = "cdaApiClient";
     private static final String MAAT_API_CLIENT_BEAN = "maatApiClient";
@@ -45,6 +47,8 @@ class RestClientAutoConfigurationTest {
     private static final String HARDSHIP_API_CLIENT_BEAN = "hardshipApiClient";
     private static final String CCC_API_CLIENT_BEAN = "cccApiClient";
     private static final String CCP_API_CLIENT_BEAN = "ccpApiClient";
+    private static final String CAT_API_CLIENT_BEAN = "catApiClient";
+
     private static final String VALIDATION_API_CLIENT_BEAN = "validationApiClient";
     private static final String REGISTRATION_PREFIX = "spring.security.oauth2.client.registration";
     private static final String SPRING_CLOUD_PREFIX = "spring.cloud.aws";
@@ -262,6 +266,7 @@ class RestClientAutoConfigurationTest {
                 .run((context) -> assertThat(context).doesNotHaveBean(CCP_API_CLIENT_BEAN));
     }
 
+
     @Test
     void restApiClientConfigurerConfiguresCcpApiClient() {
         this.contextRunner
@@ -269,6 +274,24 @@ class RestClientAutoConfigurationTest {
                 .withPropertyValues(getOAuthPropertyValuesForClient(CCP_REGISTRATION_ID))
                 .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".ccp.token-uri=mock-url")
                 .run((context) -> assertThat(context).hasBean(CCP_API_CLIENT_BEAN));
+    }
+
+
+    @Test
+    void catApiClientIsConditionalOnOAuthConfiguration() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(CAT_REGISTRATION_ID))
+                .run((context) -> assertThat(context).doesNotHaveBean(CAT_API_CLIENT_BEAN));
+    }
+
+    @Test
+    void restApiClientConfigurerConfiguresCatApiClient() {
+        this.contextRunner
+                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withPropertyValues(getOAuthPropertyValuesForClient(CAT_REGISTRATION_ID))
+                .withPropertyValues(OAUTH_CLIENT_PROVIDER_PREFIX + ".cat.token-uri=mock-url")
+                .run((context) -> assertThat(context).hasBean(CAT_API_CLIENT_BEAN));
     }
 
     @Test
