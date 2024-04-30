@@ -102,10 +102,17 @@ jobs:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
       - run:
           name: Build library and run tests
-          command: ./gradlew clean build shadowJar
+          command: ./gradlew shadowJar crime-commons-spring-boot-starter-rest-client:build
+      - run:
+          name: Build library and run tests
+          command: ./gradlew crime-commons-classes:build
+      - run:
+          name: Build library and run tests
+          command: ./gradlew crime-commons-schemas:build
       - run:
           name: Run SonarQube
           command: ./gradlew sonar
@@ -116,7 +123,15 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "crime-commons-schemas/build.gradle" }}
       - persist_to_workspace:
           root: .
           paths:
