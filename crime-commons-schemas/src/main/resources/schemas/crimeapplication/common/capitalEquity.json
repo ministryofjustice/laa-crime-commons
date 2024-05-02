@@ -23,6 +23,10 @@
         "$ref": "#/definitions/capitalOther"
       },
       "description": "Array of other capital"
+    },
+    "residentialStatus": {
+      "type": "string",
+      "enum": ["OWNER", "TENANT", "TEMP", "PARENTS", null]
     }
   },
   "definitions": {
