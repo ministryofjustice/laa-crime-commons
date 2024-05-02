@@ -424,3 +424,89 @@ workflows:
           requires:
             - snapshot_release_approval
           name: "Publish snapshot release: commons schemas"
+
+
+  build_publish_main_crime_commons_spring_utils:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only:
+                - main
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - major_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "major"
+          module: "crime-commons-spring-utils"
+          tagPrefix: "crime-commons-spring-utils-"
+          requires:
+            - major_release_approval
+          name: "Publish major release: commons spring utils"
+
+      - minor_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "minor"
+          module: "crime-commons-spring-utils"
+          tagPrefix: "crime-commons-spring-utils-"
+          requires:
+            - minor_release_approval
+          name: "Publish minor release: commons spring utils"
+
+      - patch_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "patch"
+          module: "crime-commons-spring-utils"
+          tagPrefix: "crime-commons-spring-utils-"
+          requires:
+            - patch_release_approval
+          name: "Publish patch release: commons spring utils"
+
+
+
+  build_publish_branch_crime_commons_spring_utils:
+    jobs:
+      - branch_build_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - main
+
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - snapshot_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "snapshot"
+          module: "crime-commons-spring-utils"
+          tagPrefix: "crime-commons-spring-utils-"
+          requires:
+            - snapshot_release_approval
+          name: "Publish snapshot release: commons spring utils"

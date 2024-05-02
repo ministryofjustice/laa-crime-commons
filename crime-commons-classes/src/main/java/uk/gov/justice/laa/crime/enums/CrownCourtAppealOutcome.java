@@ -1,8 +1,8 @@
 package uk.gov.justice.laa.crime.enums;
 
-import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import uk.gov.justice.laa.crime.exception.ValidationException;
 
 import java.util.Optional;

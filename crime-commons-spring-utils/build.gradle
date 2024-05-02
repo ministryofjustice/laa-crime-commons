@@ -3,28 +3,23 @@ plugins {
     id "jacoco"
     id "signing"
     id "maven-publish"
+    id "org.springframework.boot" version "3.1.5"
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 semver {
-    tagPrefix.set("crime-commons-classes-")
+    tagPrefix.set("crime-commons-spring-utils-")
 }
 
 def versions = [
-        jacksonDatabind           : "2.0.1",
-        jacksonCore               : "2.16.0",
-        jakartaValidation         : "3.0.2",
-        commonsioVersion          : "2.16.1",
-        commonsLangVersion        : "3.14.0",
-        projectLombokVersion      : "1.18.32",
-        junitJupiterVersion       : "5.6.2",
-        mockitoCoreVersion        : "5.11.0",
-        mockitoJunitJupiterVersion: "5.11.0",
-        assertjCoreVersion        : "3.6.1"
+        jacksonDatabind  : "2.0.1",
+        jacksonCore      : "2.16.0",
+        jakartaValidation: "3.0.2",
+        commonsioVersion : "2.16.1"
 ]
 
 java {
     sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
 }
 
 configurations {
@@ -33,24 +28,23 @@ configurations {
     }
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 dependencies {
+
+    implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonCore
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonCore
-    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
-    implementation group: 'commons-io', name: 'commons-io', version: versions.commonsioVersion
-
-    implementation "org.apache.commons:commons-lang3:$versions.commonsLangVersion"
-
-    compileOnly "org.projectlombok:lombok:$versions.projectLombokVersion"
-    annotationProcessor "org.projectlombok:lombok:$versions.projectLombokVersion"
-
-    testImplementation "org.junit.jupiter:junit-jupiter:$versions.junitJupiterVersion"
-    testImplementation "org.assertj:assertj-core:$versions.assertjCoreVersion"
-    testImplementation "org.mockito:mockito-core:$versions.mockitoCoreVersion"
-    testImplementation "org.mockito:mockito-junit-jupiter:$versions.mockitoJunitJupiterVersion"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 publishing {
