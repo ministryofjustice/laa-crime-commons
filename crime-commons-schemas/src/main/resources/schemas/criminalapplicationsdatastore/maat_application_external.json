@@ -37,6 +37,10 @@
             "benefit_type": { "type": ["string", "null"], "enum": ["universal_credit", "guarantee_pension", "jsa", "esa", "income_support", null] },
             "telephone_number": { "type": ["string", "null"] },
             "correspondence_address_type": { "type": "string", "enum": ["other_address", "home_address", "providers_office_address"] },
+            "residence_type": {
+              "type": ["string", "null"],
+              "enum": ["rented", "temporary", "parents", "applicant_owned", "partner_owned", "joint_owned", "someone_else", "none", null]
+            },
             "home_address": { "$ref": "#/definitions/address" },
             "correspondence_address": { "$ref": "#/definitions/address" }
           },
