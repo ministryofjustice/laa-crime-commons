@@ -11,7 +11,11 @@ semver {
 }
 
 def versions = [
-        jacksonVersion   : "2.17.0"
+        jacksonVersion      : "2.17.0",
+        validationapiVersion: "2.0.1.Final",
+        crimeCommonsClasses : "3.12.0"
+
+
 ]
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -25,6 +29,8 @@ configurations {
 
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
+    implementation "javax.validation:validation-api:$versions.validationapiVersion"
+    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
 }
 
 publishing {
