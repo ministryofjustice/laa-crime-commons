@@ -114,7 +114,7 @@ jobs:
           name: Build crime-commons-schemas and run tests
           command: ./gradlew crime-commons-schemas:build
       - run:
-          name: Build crime-commons-schemas and run tests
+          name: Build crime-commons-mod-schemas and run tests
           command: ./gradlew crime-commons-mod-schemas:build
       - run:
           name: Run SonarQube
