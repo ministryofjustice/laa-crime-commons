@@ -43,7 +43,7 @@ publishing {
                 artifactId = project.name
                 name = "Crime Apps Common modernised services Schemas"
                 url = "https://github.com/ministryofjustice/laa-crime-commons"
-                description = "A Spring Boot auto-configuration library with all common classes"
+                description = "A library of shared modernised services schemas"
 
                 licenses {
                     license {
