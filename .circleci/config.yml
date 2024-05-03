@@ -104,6 +104,8 @@ jobs:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
             - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
             - v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-schemas/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
       - run:
           name: Build crime-commons-spring-boot-starter-rest-client and run tests
           command: ./gradlew shadowJar crime-commons-spring-boot-starter-rest-client:build
