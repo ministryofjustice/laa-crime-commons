@@ -114,6 +114,9 @@ jobs:
           name: Build crime-commons-schemas and run tests
           command: ./gradlew crime-commons-schemas:build
       - run:
+          name: Build crime-commons-schemas and run tests
+          command: ./gradlew crime-commons-mod-schemas:build
+      - run:
           name: Run SonarQube
           command: ./gradlew sonar
       - save_cache:
@@ -132,6 +135,10 @@ jobs:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "crime-commons-schemas/build.gradle" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
       - persist_to_workspace:
           root: .
           paths:
@@ -424,3 +431,86 @@ workflows:
           requires:
             - snapshot_release_approval
           name: "Publish snapshot release: commons schemas"
+
+  build_publish_main_crime_commons_mod_schemas:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only:
+                - main
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - major_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "major"
+          module: "crime-commons-mod-schemas"
+          tagPrefix: "crime-commons-mod-schemas-"
+          requires:
+            - major_release_approval
+          name: "Publish major release: commons mod schemas"
+
+      - minor_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "minor"
+          module: "crime-commons-mod-schemas"
+          tagPrefix: "crime-commons-mod-schemas-"
+          requires:
+            - minor_release_approval
+          name: "Publish minor release: commons mod schemas"
+
+      - patch_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "patch"
+          module: "crime-commons-mod-schemas"
+          tagPrefix: "crime-commons-mod-schemas-"
+          requires:
+            - patch_release_approval
+          name: "Publish patch release: commons mod schemas"
+
+  build_publish_branch_crime_commons_mod-schemas:
+    jobs:
+      - branch_build_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - main
+
+      - build_and_test:
+          requires:
+            - branch_build_approval
+          context: SonarCloud
+
+      - snyk_scan:
+          requires:
+            - build_and_test
+
+      - snapshot_release_approval:
+          type: approval
+          requires:
+            - snyk_scan
+
+      - publish_release:
+          release_type: "snapshot"
+          module: "crime-commons-mod-schemas"
+          tagPrefix: "crime-commons-mod-schemas-"
+          requires:
+            - snapshot_release_approval
+          name: "Publish snapshot release: commons mod schemas"
