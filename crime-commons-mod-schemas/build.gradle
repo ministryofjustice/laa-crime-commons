@@ -41,7 +41,7 @@ publishing {
 
             pom {
                 artifactId = project.name
-                name = "Crime Apps Common Classes"
+                name = "Crime Apps Common modernised services Schemas"
                 url = "https://github.com/ministryofjustice/laa-crime-commons"
                 description = "A Spring Boot auto-configuration library with all common classes"
 
@@ -56,9 +56,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id = "Muthu"
-                        name = "Muthu Subramanian"
-                        email = "muthu.subramanian@digital.justice.gov.uk"
+                        id = "Sriram"
+                        name = "Sriram Kasthuri"
+                        email = "sriram.kasthuri@digital.justice.gov.uk"
                     }
                 }
                 scm {
