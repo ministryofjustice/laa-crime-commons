@@ -2,6 +2,7 @@ package uk.gov.justice.laa.crime.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.sql.Timestamp;
@@ -14,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Slf4j
 public class DateUtil {
 
     public static final String DATE_FORMAT = "dd-MMM-yy";
@@ -60,6 +62,7 @@ public class DateUtil {
             try {
                 return LocalDateTime.ofInstant(DateUtils.parseDate(dateString, dateFormat).toInstant(), ZoneId.systemDefault());
             } catch (ParseException exception) {
+                log.info("Date parsing error - date {} and format {}", dateString, dateFormat);
                 throw new RuntimeException(exception);
             }
         }

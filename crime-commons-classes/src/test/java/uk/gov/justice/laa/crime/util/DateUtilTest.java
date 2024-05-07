@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static uk.gov.justice.laa.crime.util.DateUtil.DATE_FORMAT;
 
 class DateUtilTest {
@@ -126,5 +128,12 @@ class DateUtilTest {
         LocalDateTime actual = LocalDateTime.of(2022, 6, 5, 0, 0);
         LocalDateTime expected = DateUtil.stringToLocalDateTime("05-JUN-22", DATE_FORMAT);
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void givenInvalidDateString_whenStringToLocalDateTimeIsInvoked_ExceptionIsThrown() {
+        assertThatThrownBy(
+                () -> DateUtil.stringToLocalDateTime("date", DATE_FORMAT)
+        ).isInstanceOf(RuntimeException.class);
     }
 }
