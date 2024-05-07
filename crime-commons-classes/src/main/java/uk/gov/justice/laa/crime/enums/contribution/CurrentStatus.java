@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.contribution.staticdata.enums;
+package uk.gov.justice.laa.crime.enums.contribution;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.orchestration.enums.cat;
+package uk.gov.justice.laa.crime.enums.orchestration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
