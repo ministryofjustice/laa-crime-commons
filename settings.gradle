@@ -4,5 +4,5 @@ include 'crime-commons-samples'
 include 'crime-commons-spring-boot-starter-rest-client'
 include 'crime-commons-classes'
 include 'crime-commons-schemas'
-/*include 'crime-commons-mod-schemas'*/
+include 'crime-commons-mod-schemas'
 
