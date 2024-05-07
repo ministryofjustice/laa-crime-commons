@@ -2,8 +2,10 @@ package uk.gov.justice.laa.crime.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,6 +15,8 @@ import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateUtil {
+
+    public static final String DATE_FORMAT = "dd-MMM-yy";
 
     public static Date toDate(final LocalDateTime source) {
         return source != null ? Date.from(source.atZone(ZoneId.systemDefault()).toInstant()) : null;
@@ -48,6 +52,17 @@ public class DateUtil {
 
     public static ZonedDateTime toZonedDateTime(LocalDateTime localDateTime) {
         return (localDateTime == null) ? null :
-        ZonedDateTime.parse(localDateTime.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+                ZonedDateTime.parse(localDateTime.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    }
+
+    public static LocalDateTime stringToLocalDateTime(String dateString, String dateFormat) {
+        if (dateString != null) {
+            try {
+                return LocalDateTime.ofInstant(DateUtils.parseDate(dateString, dateFormat).toInstant(), ZoneId.systemDefault());
+            } catch (ParseException exception) {
+                throw new RuntimeException(exception);
+            }
+        }
+        return null;
     }
 }

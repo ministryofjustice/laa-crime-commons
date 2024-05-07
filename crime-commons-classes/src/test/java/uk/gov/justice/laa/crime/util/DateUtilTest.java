@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static uk.gov.justice.laa.crime.util.DateUtil.DATE_FORMAT;
 
 class DateUtilTest {
 
@@ -113,5 +114,17 @@ class DateUtilTest {
     @Test
     void givenNullLocalDateTime_whenToZonedDateTimeIsInvoked_thenReturnNull() {
         assertThat(DateUtil.toZonedDateTime(null)).isNull();
+    }
+
+    @Test
+    void givenNull_whenStringToLocalDateTimeIsInvoked_thenReturnNull() {
+        assertThat(DateUtil.stringToLocalDateTime(null, DATE_FORMAT)).isNull();
+    }
+
+    @Test
+    void givenValidDateString_whenStringToLocalDateTimeIsInvoked_thenLocalDateTimeIsReturned() {
+        LocalDateTime actual = LocalDateTime.of(2022, 6, 5, 0, 0);
+        LocalDateTime expected = DateUtil.stringToLocalDateTime("05-JUN-22", DATE_FORMAT);
+        assertThat(actual).isEqualTo(expected);
     }
 }
