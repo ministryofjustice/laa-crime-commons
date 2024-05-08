@@ -61,5 +61,12 @@
     }
   },
   "additionalProperties": false,
-  "required": ["repId", "caseType", "dateReceived", "crownCourtSummary", "iojAppeal", "financialAssessment"]
+  "required": [
+    "repId",
+    "caseType",
+    "dateReceived",
+    "crownCourtSummary",
+    "iojAppeal",
+    "financialAssessment"
+  ]
 }

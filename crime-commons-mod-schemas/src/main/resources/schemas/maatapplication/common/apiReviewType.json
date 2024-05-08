@@ -14,5 +14,8 @@
     }
   },
   "additionalProperties": false,
-  "required": ["code", "description"]
+  "required": [
+    "code",
+    "description"
+  ]
 }

@@ -7,12 +7,12 @@
     "assessmentType": {
       "type": "object",
       "description": "The type of assessment",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.contribution.AssessmentType"
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.AssessmentType"
     },
     "status": {
       "type": "object",
       "description": "The assessment status",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.contribution.CurrentStatus"
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.CurrentStatus"
     },
     "result": {
       "type": "object",
@@ -31,5 +31,5 @@
   },
   "additionalProperties": false,
   "required": ["assessmentType", "status", "result"],
-  "javaType": "uk.gov.justice.laa.crime.contribution.model.common.ApiAssessment"
+  "javaType": "uk.gov.justice.laa.crime.common.model.contribution.common.ApiAssessment"
 }

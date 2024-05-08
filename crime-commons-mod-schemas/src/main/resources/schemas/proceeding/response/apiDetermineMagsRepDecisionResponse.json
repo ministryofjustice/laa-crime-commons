@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiDetermineMagsRepDecisionResponse.json",
+  "type": "object",
+  "title": "Determine Mags Rep Decision Response Schema",
+  "properties": {
+    "decisionResult": {
+      "type": "object",
+      "description": "The result of the decision",
+      "existingJavaType": "uk.gov.justice.laa.crime.crowncourt.model.MagsDecisionResult"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["decisionResult"]
+}

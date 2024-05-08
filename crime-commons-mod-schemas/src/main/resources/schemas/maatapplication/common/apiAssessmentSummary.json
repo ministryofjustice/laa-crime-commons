@@ -32,5 +32,11 @@
     }
   },
   "additionalProperties": false,
-  "required": ["id", "type", "assessmentDate", "status", "result"]
+  "required": [
+    "id",
+    "type",
+    "assessmentDate",
+    "status",
+    "result"
+  ]
 }

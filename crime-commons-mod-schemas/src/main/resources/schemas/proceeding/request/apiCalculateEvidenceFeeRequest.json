@@ -16,13 +16,13 @@
     "evidenceFee": {
       "type": "object",
       "description": "Evidence Fee",
-      "$ref": "common/apiEvidenceFee.json"
+      "$ref": "../common/apiEvidenceFee.json"
     },
     "capitalEvidence": {
       "type": "array",
       "description": "List of Capital Evidence",
       "items": {
-        "$ref": "common/apiCapitalEvidence.json"
+        "$ref": "../common/apiCapitalEvidence.json"
       }
     },
     "incomeEvidenceReceivedDate": {

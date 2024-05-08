@@ -34,5 +34,9 @@
     }
   },
   "additionalProperties": false,
-  "required": ["criteriaDetailsId", "applicantAmount", "applicantFrequency"]
+  "required": [
+    "criteriaDetailsId",
+    "applicantAmount",
+    "applicantFrequency"
+  ]
 }
