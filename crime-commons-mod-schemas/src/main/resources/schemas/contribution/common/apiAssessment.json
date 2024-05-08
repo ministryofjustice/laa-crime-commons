@@ -7,12 +7,12 @@
     "assessmentType": {
       "type": "object",
       "description": "The type of assessment",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.AssessmentType"
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.contribution.AssessmentType"
     },
     "status": {
       "type": "object",
       "description": "The assessment status",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.CurrentStatus"
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.contribution.CurrentStatus"
     },
     "result": {
       "type": "object",

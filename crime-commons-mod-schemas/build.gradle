@@ -13,7 +13,7 @@ semver {
 def versions = [
         jacksonVersion      : "2.17.0",
         validationapiVersion: "2.0.1.Final",
-        crimeCommonsClasses : "3.17.0"
+        crimeCommonsClasses : "3.18.0"
 
 
 ]

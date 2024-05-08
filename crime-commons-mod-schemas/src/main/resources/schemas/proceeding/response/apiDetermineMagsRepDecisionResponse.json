@@ -7,7 +7,7 @@
     "decisionResult": {
       "type": "object",
       "description": "The result of the decision",
-      "existingJavaType": "uk.gov.justice.laa.crime.crowncourt.model.MagsDecisionResult"
+      "existingJavaType": "uk.gov.justice.laa.crime.proceeding.MagsDecisionResult"
     }
   },
   "additionalProperties": false,
