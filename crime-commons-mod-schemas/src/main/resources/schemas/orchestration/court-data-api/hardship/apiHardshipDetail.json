@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "ApiHardshipDetail.json",
+  "type": "object",
+  "title": "Hardship Review Details Schema",
+  "description": "Data contract for Hardship Review Detail Items in the Court Data API",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Hardship Review Detail ID"
+    },
+    "frequency": {
+      "type": "object",
+      "description": "The Frequency of Applicant",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.Frequency"
+    },
+    "amount": {
+      "type": "number",
+      "description": "The amount under consideration"
+    },
+    "dateDue": {
+      "type": "string",
+      "description": "The date the Hardship Review Detail item is due",
+      "format": "date-time"
+    },
+    "accepted": {
+      "type": "string",
+      "description": "Indicates whether the detail item has been accepted"
+    },
+    "otherDescription": {
+      "type": "string",
+      "description": "The alternative description"
+    },
+    "reasonNote": {
+      "type": "string",
+      "description": "The reason note"
+    },
+    "detailType": {
+      "type": "object",
+      "description": "Hardship review detail type",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewDetailType"
+    },
+    "detailCode": {
+      "type": "object",
+      "description": "The Hardship Review Detail code",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewDetailCode"
+    },
+    "detailReason": {
+      "type": "object",
+      "description": "The Hardship Review Detail reasons code",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewDetailReason"
+    },
+    "userCreated": {
+      "type": "string",
+      "description": "ID of the user creating the progress item"
+    }
+  },
+  "required": []
+}

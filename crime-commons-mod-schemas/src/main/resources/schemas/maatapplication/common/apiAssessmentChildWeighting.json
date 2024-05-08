@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiAssessmentChildWeighting.json",
+  "type": "object",
+  "description": "Assessment Child Weighting",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Assessment child weighting ID"
+    },
+    "childWeightingId": {
+      "type": "integer",
+      "description": "Weighting ID"
+    },
+    "noOfChildren": {
+      "type": "integer",
+      "description": "Number of children"
+    },
+    "lowerAgeRange": {
+      "type": "integer",
+      "description": "Lower age range"
+    },
+    "upperAgeRange": {
+      "type": "integer",
+      "description": "Upper age range"
+    },
+    "weightingFactor": {
+      "type": "number",
+      "description": "Weighting factor"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["weightingId", "noOfChildren"]
+}

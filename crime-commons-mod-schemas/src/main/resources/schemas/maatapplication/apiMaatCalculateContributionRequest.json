@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiMaatCalculateContributionRequest.json",
+  "type": "object",
+  "title": "Calculate Contribution Request from MAAT application",
+  "description": "Request data for calculating contributions following an appeal",
+  "properties": {
+    "contributionId": {
+      "type": "integer",
+      "description": "ID"
+    },
+    "applId": {
+      "type": "integer",
+      "description": "The associated application ID"
+    },
+    "repId": {
+      "type": "integer",
+      "description": "The representation order ID"
+    },
+    "effectiveDate": {
+      "type": "string",
+      "description": "Effective Date",
+      "format": "date-time"
+    },
+    "contributionCap": {
+      "type": "number",
+      "description": "Contribution Cap"
+    },
+    "monthlyContributions": {
+      "type": "number",
+      "description": "Monthly Contributions"
+    },
+    "upfrontContributions": {
+      "type": "number",
+      "description": "Upfront Contributions"
+    },
+    "dateUpliftApplied": {
+      "type": "string",
+      "description": "Date Uplift Applied",
+      "format": "date-time"
+    },
+    "dateUpliftRemoved": {
+      "type": "string",
+      "description": "Date Uplift Removed",
+      "format": "date-time"
+    },
+    "userCreated": {
+      "type": "string",
+      "description": "The user creating the record"
+    },
+    "magCourtOutcome": {
+      "type": "object",
+      "description": "Magistrate Court Outcome",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.MagCourtOutcome"
+    },
+    "caseType": {
+      "type": "object",
+      "description": "The case type",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.CaseType"
+    },
+    "appealType": {
+      "type": "string",
+      "description": "The appeal type",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.AppealType"
+    },
+    "lastOutcome": {
+      "type": "object",
+      "description": "The most recent outcome from the courts",
+      "properties": {
+        "outcome": {
+          "type": "object",
+          "description": "The appeal outcome",
+          "existingJavaType": "uk.gov.justice.laa.crime.enums.CrownCourtAppealOutcome"
+        },
+        "dateSet": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date that the outcome was decided"
+        }
+      }
+    },
+    "assessments": {
+      "type": "array",
+      "description": "List of assessments performed",
+      "minItems": 1,
+      "items": {
+        "$ref": "common/apiAssessment.json"
+      }
+    },
+    "removeContributions": {
+      "type": "string",
+      "description": "Indicator to Remove Contributions"
+    },
+    "committalDate": {
+      "type": "string",
+      "description": "Committal date",
+      "format": "date-time"
+    },
+    "crownCourtOutcome": {
+      "type": "array",
+      "description": "list of crown court outcome",
+      "items": {
+        "$ref": "common/apiCrownCourtOutcome.json"
+      }
+    },
+    "disposableIncomeAfterCrownHardship": {
+      "type": "number",
+      "description": "Disposable Income after Crown Court Hardship Review"
+    },
+    "disposableIncomeAfterMagHardship": {
+      "type": "number",
+      "description": "Disposable Income after Mags Court Hardship Review"
+    },
+    "totalAnnualDisposableIncome": {
+      "type": "number",
+      "description": "Total Annual Disposable Income"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["applId", "repId", "caseType", "assessments"]
+}

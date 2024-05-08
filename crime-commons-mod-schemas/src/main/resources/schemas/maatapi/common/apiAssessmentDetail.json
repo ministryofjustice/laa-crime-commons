@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiAssessmentDetail.json",
+  "type": "object",
+  "description": "Assessment details",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Assessment details ID"
+    },
+    "criteriaDetailsId": {
+      "type": "string",
+      "description": "Criteria Id"
+    },
+    "applicantAmount": {
+      "type": "number",
+      "description": "An explanation about the purpose of this instance."
+    },
+    "partnerAmount": {
+      "type": "number",
+      "description": "An explanation about the purpose of this instance."
+    },
+    "applicantFrequency": {
+      "description": "The Frequency of Applicant",
+      "$ref": "apiFrequency.json"
+    },
+    "partnerFrequency": {
+      "description": "The Frequency of the Partner",
+      "$ref": "apiFrequency.json"
+    },
+    "description": {
+      "type": "string",
+      "description": "An explanation about the purpose of this instance."
+    }
+  },
+  "additionalProperties": false,
+  "required": ["criteriaDetailsId", "applicantAmount", "applicantFrequency"]
+}

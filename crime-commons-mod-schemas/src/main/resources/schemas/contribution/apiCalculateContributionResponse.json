@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCalculateContributionResponse.json",
+  "type": "object",
+  "title": "Calculate Contribution Response",
+  "description": "Data Contract for Calc Contribs Response",
+  "properties": {
+    "monthlyContributions": {
+      "type": "number",
+      "description": "The monthly contribution amount"
+    },
+    "upfrontContributions": {
+      "type": "number",
+      "description": "The upfront contribution amount"
+    },
+    "upliftApplied": {
+      "type": "string",
+      "description": "Indicates if an income uplift was applied"
+    },
+    "basedOn": {
+      "type": "string",
+      "description": "Indicates what the contributions are based on (e.g. Means assessment)"
+    }
+  },
+  "additionalProperties": false
+}

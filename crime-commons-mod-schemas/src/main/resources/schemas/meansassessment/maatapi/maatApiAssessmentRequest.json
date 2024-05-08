@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "maatApiAssessmentRequest.json",
+  "type": "object",
+  "title": "Financial assessment request",
+  "description": "Data contract between laa-crime-means-assessment service  and  MAAT court data API for means assessment processing",
+  "properties": {
+    "laaTransactionId": {
+      "type": "string",
+      "description": "The correlation / transaction UUID"
+    },
+    "repId": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "initialAscrId": {
+      "type": "integer",
+      "description": "Initial assessment criteria ID"
+    },
+    "assessmentType": {
+      "type": "string",
+      "description": "The type of assessment"
+    },
+    "cmuId": {
+      "type": "integer",
+      "description": "Case Management Unit Id"
+    },
+    "fassInitStatus": {
+      "type": "string",
+      "description": "Initial assessment status"
+    },
+    "initialAssessmentDate": {
+      "type": "string",
+      "description": "Initial assessment date",
+      "format": "date-time"
+    },
+    "initOtherBenefitNote": {
+      "type": "string",
+      "description": "Benefit Note"
+    },
+    "initOtherIncomeNote": {
+      "type": "string",
+      "description": "Income Note."
+    },
+    "initTotAggregatedIncome": {
+      "type": "number",
+      "description": "Total Aggregated income of the application."
+    },
+    "initAdjustedIncomeValue": {
+      "type": "number",
+      "description": "Adjusted Income of the Application"
+    },
+    "initNotes": {
+      "type": "string",
+      "description": "Init assessment notes"
+    },
+    "initResult": {
+      "type": "string",
+      "description": "Initial assessment result"
+    },
+    "initResultReason": {
+      "type": "string",
+      "description": "Initial assessment result reason"
+    },
+    "incomeEvidenceDueDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Income Evidence Due Date"
+    },
+    "incomeEvidenceNotes": {
+      "type": "string",
+      "description": "Income Evidence Notes"
+    },
+    "initApplicationEmploymentStatus": {
+      "type": "string",
+      "description": "Code for the employment status"
+    },
+    "assessmentDetails": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "../common/apiAssessmentDetail.json"
+      }
+    },
+    "childWeightings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "../common/apiAssessmentChildWeighting.json"
+      }
+    },
+    "dateCompleted": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Assessment completion date"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "repId",
+    "cmuId",
+    "initialAscrId",
+    "assessmentType",
+    "fassInitStatus",
+    "initialAssessmentDate",
+    "initTotAggregatedIncome",
+    "initAdjustedIncomeValue",
+    "initResult",
+    "initResultReason",
+    "initApplicationEmploymentStatus",
+    "assessmentDetails",
+    "childWeightings"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiUpdateAssessment.json",
+  "type": "object",
+  "title": "Update financial assessment request",
+  "description": "Data contract between laa-crime-means-assessment service  and  Maa court data API for the initial means assessment processing",
+  "properties": {
+    "fassFullStatus": {
+      "type": "string",
+      "description": "Full assessment status"
+    },
+    "fullAssessmentDate": {
+      "type": "string",
+      "description": "Full assessment date",
+      "format": "date-time"
+    },
+    "fullResult": {
+      "type": "string",
+      "description": "Full assessment result"
+    },
+    "fullResultReason": {
+      "type": "string",
+      "description": "Full assessment result reason"
+    },
+    "fullAssessmentNotes": {
+      "type": "string",
+      "description": "Full assessment notes"
+    },
+    "fullAdjustedLivingAllowance": {
+      "type": "number",
+      "description": "Full adjusted living allowance"
+    },
+    "fullTotalAnnualDisposableIncome": {
+      "type": "number",
+      "description": "Full total annual disposable income"
+    },
+    "fullOtherHousingNote": {
+      "type": "string",
+      "description": "Full other housing note"
+    },
+    "fullTotalAggregatedExpenses": {
+      "type": "number",
+      "description": "Full total aggregated expenses"
+    },
+    "fullAscrId": {
+      "type": "integer",
+      "description": "Full assessment criteria ID"
+    },
+    "userModified": {
+      "type": "string",
+      "description": "ID of the user that last modified the assessment"
+    },
+    "id": {
+      "type": "integer",
+      "description": "Financial assessment ID",
+      "javaName": "financialAssessmentId"
+    }
+  },
+  "extends": {
+    "$ref": "maatApiAssessmentRequest.json"
+  },
+  "additionalProperties": false,
+  "required": ["userModified"]
+}

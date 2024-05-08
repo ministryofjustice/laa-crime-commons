@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hardshipDetails.json",
+  "type": "object",
+  "title": "The hardship details schema",
+  "description": "Details of hardship",
+  "properties": {
+    "amount": {
+      "type": "number",
+      "description": "The amount under consideration"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the funding source."
+    }
+  },
+  "required": ["type", "amount"]
+}
