@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.dto.maat_api;
+package uk.gov.justice.laa.crime.dto.maatapi;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
