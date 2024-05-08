@@ -7,15 +7,15 @@
   "properties": {
     "repOrderDecision": {
       "type": "string",
-      "title": "Rep Order decision"
+      "title": "Crown Rep Order Decision"
     },
     "repType": {
       "type": "string",
-      "title": "crown court rep type"
+      "title": "Crown Court Rep Type"
     },
     "repOrderDate": {
       "type": "string",
-      "title": "crown court withdrawal date",
+      "title": "Crown Rep Order Date",
       "format": "date-time"
     }
   },

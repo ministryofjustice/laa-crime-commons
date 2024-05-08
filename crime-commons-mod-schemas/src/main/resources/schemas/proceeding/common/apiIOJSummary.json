@@ -1,27 +1,27 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "IOJAppeal.json",
+  "id": "IOJSummary.json",
   "type": "object",
-  "description": "Crown Court IOJ appeal",
+  "description": "Summary of IOJ Data for an Application",
   "properties": {
     "decisionResult": {
       "type": "string",
-      "title": "Rep Order decision result"
+      "description": "The appeal decision result"
     },
     "iojResult": {
       "type": "string",
-      "description": "Ioj Result"
+      "description": "The initial Ioj Result"
     },
     "appealTypeCode": {
       "type": "string",
-      "description": "Appeal type code"
+      "description": "The appeal type code"
     },
     "appealTypeDate": {
       "type": "string",
-      "description": "Appeal type date",
+      "description": "The date the appeal type was set",
       "format": "date-time"
     }
   },
   "additionalProperties": false,
-  "required": ["decisionResult", "iojResult"]
+  "required": ["iojResult"]
 }

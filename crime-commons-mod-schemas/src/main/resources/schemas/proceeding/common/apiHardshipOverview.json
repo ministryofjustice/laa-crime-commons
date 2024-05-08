@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiHardshiptOverview.json",
+  "id": "apiHardshipOverview.json",
   "type": "object",
   "description": "Hardship overview",
   "properties": {

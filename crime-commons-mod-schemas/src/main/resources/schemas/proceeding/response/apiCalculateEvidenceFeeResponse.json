@@ -8,7 +8,7 @@
     "evidenceFee": {
       "type": "object",
       "description": "Evidence Fee",
-      "$ref": "common/apiEvidenceFee.json"
+      "$ref": "../common/apiEvidenceFee.json"
     }
   },
   "additionalProperties": false
