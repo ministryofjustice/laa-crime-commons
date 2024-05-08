@@ -111,13 +111,5 @@
     "description": "Unique Submission Number - EForm Reference"
   },
   "additionalProperties": false,
-  "required": [
-    "repId",
-    "laaTransactionId",
-    "cmuId",
-    "newWorkReason",
-    "userId",
-    "transactionDateTime",
-    "assessmentDate"
-  ]
+  "required": ["repId", "laaTransactionId", "cmuId", "newWorkReason", "userId", "transactionDateTime", "assessmentDate"]
 }
