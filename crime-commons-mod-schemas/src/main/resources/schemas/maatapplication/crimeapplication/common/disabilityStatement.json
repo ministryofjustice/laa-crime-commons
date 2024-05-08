@@ -1,0 +1,46 @@
+{
+  "title": "disabilityStatement",
+  "description": "Details of the disability status of the individual, currently not populated.",
+  "type": "object",
+  "nullable": true,
+  "properties": {
+    "code": {
+      "type": "string",
+      "enum": [
+        "NO COMMENT",
+        "PHYSICAL",
+        "SENSORY",
+        "MENTAL",
+        "COGNITIVE",
+        "HEARING",
+        "LEARNING",
+        "DEAFNESS",
+        "VISUAL",
+        "LONG ILLNESS",
+        "BLINDNESS",
+        "MOBILITY",
+        "UNKNOWN",
+        "OTHER",
+        "NOT DISABLED"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "disabilities": {
+      "type": "array",
+      "nullable": true,
+      "description": "Currently not populated.",
+      "disabilities": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

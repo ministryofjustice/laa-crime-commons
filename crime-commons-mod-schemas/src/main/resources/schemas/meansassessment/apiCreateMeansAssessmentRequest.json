@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiInitMeansAssessmentRequest.json",
+  "type": "object",
+  "title": "Initial Means Assessment Request",
+  "description": "Data contract for initial means assessment requests",
+  "properties": {
+    "reviewType": {
+      "description": "Review Type Info",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.ReviewType"
+    },
+    "usn": {
+      "type": "integer",
+      "description": "Unique Submission Number - EForm Reference"
+    }
+  },
+  "extends": {
+    "$ref": "apiMeansAssessmentRequest.json"
+  },
+  "additionalProperties": false
+}

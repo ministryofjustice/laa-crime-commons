@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiAssessmentDetail.json",
+  "type": "object",
+  "description": "Assessment details",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Assessment details ID"
+    },
+    "criteriaDetailId": {
+      "type": "integer",
+      "description": "Criteria Id"
+    },
+    "applicantAmount": {
+      "type": "number",
+      "description": "An explanation about the purpose of this instance."
+    },
+    "partnerAmount": {
+      "type": "number",
+      "description": "An explanation about the purpose of this instance."
+    },
+    "applicantFrequency": {
+      "type": "object",
+      "description": "The Frequency of Applicant",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.Frequency"
+    },
+    "partnerFrequency": {
+      "type": "object",
+      "description": "The Frequency of the Partner",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.Frequency"
+    },
+    "assessmentDescription": {
+      "type": "string",
+      "description": "Assessment Description"
+    },
+    "assessmentDetailCode": {
+      "type": "string",
+      "description": "Assessment Detail Code"
+    },
+    "dateModified": {
+      "type": "object",
+      "description": "Assessment Detail Code",
+      "existingJavaType": "java.time.LocalDateTime"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["criteriaDetailsId"]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "initialMeansAssessment.json",
+  "type": "object",
+  "title": "The Initial  Means Assessment schema",
+  "description": "Details of Initial Means Assessment",
+  "properties": {
+    "otherBenefitNote": {
+      "type": "string",
+      "description": "Other Benefit Note"
+    },
+    "otherIncomeNote": {
+      "type": "string",
+      "description": "Other income note"
+    },
+    "assessmentDetails": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "assessmentDetail.json"
+      }
+    },
+    "childWeighting": {
+      "type": "array",
+      "description": "Child weighting",
+      "items": {
+        "$ref": "childWeighting.json"
+      }
+    }
+  }
+}

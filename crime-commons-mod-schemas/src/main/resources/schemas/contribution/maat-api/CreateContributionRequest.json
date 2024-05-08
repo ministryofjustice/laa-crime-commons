@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "CreateContributionRequest.json",
+  "type": "object",
+  "title": "Create Contribution Request",
+  "description": "Data contract for creating contribution records via the Court Data API",
+  "properties": {
+    "repId": {
+      "type": "integer",
+      "description": "The associated MAAT/REP ID"
+    },
+    "applId": {
+      "type": "integer",
+      "description": "The associated application ID"
+    },
+    "userCreated": {
+      "type": "string",
+      "description": "The user creating the record"
+    }
+  },
+  "extends": {
+    "$ref": "ContributionRequest.json"
+  },
+  "additionalProperties": false,
+  "required": ["repId", "applId", "userCreated"]
+}

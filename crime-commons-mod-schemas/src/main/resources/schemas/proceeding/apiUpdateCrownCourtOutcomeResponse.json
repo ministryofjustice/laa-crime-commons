@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiUpdateOutcomeResponse.json",
+  "type": "object",
+  "title": "Update Crown Court application Response",
+  "description": "Data contract for update crown court application response",
+  "properties": {
+    "modifiedDateTime": {
+      "type": "string",
+      "title": "Rep Order modified date time",
+      "format": "date-time"
+    },
+    "crownCourtSummary": {
+      "type": "object",
+      "description": "Crown court overview",
+      "$ref": "common/apiCrownCourtSummary.json"
+    }
+  },
+  "additionalProperties": false
+}

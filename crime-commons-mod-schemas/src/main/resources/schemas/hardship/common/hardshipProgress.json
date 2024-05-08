@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hardshipProgress.json",
+  "type": "object",
+  "title": "The hardship progress schema",
+  "description": "Details of hardship progress",
+  "properties": {
+    "action": {
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewProgressAction",
+      "description": "The hardship review progress action codes"
+    },
+    "response": {
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewProgressResponse",
+      "description": "The hardship review progress response codes"
+    },
+    "dateTaken": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the action was taken"
+    },
+    "dateRequired": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date by which an response is required"
+    },
+    "dateCompleted": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the response was received"
+    }
+  }
+}

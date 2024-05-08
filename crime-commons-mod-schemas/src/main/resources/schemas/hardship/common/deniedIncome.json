@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "deniedIncome.json",
+  "type": "object",
+  "title": "The denied income schema",
+  "description": "Details of denied income",
+  "properties": {
+    "reasonNote": {
+      "type": "string",
+      "description": "The denied income reason note"
+    },
+    "itemCode": {
+      "type": "object",
+      "description": "The hardship denied income codes",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.DeniedIncomeDetailCode"
+    }
+  },
+  "extends": {
+    "$ref": "hardshipCost.json"
+  }
+}

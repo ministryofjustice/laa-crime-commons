@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiEvidenceType.json",
+  "type": "object",
+  "description": "Evidence type.",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Evidence Type Code."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["code", "description"]
+}

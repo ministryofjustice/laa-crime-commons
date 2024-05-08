@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCreateAssessment.json",
+  "type": "object",
+  "title": "Base Contribution Request",
+  "description": "Base Data contract for finding, creating and modifying contribution records via the Court Data API",
+  "properties": {
+    "contributionFileId": {
+      "type": "integer",
+      "description": "The contribution file ID"
+    },
+    "effectiveDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the contribution record became effective"
+    },
+    "calcDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the contribution record was calculated"
+    },
+    "contributionCap": {
+      "type": "number",
+      "description": "The cap that was used when calculating contribution amounts"
+    },
+    "monthlyContributions": {
+      "type": "number",
+      "description": "The monthly contribution amount"
+    },
+    "upfrontContributions": {
+      "type": "number",
+      "description": "The upfront contributions required"
+    },
+    "upliftApplied": {
+      "type": "string",
+      "description": "Indicates if an income uplift was applied"
+    },
+    "basedOn": {
+      "type": "string",
+      "description": "Indicates what the contributions are based on (e.g. Means assessment)"
+    },
+    "transferStatus": {
+      "type": "object",
+      "description": "The transfer status of the contribution record",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.contribution.TransferStatus"
+    },
+    "dateUpliftApplied": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date that an income uplift was applied"
+    },
+    "dateUpliftRemoved": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date that an income uplift was removed"
+    },
+    "createContributionOrder": {
+      "type": "string",
+      "description": "Indicates whether a contribution order should be created"
+    },
+    "correspondenceId": {
+      "type": "integer",
+      "description": "The associated correspondence ID"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["effectiveDate", "calcDate", "contributionCap", "monthlyContributions"]
+}

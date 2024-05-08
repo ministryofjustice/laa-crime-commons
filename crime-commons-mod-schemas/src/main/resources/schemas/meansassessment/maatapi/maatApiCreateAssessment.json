@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCreateAssessment.json",
+  "type": "object",
+  "title": "Create financial assessment request",
+  "description": "Data contract between laa-crime-means-assessment service  and  Maa court data API for the initial means assessment processing",
+  "properties": {
+    "nworCode": {
+      "type": "string",
+      "description": "New work reason details"
+    },
+    "userCreated": {
+      "type": "string",
+      "description": "ID of the user that created the assessment"
+    },
+    "incomeUpliftRemoveDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Income Uplift Removal Due Date"
+    },
+    "incomeUpliftApplyDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Income Uplift Apply Due Date"
+    },
+    "usn": {
+      "type": "integer",
+      "description": "Unique Submission Number - EForm Reference"
+    },
+    "rtCode": {
+      "type": "string",
+      "description": "Review Type code"
+    }
+  },
+  "extends": {
+    "$ref": "maatApiAssessmentRequest.json"
+  },
+  "additionalProperties": false,
+  "required": ["nworCode", "userCreated", "rtCode"]
+}

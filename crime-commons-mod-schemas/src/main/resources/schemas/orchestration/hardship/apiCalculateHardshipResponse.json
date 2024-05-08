@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCalculateHardshipResponse.json",
+  "type": "object",
+  "title": "Calculate Hardship Review Response",
+  "description": "Data contract for calculate Hardship Review response",
+  "properties": {
+    "reviewResult": {
+      "description": "The review result",
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewResult"
+    },
+    "postHardshipDisposableIncome": {
+      "type": "number",
+      "description": "Post hardship disposable income"
+    },
+    "disposableIncome": {
+      "type": "number",
+      "description": "The disposable income"
+    }
+  },
+  "additionalProperties": false
+}

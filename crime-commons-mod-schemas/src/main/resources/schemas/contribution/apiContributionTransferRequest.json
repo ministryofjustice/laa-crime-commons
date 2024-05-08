@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiContributionTransferRequest.json",
+  "type": "object",
+  "title": "Calculate Contribution Request",
+  "description": "Data contract for requesting a contribution transfer",
+  "properties": {
+    "contributionId": {
+      "type": "integer",
+      "description": "Uniquely identifies a Contribution record"
+    },
+    "userModified": {
+      "type": "string",
+      "description": "The user modifying the record"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["contributionId", "userModified"]
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiInitialMeansAssessment.json",
+  "type": "object",
+  "title": "The Initial Means Assessment schema",
+  "description": "Details of Initial means assessment",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Initial Assessment Id"
+    },
+    "criteriaId": {
+      "type": "integer",
+      "description": "Criteria Id"
+    },
+    "assessmentDate": {
+      "type": "string",
+      "description": "Assessment Date",
+      "format": "date-time"
+    },
+    "otherBenefitNote": {
+      "type": "string",
+      "description": "Other Benefit Note"
+    },
+    "otherIncomeNote": {
+      "type": "string",
+      "description": "Other income note"
+    },
+    "totalAggregatedIncome": {
+      "type": "number",
+      "description": "total aggregated income"
+    },
+    "adjustedIncomeValue": {
+      "type": "number",
+      "description": "Adjusted income value"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes"
+    },
+    "lowerThreshold": {
+      "type": "number",
+      "description": "Lower Threshold"
+    },
+    "upperThreshold": {
+      "type": "number",
+      "description": "Upper Threshold"
+    },
+    "result": {
+      "type": "string",
+      "description": "Result"
+    },
+    "resultReason": {
+      "type": "string",
+      "description": "Result reason"
+    },
+    "assessmentStatus": {
+      "type": "object",
+      "description": "Assessment Status",
+      "$ref": "apiAssessmentStatus.json"
+    },
+    "newWorkReason": {
+      "type": "object",
+      "description": "New work reason",
+      "$ref": "apiNewWorkReason.json"
+    },
+    "reviewType": {
+      "type": "object",
+      "description": "Review Type",
+      "$ref": "apiReviewType.json"
+    },
+    "assessmentSectionSummary": {
+      "type": "array",
+      "description": "Assessment Section Summary",
+      "items": {
+        "$ref": "apiAssessmentSectionSummary.json"
+      }
+    },
+    "childWeighting": {
+      "type": "array",
+      "description": "Child weighting",
+      "items": {
+        "$ref": "apiAssessmentChildWeighting.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiPerformHardshipRequest.json",
+  "type": "object",
+  "title": "Persist Hardship Request",
+  "description": "Data contract for create Hardship Review request",
+  "properties": {
+    "hardship": {
+      "type": "object",
+      "$ref": "common/hardshipReview.json",
+      "description": "The details of the Hardship Review"
+    },
+    "hardshipMetadata": {
+      "type": "object",
+      "$ref": "common/hardshipMetadata.json",
+      "description": "The Hardship Review metadata"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["hardship", "hardshipMetadata"]
+}

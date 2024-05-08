@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCalculateHardshipByDetailRequest.json",
+  "type": "object",
+  "title": "Calculate Hardship By Detail Request",
+  "description": "Data contract for Calculate Hardship By Detail Request",
+  "properties": {
+    "repId": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "detailType": {
+      "description": "Hardship Detail Type",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["repId", "detailType"]
+}

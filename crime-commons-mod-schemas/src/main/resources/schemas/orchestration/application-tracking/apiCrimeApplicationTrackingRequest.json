@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiApplicationTrackingRequest.json",
+  "type": "object",
+  "properties": {
+    "usn": {
+      "type": "integer",
+      "description": "USN number"
+    },
+    "maat_ref": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "action": {
+      "type": "string",
+      "nullable": true,
+      "description": "Get or Save_Application or Save_Means_Full/Save_Means_Init or Save_Passport",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.ActionType"
+    },
+    "action_key_id": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Maat_ref or Finance assessment id or Passport assessment id"
+    },
+    "case_id": {
+      "type": "string",
+      "nullable": true
+    },
+    "case_type": {
+      "type": "string",
+      "nullable": true,
+      "description": "The case type",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.CaseType"
+    },
+    "ioj": {
+      "type": "object",
+      "properties": {
+        "iojId": {
+          "type": "integer",
+          "nullable": true
+        },
+        "ioj_result": {
+          "type": "string",
+          "nullable": true
+        },
+        "ioj_reason": {
+          "type": "string",
+          "nullable": true,
+          "description": "IOJ Notes"
+        },
+        "ioj_appeal_result": {
+          "type": "string",
+          "nullable": true,
+          "existingJavaType": "uk.gov.justice.laa.crime.enums.ReviewResult"
+        },
+        "ioj_assessor_name": {
+          "type": "string",
+          "nullable": true
+        },
+        "app_created_date": {
+          "type": "string",
+          "description": "Date of application created",
+          "format": "date-time",
+          "nullable": true
+        }
+      }
+    },
+    "passport": {
+      "type": "object",
+      "properties": {
+        "passportId": {
+          "type": "integer",
+          "nullable": true
+        },
+        "passport_result": {
+          "type": "string",
+          "nullable": true,
+          "existingJavaType": "uk.gov.justice.laa.crime.enums.PassportAssessmentResult"
+        },
+        "passport_assessor_name": {
+          "type": "string",
+          "nullable": true
+        },
+        "passport_created_date": {
+          "type": "string",
+          "description": "Date of passport created",
+          "format": "date-time",
+          "nullable": true
+        }
+      }
+    },
+    "means_assessment": {
+      "type": "object",
+      "properties": {
+        "means_assessment_id": {
+          "type": "integer",
+          "nullable": true
+        },
+        "means_assessment_type": {
+          "type": "string",
+          "nullable": true,
+          "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.MeanAssessmentType"
+        },
+        "means_assessment_status": {
+          "type": "string",
+          "nullable": true
+        },
+        "means_assessment_result": {
+          "type": "string",
+          "nullable": true,
+          "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.MeanAssessmentResult"
+        },
+        "means_assessor_name": {
+          "type": "string",
+          "nullable": true
+        },
+        "means_assessment_created_date": {
+          "type": "string",
+          "description": "Date of Means Assessment created",
+          "format": "date-time",
+          "nullable": true
+        }
+      }
+    },
+    "hardship": {
+      "type": "object",
+      "properties": {
+        "hardship_id": {
+          "type": "integer",
+          "nullable": true
+        },
+        "hardship_result": {
+          "type": "string",
+          "nullable": true,
+          "existingJavaType": "uk.gov.justice.laa.crime.enums.ReviewResult"
+        },
+        "hardship_type": {
+          "type": "string",
+          "nullable": true,
+          "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.HardshipType"
+        }
+      }
+    },
+    "assessment_id": {
+      "type": "integer",
+      "nullable": true,
+      "description": "IOJ Id or Finance assessment id or Passport assessment id or Hardship ID"
+    },
+    "assessment_type": {
+      "type": "string",
+      "nullable": true,
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.AssessmentType",
+      "description": "IOJ type or Finance assessment type or Passport assessment type or Hardship type"
+    },
+    "dwp_result": {
+      "type": "string",
+      "nullable": true,
+      "description": "DWP Result"
+    },
+    "rep_decision": {
+      "type": "string",
+      "nullable": true,
+      "description": "Rep Decision"
+    },
+    "cc_rep_decision": {
+      "type": "string",
+      "nullable": true,
+      "description": "CC Rep Decision"
+    },
+    "mags_outcome": {
+      "type": "string",
+      "nullable": true,
+      "description": "Magistrate Outcome"
+    },
+    "request_source": {
+      "type": "string",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.RequestSource",
+      "description": "Source of the Request"
+    },
+    "user_created": {
+      "type": "string",
+      "nullable": true,
+      "description": "User created"
+    }
+  },
+  "required": ["usn", "maat_ref", "request_source", "ioj", "passport", "means_assessment", "hardship"]
+}

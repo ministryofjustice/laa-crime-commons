@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiUpdateHardshipReviewRequest.json",
+  "type": "object",
+  "title": "Update Hardship Review request",
+  "description": "Data contract for updating a Hardship Review via the Court Data API",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The ID of the Hardship Review to update"
+    },
+    "userModified": {
+      "type": "string",
+      "description": "ID of the user updating the Hardship Review"
+    }
+  },
+  "extends": {
+    "$ref": "apiPersistHardshipRequest.json"
+  },
+  "additionalProperties": false,
+  "required": ["id", "userModified"]
+}

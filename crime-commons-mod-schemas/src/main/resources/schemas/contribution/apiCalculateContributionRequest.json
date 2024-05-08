@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCalculateContributionRequest.json",
+  "type": "object",
+  "title": "Calculate Contribution Request",
+  "description": "Data Contract for Calc Contribs request",
+  "properties": {
+    "annualDisposableIncome": {
+      "type": "number",
+      "description": "Annual Disposable Income"
+    },
+    "disposableIncomePercent": {
+      "type": "number",
+      "description": "Disposable Income Percent"
+    },
+    "minimumMonthlyAmount": {
+      "type": "number",
+      "description": "Minimum Monthly Amount"
+    },
+    "contributionCap": {
+      "type": "number",
+      "description": "Contribution Cap"
+    },
+    "upfrontTotalMonths": {
+      "type": "integer",
+      "description": "upfront Total Months"
+    },
+    "upliftApplied": {
+      "type": "boolean",
+      "description": "Currently has a fixed value of 'false'."
+    },
+    "upliftedIncomePercent": {
+      "type": "number",
+      "description": "Uplifted income percent"
+    },
+    "minUpliftedMonthlyAmount": {
+      "type": "number",
+      "description": "Minimum Uplifted Monthly Amount"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["annualDisposableIncome", "disposableIncomePercent", "minimumMonthlyAmount", "contributionCap", "upfrontTotalMonths"]
+}
