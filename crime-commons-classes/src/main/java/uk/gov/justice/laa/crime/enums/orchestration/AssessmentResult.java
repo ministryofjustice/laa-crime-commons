@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.orchestration.enums;
+package uk.gov.justice.laa.crime.enums.orchestration;
 
 import org.apache.commons.lang3.StringUtils;
 

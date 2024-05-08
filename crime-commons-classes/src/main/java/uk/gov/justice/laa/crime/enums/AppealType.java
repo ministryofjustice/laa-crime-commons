@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.contribution.staticdata.enums;
+package uk.gov.justice.laa.crime.enums;
 
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonValue;
