@@ -1,0 +1,27 @@
+{
+  "title": "Address",
+  "description": "Postal address details",
+  "type": "object",
+  "properties": {
+    "lookupId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Currently not populated."
+    },
+    "line1": {
+      "type": "string"
+    },
+    "line2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "postCode": {
+      "type": "string"
+    }
+  }
+}

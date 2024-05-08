@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCapitalEvidence.json",
+  "description": "Capital Evidence",
+  "type": "object",
+  "properties": {
+    "evidenceType": {
+      "description": "Capital Evidence Type",
+      "type": "string"
+    },
+    "dateReceived": {
+      "description": "Capital Evidence Date Received",
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

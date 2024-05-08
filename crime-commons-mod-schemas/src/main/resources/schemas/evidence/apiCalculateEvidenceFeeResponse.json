@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCalculateEvidenceFeeResponse.json",
+  "type": "object",
+  "title": "Calculate Evidence Fee Response",
+  "description": "Data contract for Calculate Evidence Fee Response",
+  "properties": {
+    "evidenceFee": {
+      "type": "object",
+      "description": "Evidence Fee",
+      "$ref": "common/apiEvidenceFee.json"
+    }
+  },
+  "additionalProperties": false
+}

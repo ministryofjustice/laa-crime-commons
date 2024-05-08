@@ -1,0 +1,18 @@
+{
+  "title": "Magistrate Court",
+  "description": "Details of the Magistrate Court.",
+  "type": "object",
+  "properties": {
+    "court": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The name of the Magistrate Court where the hearing is due to be."
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "description": "Currently not populated."
+    }
+  },
+  "required": ["court"]
+}

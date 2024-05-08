@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "ApiPersistHardshipResponse.json",
+  "type": "object",
+  "title": "Persist Hardship Response",
+  "description": "Data Contract for Persist Hardship Response",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The Hardship Review ID"
+    },
+    "dateCreated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The Hardship Review creation timestamp"
+    }
+  },
+  "additionalProperties": false
+}

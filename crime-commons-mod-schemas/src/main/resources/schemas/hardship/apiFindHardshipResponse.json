@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "ApiFindHardship.json",
+  "type": "object",
+  "title": "Find Hardship Schema",
+  "description": "Data contract for finding a Hardship Review",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Hardship Review ID"
+    },
+    "cmuId": {
+      "type": "integer",
+      "description": "Case Management Unit Id"
+    },
+    "notes": {
+      "type": "string",
+      "description": "The review progress notes"
+    },
+    "decisionNotes": {
+      "type": "string",
+      "description": "The notes regarding the decision"
+    },
+    "reviewDate": {
+      "type": "string",
+      "description": "The hardship review date",
+      "format": "date-time"
+    },
+    "reviewResult": {
+      "type": "object",
+      "description": "The review result",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewResult"
+    },
+    "disposableIncome": {
+      "type": "number",
+      "description": "The disposable income"
+    },
+    "disposableIncomeAfterHardship": {
+      "type": "number",
+      "description": "Disposable income post Hardship Review"
+    },
+    "newWorkReason": {
+      "type": "object",
+      "description": "The new work reason code",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.NewWorkReason"
+    },
+    "solicitorCosts": {
+      "type": "object",
+      "description": "Solicitor cost",
+      "$ref": "common/solicitorCosts.json"
+    },
+    "status": {
+      "type": "object",
+      "description": "The review status",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.HardshipReviewStatus"
+    },
+    "reviewDetails": {
+      "type": "array",
+      "description": "Hardship review detail items",
+      "items": {
+        "$ref": "maat-api/apiHardshipDetail.json"
+      }
+    },
+    "reviewProgressItems": {
+      "type": "array",
+      "description": "The hardship review progress details (actions taken  and  responses)",
+      "items": {
+        "$ref": "maat-api/apiHardshipProgress.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

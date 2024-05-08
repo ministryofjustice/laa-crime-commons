@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCalculateHardshipReviewRequest.json",
+  "type": "object",
+  "title": "Calculate Hardship Request",
+  "description": "Data contract for calculate Hardship Review request",
+  "properties": {
+    "hardship": {
+      "type": "object",
+      "$ref": "common/hardshipReview.json",
+      "description": "The details of the Hardship Review"
+    }
+  },
+  "required": ["hardship"],
+  "additionalProperties": false
+}

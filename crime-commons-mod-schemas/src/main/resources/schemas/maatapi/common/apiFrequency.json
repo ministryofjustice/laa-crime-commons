@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiFrequency.json",
+  "type": "object",
+  "description": "The Frequency",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "This wll have the frequency code of the selection"
+    },
+    "description": {
+      "type": "string",
+      "description": "Frequency "
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "code"
+  ]
+}

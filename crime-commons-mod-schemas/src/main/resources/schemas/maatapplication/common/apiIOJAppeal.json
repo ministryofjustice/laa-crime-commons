@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "IOJAppeal.json",
+  "type": "object",
+  "description": "Crown Court IOJ appeal",
+  "properties": {
+    "decisionResult": {
+      "type": "string",
+      "title": "Rep Order decision result"
+    },
+    "iojResult": {
+      "type": "string",
+      "description": "Ioj Result"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["decisionResult", "iojResult"]
+}

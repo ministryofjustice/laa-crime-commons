@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hardshipCost.json",
+  "type": "object",
+  "title": "The hardship cost schema",
+  "description": "Details of hardship cost",
+  "properties": {
+    "accepted": {
+      "type": "boolean",
+      "description": "Indicates whether the additional cost has been accepted"
+    },
+    "frequency": {
+      "type": "object",
+      "description": "Hardship payment frequency",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.Frequency"
+    }
+  },
+  "extends": {
+    "$ref": "hardshipDetail.json"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiInitialMeansAssessment.json",
+  "type": "object",
+  "title": "Initial Means Assessment Request",
+  "description": "Data contract between laa-crime-means-assessment service and MAAT API for the initial means assessment processing",
+  "properties": {
+    "laaTransactionId": {
+      "type": "string",
+      "description": "The correlation / transaction UUID"
+    },
+    "repId": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "cmuId": {
+      "type": "integer",
+      "description": "Case Management Unit Id"
+    },
+    "userId": {
+      "type": "string",
+      "description": "User  ID"
+    },
+    "criteriaId": {
+      "type": "integer",
+      "description": "Criteria ID"
+    },
+    "employmentStatus": {
+      "type": "integer",
+      "description": "Code for the employment status"
+    },
+    "transactionDateTime": {
+      "type": "string",
+      "description": "Time Stamp of the transaction",
+      "format": "date-time"
+    },
+    "assessmentDate": {
+      "type": "string",
+      "description": "Effective Date of the assessment"
+    },
+    "otherBenefitNote": {
+      "type": "string",
+      "description": "Benefit Note"
+    },
+    "otherIncomeNote": {
+      "type": "string",
+      "description": "Income Note."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes field."
+    },
+    "assessmentStatus": {
+      "description": "Assessment Status",
+      "$ref": "common/apiAssessmentStatus.json"
+    },
+    "newWorkReason": {
+      "description": "Work Reason Details",
+      "$ref": "common/apiNewWorkReason.json"
+    },
+    "incomeEvidenceDueDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Income Evidence Due Date"
+    },
+    "incomeUpliftRemovalDueDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Income Uplift Removal Due Date"
+    },
+    "incomeUpliftApplyDueDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Income Uplift Apply Due Date"
+    },
+    "incomeEvidenceNotes": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Income Evidence Notes"
+    },
+    "totalAggregatedIncome": {
+      "type": "number",
+      "description": "Total Aggregated income of the application."
+    },
+    "adjustedIncomeValue": {
+      "type": "number",
+      "description": "Adjusted Income of the Application"
+    },
+    "result": {
+      "type": "string",
+      "description": "Outcome of an Assessment"
+    },
+    "resultReason": {
+      "type": "string",
+      "description": "The reason for the outcome "
+    },
+    "reviewType": {
+      "description": "Review Type Info",
+      "$ref": "common/apiReviewType.json"
+    },
+    "assessmentDetail": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "common/apiAssessmentDetail.json"
+      }
+    }
+  },
+  "usn": {
+    "type": "integer",
+    "description": "Unique Submission Number - EForm Reference"
+  },
+  "additionalProperties": false,
+  "required": [
+    "repId",
+    "laaTransactionId",
+    "cmuId",
+    "newWorkReason",
+    "userId",
+    "transactionDateTime",
+    "assessmentDate"
+  ]
+}

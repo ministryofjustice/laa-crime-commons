@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiUpdateApplicationRequest.json",
+  "type": "object",
+  "title": "Update Crown Court application Request",
+  "description": "Data contract for update crown court application request",
+  "properties": {
+    "applicantHistoryId": {
+      "type": "integer",
+      "description": "The applicant history Id"
+    },
+    "crownRepId": {
+      "type": "integer",
+      "description": "The Crown Rep ID"
+    },
+    "isImprisoned": {
+      "type": "boolean",
+      "description": "Indicate whether the applicant is imprisoned"
+    },
+    "userSession": {
+      "type": "object",
+      "description": "The current users session",
+      "$ref": "../common/apiUserSession.json"
+    }
+  },
+  "extends": {
+    "$ref": "apiProcessRepOrderRequest.json"
+  },
+  "additionalProperties": false,
+  "required": ["userSession", "isImprisoned", "applicantHistoryId"]
+}

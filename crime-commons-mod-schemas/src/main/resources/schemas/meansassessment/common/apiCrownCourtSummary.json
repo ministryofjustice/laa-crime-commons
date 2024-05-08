@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCrownCourtOverview.json",
+  "type": "object",
+  "description": "Crown Court Overview",
+  "properties": {
+    "repOrderDecision": {
+      "type": "string",
+      "title": "Rep Order decision"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["repOrderDecision"]
+}

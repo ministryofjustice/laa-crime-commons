@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiFullMeansAssessment.json",
+  "type": "object",
+  "title": "The Income Evidence schema",
+  "description": "Details of income evidence",
+  "properties": {
+    "criteriaId": {
+      "type": "integer",
+      "description": "Assessment criteria Id"
+    },
+    "assessmentDate": {
+      "type": "string",
+      "description": "Assessment Date",
+      "format": "date-time"
+    },
+    "assessmentNotes": {
+      "type": "string",
+      "description": "Assessment Notes"
+    },
+    "adjustedLivingAllowance": {
+      "type": "number",
+      "description": "Adjusted living allowance"
+    },
+    "otherHousingNote": {
+      "type": "string",
+      "description": "Other housing notes"
+    },
+    "totalAggregatedExpense": {
+      "type": "number",
+      "description": "Total Aggregated Expense"
+    },
+    "totalAnnualDisposableIncome": {
+      "type": "number",
+      "description": "Total Annual Disposable Income"
+    },
+    "threshold": {
+      "type": "number",
+      "description": "Assessment Threshold"
+    },
+    "result": {
+      "type": "string",
+      "description": "Assessment Result"
+    },
+    "resultReason": {
+      "type": "string",
+      "description": "Assessment result reason"
+    },
+    "assessmentStatus": {
+      "type": "object",
+      "description": "Assessment Status",
+      "$ref": "apiAssessmentStatus.json"
+    },
+    "assessmentSectionSummary": {
+      "type": "array",
+      "description": "Assessment Section Summary",
+      "items": {
+        "$ref": "apiAssessmentSectionSummary.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

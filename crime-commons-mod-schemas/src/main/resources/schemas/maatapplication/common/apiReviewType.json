@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiReviewType.json",
+  "type": "object",
+  "description": "An explanation about the purpose of this instance.",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Review Type Code."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "code",
+    "description"
+  ]
+}

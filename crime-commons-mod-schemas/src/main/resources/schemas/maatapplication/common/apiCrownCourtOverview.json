@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCrownCourtOverview.json",
+  "type": "object",
+  "description": "Crown Court Overview",
+  "properties": {
+    "available": {
+      "type": "boolean",
+      "title": "check if the crown court overview object is enable "
+    },
+    "crownCourtSummary": {
+      "type": "object",
+      "description": "Crown court summary details ",
+      "$ref": "apiCrownCourtSummary.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["available"]
+}

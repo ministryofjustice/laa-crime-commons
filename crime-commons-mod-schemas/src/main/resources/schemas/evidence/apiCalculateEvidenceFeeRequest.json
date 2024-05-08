@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCalculateEvidenceFeeRequest.json",
+  "type": "object",
+  "title": "Calculate Evidence Fee Request",
+  "description": "Data Contract for Calculate Evidence Fee Request",
+  "properties": {
+    "laaTransactionId": {
+      "type": "string",
+      "description": "The txn / correlation UUID"
+    },
+    "repId": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "magCourtOutcome": {
+      "type": "string",
+      "description": "Magistrate Court Outcome"
+    },
+    "evidenceFee": {
+      "type": "object",
+      "description": "Evidence Fee",
+      "$ref": "common/apiEvidenceFee.json"
+    },
+    "capitalEvidence": {
+      "type": "array",
+      "description": "List of Capital Evidence",
+      "items": {
+        "$ref": "common/apiCapitalEvidence.json"
+      }
+    },
+    "incomeEvidenceReceivedDate": {
+      "description": "Income Evidence Received Date",
+      "type": "string",
+      "format": "date-time"
+    },
+    "capitalEvidenceReceivedDate": {
+      "description": "Capital Evidence Received Date",
+      "type": "string",
+      "format": "date-time"
+    },
+    "emstCode": {
+      "description": "Applicant Employment Status Code",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["repId", "magCourtOutcome", "capitalEvidence", "emstCode"]
+}

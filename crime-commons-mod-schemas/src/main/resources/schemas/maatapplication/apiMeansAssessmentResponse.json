@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCreateInitialMeansAssessmentResponse.json",
+  "type": "object",
+  "title": "Means Assessment Response",
+  "description": "The response data of the Means Assessment service",
+  "properties": {
+    "assessmentId": {
+      "type": "integer",
+      "description": "Unique Identifier of an Assessment."
+    },
+    "repId": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "criteriaId": {
+      "type": "integer",
+      "description": "Unique Identifier of the Criteria."
+    },
+    "transactionDateTime": {
+      "type": "string",
+      "description": "Time Stamp of the transaction",
+      "format": "date-time"
+    },
+    "totalAggregatedIncome": {
+      "type": "number",
+      "description": "Total Aggregated income of the application."
+    },
+    "adjustedIncomeValue": {
+      "type": "number",
+      "description": "Adjusted Income of the Application"
+    },
+    "adjustedLivingAllowance": {
+      "type": "number",
+      "description": "Adjusted Living Allowance of the Application"
+    },
+    "totalAggregatedExpense": {
+      "type": "number",
+      "description": "Total Aggregated Expense of the Application"
+    },
+    "totalAnnualDisposableIncome": {
+      "type": "number",
+      "description": "Total Annual Disposable Income of the Application"
+    },
+    "lowerThreshold": {
+      "type": "number",
+      "description": "Lower Threshold Value from Ref Data"
+    },
+    "upperThreshold": {
+      "type": "number",
+      "description": "Upper Threshold Value from Ref Data"
+    },
+    "fullThreshold": {
+      "type": "number",
+      "description": "Full Threshold Value from Ref Data"
+    },
+    "assessmentType": {
+      "description": "Type of as Assessment - Initial, full etc.",
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.AssessmentType"
+    },
+    "initResult": {
+      "type": "string",
+      "description": "Outcome of initial assessment"
+    },
+    "initResultReason": {
+      "type": "string",
+      "description": "The reason for the outcome "
+    },
+    "initialAssessmentDate": {
+      "type": "string",
+      "description": "Effective Date of initial assessment",
+      "format": "date-time"
+    },
+    "fassInitStatus": {
+      "description": "Assessment Status",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.CurrentStatus"
+    },
+    "fullResult": {
+      "type": "string",
+      "description": "Outcome of full assessment"
+    },
+    "fullResultReason": {
+      "type": "string",
+      "description": "The reason for the outcome "
+    },
+    "fullAssessmentDate": {
+      "type": "string",
+      "description": "Effective Date of full assessment",
+      "format": "date-time"
+    },
+    "fassFullStatus": {
+      "description": "Assessment Status",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.CurrentStatus"
+    },
+    "assessmentSectionSummary": {
+      "description": "Assessment section summary",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "common/apiAssessmentSectionSummary.json"
+      }
+    },
+    "assessmentSummary": {
+      "description": "Assessment summary",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "common/apiAssessmentSummary.json"
+      }
+    },
+    "childWeightings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "common/apiAssessmentChildWeighting.json"
+      }
+    },
+    "fullAssessmentAvailable": {
+      "type": "boolean",
+      "description": "Indicates the availability of Full Means Assessment."
+    },
+    "reviewType": {
+      "description": "Review Type Info",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.ReviewType"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the assessment was last updated"
+    },
+    "applicationTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The application modification timestamp"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "assessmentId",
+    "criteriaId",
+    "totalAggregatedIncome",
+    "adjustedIncomeValue",
+    "adjustedLivingAllowance",
+    "totalAggregatedExpense",
+    "totalAnnualDisposableIncome",
+    "lowerThreshold",
+    "upperThreshold",
+    "fullThreshold",
+    "result",
+    "resultReason",
+    "assessmentStatus",
+    "fullAssessmentAvailable",
+    "assessmentSummary"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "ApiCreateHardshipRequest.json",
+  "type": "object",
+  "title": "Create Hardship Review request",
+  "description": "Data contract for creating a Hardship Review via the Court Data API",
+  "properties": {
+    "repId": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "userCreated": {
+      "type": "string",
+      "description": "ID of the user creating the assessment"
+    },
+    "courtType": {
+      "description": "The Court Type",
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.CourtType"
+    },
+    "financialAssessmentId": {
+      "type": "integer",
+      "description": "The ID of the financial assessment completed prior to the Hardship Review"
+    }
+  },
+  "extends": {
+    "$ref": "apiPersistHardshipRequest.json"
+  },
+  "additionalProperties": false,
+  "required": ["repId", "userCreated", "courtType", "financialAssessmentId"]
+}

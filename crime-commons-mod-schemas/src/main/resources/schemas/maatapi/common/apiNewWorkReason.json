@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiNewWorkReason.json",
+  "type": "object",
+  "title": "The newWorkReason schema",
+  "description": "An explanation about the purpose of this instance.",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Code of the wrk reason."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of new work code."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "code"
+  ]
+}

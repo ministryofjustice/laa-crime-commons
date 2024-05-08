@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiAssessmentStatus.json",
+  "type": "object",
+  "description": "Assessment Status Details",
+  "properties": {
+    "status": {
+      "type": "string",
+      "title": "Assessment Status"
+    },
+    "description": {
+      "type": "string",
+      "title": "The description"
+    },
+    "complete": {
+      "type": "boolean",
+      "description": "Indicates whether an Assessment is completed or not"
+    },
+    "inProgress": {
+      "type": "boolean",
+      "description": "Indicates whether an Assessment is in progress or not"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "status"
+  ]
+}

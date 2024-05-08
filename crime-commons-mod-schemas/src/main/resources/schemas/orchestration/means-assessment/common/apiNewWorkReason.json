@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiNewWorkReason.json",
+  "type": "object",
+  "title": "The newWorkReason schema",
+  "description": "New work Reason.",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "New Work reason code"
+    },
+    "type": {
+      "type": "string",
+      "description": "New Work reason type"
+    },
+    "description": {
+      "type": "string",
+      "description": "New work reason description"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["code"]
+}

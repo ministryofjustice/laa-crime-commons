@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiEvidenceFee.json",
+  "description": "Evidence Fee",
+  "type": "object",
+  "properties": {
+    "feeLevel": {
+      "description": "Evidence Fee Level",
+      "type": "string"
+    },
+    "description": {
+      "description": "Evidence description",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

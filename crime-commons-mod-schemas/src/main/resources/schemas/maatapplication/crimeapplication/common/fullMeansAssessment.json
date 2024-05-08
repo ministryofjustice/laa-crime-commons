@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "fullMeansAssessment.json",
+  "type": "object",
+  "title": "The Full Means Assessment",
+  "description": "Details of Full Means Assessment",
+  "properties": {
+    "otherHousingNote": {
+      "type": "string",
+      "description": "Other housing notes"
+    },
+    "assessmentDetails": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "assessmentDetail.json"
+      }
+    }
+  }
+}

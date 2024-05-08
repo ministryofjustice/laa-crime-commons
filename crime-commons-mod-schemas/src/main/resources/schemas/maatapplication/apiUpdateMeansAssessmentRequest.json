@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiFullMeansAssessmentRequest.json",
+  "type": "object",
+  "title": "Initial Means Assessment Request",
+  "description": "Data contract for full means assessment requests",
+  "properties": {
+    "financialAssessmentId": {
+      "type": "number",
+      "description": "The ID of the financial assessment being updated"
+    },
+    "fullAssessmentDate": {
+      "type": "string",
+      "description": "Effective Date of full assessment",
+      "format": "date-time"
+    },
+    "otherHousingNote": {
+      "type": "string",
+      "description": "Other housing note field."
+    },
+    "initTotalAggregatedIncome": {
+      "type": "number",
+      "description": "The total aggregated income calculated during the initial assessment"
+    },
+    "fullAssessmentNotes": {
+      "type": "string",
+      "description": "Full assessment notes field."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Financial assessment timestamp",
+      "format": "date-time"
+    }
+  },
+  "extends": {
+    "$ref": "apiMeansAssessmentRequest.json"
+  },
+  "additionalProperties": false,
+  "required": ["fullAssessmentDate", "initTotalAggregatedIncome", "timestamp"]
+}
