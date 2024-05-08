@@ -20,13 +20,13 @@
     "userSession": {
       "type": "object",
       "description": "The current users session",
-      "$ref": "common/apiUserSession.json"
+      "$ref": "../common/apiUserSession.json"
     },
     "capitalEvidence": {
       "type": "array",
       "description": "List of Capital Evidence",
       "items": {
-        "$ref": "common/apiCapitalEvidence.json"
+        "$ref": "../common/apiCapitalEvidence.json"
       }
     },
     "incomeEvidenceReceivedDate": {

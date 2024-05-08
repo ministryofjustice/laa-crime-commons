@@ -13,7 +13,7 @@
     "crownCourtSummary": {
       "type": "object",
       "description": "Crown court overview",
-      "$ref": "common/apiCrownCourtSummary.json"
+      "$ref": "../common/apiCrownCourtSummary.json"
     }
   },
   "additionalProperties": false

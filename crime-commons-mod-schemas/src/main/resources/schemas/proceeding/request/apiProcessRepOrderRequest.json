@@ -42,22 +42,22 @@
     "crownCourtSummary": {
       "type": "object",
       "description": "Crown court overview",
-      "$ref": "common/apiCrownCourtSummary.json"
+      "$ref": "../common/apiCrownCourtSummary.json"
     },
     "iojAppeal": {
       "type": "object",
       "description": "IOJ Appeal",
-      "$ref": "common/apiIOJAppeal.json"
+      "$ref": "../common/apiIOJSummary.json"
     },
     "financialAssessment": {
       "type": "object",
       "description": "Financial assessment",
-      "$ref": "common/apiFinancialAssessment.json"
+      "$ref": "../common/apiFinancialAssessment.json"
     },
     "passportAssessment": {
       "type": "object",
       "description": "passport assessment",
-      "$ref": "common/apiPassportAssessment.json"
+      "$ref": "../common/apiPassportAssessment.json"
     }
   },
   "additionalProperties": false,

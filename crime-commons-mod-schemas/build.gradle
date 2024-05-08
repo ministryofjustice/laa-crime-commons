@@ -13,7 +13,7 @@ semver {
 def versions = [
         jacksonVersion      : "2.17.0",
         validationapiVersion: "2.0.1.Final",
-        crimeCommonsClasses : "3.17.0"
+        crimeCommonsClasses : "3.18.0"
 
 
 ]
@@ -80,7 +80,7 @@ jsonSchema2Pojo {
     executions {
         main {
             io.source.setFrom files("${project.rootDir}/crime-commons-mod-schemas/src/main/resources/schemas")
-            klass.targetPackage = 'uk.gov.justice.laa.crime.model.common'
+            klass.targetPackage = 'uk.gov.justice.laa.crime.common.model'
             klass.jackson2InclusionLevel = "NON_EMPTY"
             methods.builders = true
             methods.annotateJsr303 = true

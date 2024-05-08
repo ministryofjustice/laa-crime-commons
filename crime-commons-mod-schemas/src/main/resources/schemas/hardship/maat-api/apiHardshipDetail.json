@@ -4,7 +4,7 @@
   "type": "object",
   "title": "Hardship Review Details Schema",
   "description": "Data contract for Hardship Review Detail Items in the Court Data API",
-  "javaType": "uk.gov.justice.laa.crime.hardship.model.maat_api.ApiHardshipDetail",
+  "javaType": "uk.gov.justice.laa.crime.common.model.hardship.maat_api.ApiHardshipDetail",
   "properties": {
     "id": {
       "type": "integer",

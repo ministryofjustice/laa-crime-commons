@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiDetermineMagsRepDecisionRequest.json",
+  "type": "object",
+  "title": "Determine Mags Rep Decision Request Schema",
+  "properties": {
+    "repId": {
+      "type": "integer",
+      "description": "MAAT / Rep Id"
+    },
+    "caseType": {
+      "type": "object",
+      "description": "The case type",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.CaseType"
+    },
+    "iojAppeal": {
+      "type": "object",
+      "description": "IOJ Appeal",
+      "$ref": "../common/apiIOJSummary.json"
+    },
+    "financialAssessment": {
+      "type": "object",
+      "description": "Current financial assessment information",
+      "$ref": "../common/apiFinancialAssessment.json"
+    },
+    "passportAssessment": {
+      "type": "object",
+      "description": "passport assessment",
+      "$ref": "../common/apiPassportAssessment.json"
+    },
+    "userSession": {
+      "type": "object",
+      "description": "The current users session",
+      "$ref": "../common/apiUserSession.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["repId", "caseType", "iojAppeal", "financialAssessment", "passportAssessment"]
+}

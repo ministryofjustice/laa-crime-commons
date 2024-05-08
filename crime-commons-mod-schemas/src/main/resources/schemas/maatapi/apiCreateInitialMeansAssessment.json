@@ -3,7 +3,7 @@
   "id": "apiInitialMeansAssessment.json",
   "type": "object",
   "title": "Initial Means Assessment Request",
-  "description": "Data contract between laa-crime-means-assessment service and MAAT API for the initial means assessment processing",
+  "description": "Data contract between laa-crime-means-assessment service  and  Maa court data API for the initial means assessment processing",
   "properties": {
     "laaTransactionId": {
       "type": "string",
