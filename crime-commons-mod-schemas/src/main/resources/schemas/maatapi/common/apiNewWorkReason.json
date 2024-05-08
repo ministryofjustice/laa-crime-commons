@@ -15,7 +15,5 @@
     }
   },
   "additionalProperties": false,
-  "required": [
-    "code"
-  ]
+  "required": ["code"]
 }
