@@ -12,7 +12,7 @@ semver {
 
 def versions = [
         jacksonVersion      : "2.17.0",
-        validationapiVersion: "2.0.1.Final",
+        validationapiVersion: "3.1.0-M2",
         crimeCommonsClasses : "3.18.0"
 
 
@@ -29,8 +29,8 @@ configurations {
 
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "javax.validation:validation-api:$versions.validationapiVersion"
     implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
+    compileOnly "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
 }
 
 publishing {
@@ -83,7 +83,7 @@ jsonSchema2Pojo {
             klass.targetPackage = 'uk.gov.justice.laa.crime.common.model'
             klass.jackson2InclusionLevel = "NON_EMPTY"
             methods.builders = true
-            methods.annotateJsr303 = true
+            methods.annotateJsr303Jakarta = true
             methods.buildersDynamic = true
             fields.floatUseBigDecimal = true
             dateTime.dateType = "java.time.LocalDate"
