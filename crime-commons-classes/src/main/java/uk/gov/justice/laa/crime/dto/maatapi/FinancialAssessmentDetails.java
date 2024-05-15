@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.gov.justice.laa.crime.orchestration.enums.Frequency;
-
+import uk.gov.justice.laa.crime.enums.Frequency;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

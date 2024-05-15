@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.gov.justice.laa.crime.orchestration.dto.maat.ApplicationDTO;
-import uk.gov.justice.laa.crime.orchestration.dto.maat.UserDTO;
-import uk.gov.justice.laa.crime.orchestration.enums.CourtType;
+import uk.gov.justice.laa.crime.dto.maat.ApplicationDTO;
+import uk.gov.justice.laa.crime.dto.maat.UserDTO;
+import uk.gov.justice.laa.crime.enums.CourtType;
+
+
 @Data
 @Builder
 @NoArgsConstructor

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
-import uk.gov.justice.laa.crime.orchestration.dto.maat.SysGenDate;
+import uk.gov.justice.laa.crime.dto.maat.SysGenDate;
 
 import java.io.IOException;
 import java.time.Instant;

@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import uk.gov.justice.laa.crime.orchestration.enums.EformEnum;
-import uk.gov.justice.laa.crime.orchestration.jackson.SysGenDateDeserializer;
+import uk.gov.justice.laa.crime.enums.orchestration.EformEnum;
+import uk.gov.justice.laa.crime.jackson.SysGenDateDeserializer;
+
 
 import java.util.ArrayList;
 import java.util.Collection;

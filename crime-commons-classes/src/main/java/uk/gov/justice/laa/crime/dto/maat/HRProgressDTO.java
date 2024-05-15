@@ -4,9 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import uk.gov.justice.laa.crime.orchestration.dto.maat.GenericDTO;
-import uk.gov.justice.laa.crime.orchestration.dto.maat.HRProgressActionDTO;
-import uk.gov.justice.laa.crime.orchestration.dto.maat.HRProgressResponseDTO;
 
 import java.util.Date;
 

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import uk.gov.justice.laa.crime.orchestration.jackson.SysGenDateDeserializer;
+import uk.gov.justice.laa.crime.jackson.SysGenDateDeserializer;
 
 import java.math.BigDecimal;
 

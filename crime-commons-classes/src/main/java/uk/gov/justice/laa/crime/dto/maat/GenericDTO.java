@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import uk.gov.justice.laa.crime.orchestration.jackson.LocalDateTimeDeserializer;
+import uk.gov.justice.laa.crime.jackson.LocalDateTimeDeserializer;
 
 @Data
 @SuperBuilder
