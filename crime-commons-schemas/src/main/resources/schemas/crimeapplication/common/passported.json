@@ -36,6 +36,44 @@
     "meansPassport": {
       "type": "string",
       "nullable": true
+    },
+    "partnerDetails": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "nullable": true
+        },
+        "last_name": {
+          "type": "string",
+          "nullable": true
+        },
+        "other_names": {
+          "type": "string",
+          "nullable": true
+        },
+        "date_of_birth": {
+          "type": "string",
+          "format": "date",
+          "nullable": true
+        },
+        "nino": {
+          "type": "string",
+          "nullable": true
+        },
+        "employmentStatus": {
+          "type": "object",
+          "nullable": true,
+          "description": "The partner's Employment Status.",
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": ["PASSPORTED", "NONPASS", "EMPLOY", "SELF", null]
+            }
+          }
+        }
+      }
     }
   }
 }
