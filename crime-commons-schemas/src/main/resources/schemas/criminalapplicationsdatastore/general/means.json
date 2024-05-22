@@ -24,6 +24,10 @@
                 "type": "string",
                 "enum": ["week", "fortnight", "four_weeks", "month", "annual"]
               },
+              "ownership_type": {
+                "type": "string",
+                "enum": ["applicant", "partner"]
+              },
               "details": {
                 "anyOf": [
                   {
@@ -39,6 +43,13 @@
           }
         },
         "employment_type": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["employed", "self-employed", "business_partnership", "director", "shareholder", "not_working"]
+          }
+        },
+        "partner_employment_type": {
           "type": "array",
           "items": {
             "type": "string",
@@ -201,6 +212,10 @@
                 "type": "string",
                 "enum": ["week", "fortnight", "four_weeks", "month", "annual"]
               },
+              "ownership_type": {
+                "type": "string",
+                "enum": ["applicant", "partner"]
+              },
               "details": {
                 "anyOf": [
                   {
@@ -284,6 +299,16 @@
           ]
         },
         "trust_fund_amount_held": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "partner_trust_fund_amount_held": {
           "anyOf": [
             {
               "type": "null"
