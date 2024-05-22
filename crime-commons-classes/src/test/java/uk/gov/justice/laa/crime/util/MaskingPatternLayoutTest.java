@@ -1,17 +1,8 @@
 package uk.gov.justice.laa.crime.util;
 
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.Calendar;
-import java.util.Date;
-
 import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.spi.LoggingEvent;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class MaskingPatternLayoutTest {
@@ -34,6 +25,11 @@ class MaskingPatternLayoutTest {
     @Test
     void givenAInvalidMask_whenMaskMessageIsInvoked_thenShouldNotMaskMessage() {
         maskingPatternLayout.addMaskPattern("invalid=(\\d+)");
+        assertThat(maskingPatternLayout.maskMessage(getMessage())).contains(getMessage());
+    }
+
+    @Test
+    void givenAEmptyMask_whenMaskMessageIsInvoked_thenShouldNotMaskMessage() {
         assertThat(maskingPatternLayout.maskMessage(getMessage())).contains(getMessage());
     }
 
