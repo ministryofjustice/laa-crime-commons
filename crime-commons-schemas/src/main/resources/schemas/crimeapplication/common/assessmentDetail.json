@@ -20,7 +20,7 @@
     "partnerFrequency": {
       "type": "object",
       "description": "The Frequency of the Partner",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.Frequency"
+      "enum": ["WEEKLY", "2WEEKLY", "4WEEKLY", "MONTHLY", "ANNUALLY"]
     },
     "assessmentDetailCode": {
       "type": "string",
