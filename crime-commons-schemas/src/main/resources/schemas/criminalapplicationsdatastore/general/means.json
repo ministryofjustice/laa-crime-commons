@@ -276,14 +276,6 @@
                 "type": "string",
                 "enum": ["week", "fortnight", "four_weeks", "month", "annual"]
               },
-              "ownership_type":{
-                "type":"string",
-                "enum":[
-                  "applicant",
-                  "applicant_and_partner"
-                ]
-              }
-            },
               "details": {
                 "anyOf": [
                   {
