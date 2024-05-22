@@ -14,7 +14,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class MaskingpatternLayoutTest {
+class MaskingPatternLayoutTest {
 
     MaskingPatternLayout maskingPatternLayout = new MaskingPatternLayout();
 
