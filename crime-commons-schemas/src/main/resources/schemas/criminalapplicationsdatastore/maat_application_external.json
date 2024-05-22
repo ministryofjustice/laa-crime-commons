@@ -44,7 +44,7 @@
             },
             "home_address": { "$ref": "#/definitions/address" },
             "correspondence_address": { "$ref": "#/definitions/address" },
-            "has_partner":{ "anyOf": [{"type": "null"}, {"type": "string", "enum": ["yes", "no"]}]}
+            "has_partner": { "anyOf": [{ "type": "null" }, { "type": "string", "enum": ["yes", "no"] }] }
           },
           "required": ["first_name", "last_name", "date_of_birth", "correspondence_address_type"]
         },
@@ -56,10 +56,13 @@
             "other_names": { "type": ["string", "null"] },
             "date_of_birth": { "type": "string", "format": "date" },
             "nino": { "type": ["string", "null"] },
-            "benefit_type": {"type": ["string", "null"], "enum": ["universal_credit", "guarantee_pension", "jsa", "esa", "income_support", "none", null] },
+            "benefit_type": {
+              "type": ["string", "null"],
+              "enum": ["universal_credit", "guarantee_pension", "jsa", "esa", "income_support", "none", null]
+            },
             "last_jsa_appointment_date": { "type": ["string", "null"], "format": "date" },
-            "involvement_in_case": {"type": ["string", "null"], "enum": ["victim", "prosecution_witness", "codefendant", "no_involvement", null] },
-            "conflict_of_interest": { "anyOf": [{"type": "null"}, {"type": "string", "enum": ["yes", "no"]}]}
+            "involvement_in_case": { "type": ["string", "null"], "enum": ["victim", "prosecution_witness", "codefendant", "no_involvement", null] },
+            "conflict_of_interest": { "anyOf": [{ "type": "null" }, { "type": "string", "enum": ["yes", "no"] }] }
           },
           "required": ["first_name", "last_name", "date_of_birth"]
         }
