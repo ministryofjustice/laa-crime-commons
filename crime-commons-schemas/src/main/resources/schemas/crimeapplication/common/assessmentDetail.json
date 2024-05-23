@@ -8,9 +8,18 @@
       "type": "number",
       "description": "An explanation about the purpose of this instance."
     },
+    "partnerAmount": {
+      "type": "number",
+      "description": "An explanation about the purpose of this instance."
+    },
     "applicantFrequency": {
       "type": "string",
       "description": "The Frequency of Applicant",
+      "enum": ["WEEKLY", "2WEEKLY", "4WEEKLY", "MONTHLY", "ANNUALLY"]
+    },
+    "partnerFrequency": {
+      "type": "object",
+      "description": "The Frequency of the Partner",
       "enum": ["WEEKLY", "2WEEKLY", "4WEEKLY", "MONTHLY", "ANNUALLY"]
     },
     "assessmentDetailCode": {
