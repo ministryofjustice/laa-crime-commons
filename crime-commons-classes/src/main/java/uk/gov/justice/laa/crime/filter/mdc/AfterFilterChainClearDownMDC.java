@@ -13,9 +13,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@WebFilter("/*")
-@Component
-@Order
 public class AfterFilterChainClearDownMDC implements Filter {
     
     @Override
