@@ -5,20 +5,13 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 @Slf4j
-@WebFilter("/*")
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AddLaaTransactionIdToMDC implements Filter {
 
   private static final String LAA_TRANSACTION_ID = "Laa-Transaction-Id";
@@ -31,12 +24,13 @@ public class AddLaaTransactionIdToMDC implements Filter {
 
     String laaTransactionIdHeaderValue = extractLaaTransactionIdFromHeader(request);
 
-    if(StringUtils.isNotBlank(laaTransactionIdHeaderValue)){
+    if (StringUtils.isNotBlank(laaTransactionIdHeaderValue)) {
       log.debug("Adding the {} [{}] to the MDC", LAA_TRANSACTION_ID, laaTransactionIdHeaderValue);
       MDC.put(LAA_TRANSACTION_ID, laaTransactionIdHeaderValue);
 
     } else {
-      log.debug("Not adding the {} [{}] to the MDC, as it is blank", LAA_TRANSACTION_ID, laaTransactionIdHeaderValue);
+      log.debug("Not adding the {} [{}] to the MDC, as it is blank", LAA_TRANSACTION_ID,
+          laaTransactionIdHeaderValue);
     }
 
     chain.doFilter(request, response);
@@ -45,7 +39,7 @@ public class AddLaaTransactionIdToMDC implements Filter {
   private String extractLaaTransactionIdFromHeader(ServletRequest request) {
 
     if (request instanceof HttpServletRequest httpServletRequest) {
-      return  httpServletRequest.getHeader(LAA_TRANSACTION_ID);
+      return httpServletRequest.getHeader(LAA_TRANSACTION_ID);
     }
 
     return null;
