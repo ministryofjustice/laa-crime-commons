@@ -1,8 +1,6 @@
 package uk.gov.justice.laa.crime.util;
 
 import org.junit.jupiter.api.Test;
-import ch.qos.logback.classic.PatternLayout;
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class MaskingPatternLayoutTest {
