@@ -18,7 +18,7 @@
       "enum": ["WEEKLY", "2WEEKLY", "4WEEKLY", "MONTHLY", "ANNUALLY"]
     },
     "partnerFrequency": {
-      "type": "object",
+      "type": "string",
       "description": "The Frequency of the Partner",
       "enum": ["WEEKLY", "2WEEKLY", "4WEEKLY", "MONTHLY", "ANNUALLY"]
     },
