@@ -60,5 +60,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["repOrderDecision", "repType"]
+  "required": ["repOrderDecision"]
 }
