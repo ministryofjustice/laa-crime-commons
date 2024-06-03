@@ -81,7 +81,6 @@ jsonSchema2Pojo {
         main {
             io.source.setFrom files("${project.rootDir}/crime-commons-mod-schemas/src/main/resources/schemas")
             klass.targetPackage = 'uk.gov.justice.laa.crime.common.model'
-            klass.jackson2InclusionLevel = "NON_EMPTY"
             methods.builders = true
             methods.annotateJsr303Jakarta = true
             methods.buildersDynamic = true
