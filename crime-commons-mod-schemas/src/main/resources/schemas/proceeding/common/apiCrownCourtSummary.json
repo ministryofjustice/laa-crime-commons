@@ -59,6 +59,5 @@
       }
     }
   },
-  "additionalProperties": false,
-  "required": ["repOrderDecision"]
+  "additionalProperties": false
 }
