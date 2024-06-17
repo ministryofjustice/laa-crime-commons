@@ -34,20 +34,6 @@
       "type": "string",
       "format": "date-time",
       "description": "The date the contribution record was calculated"
-    },
-    "fileName": {
-      "type": "string",
-      "description": "The File Name"
-    },
-    "dateSent": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date Contribution Sent"
-    },
-    "dateReceived": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date Contribution Received"
     }
   },
   "additionalProperties": false,
