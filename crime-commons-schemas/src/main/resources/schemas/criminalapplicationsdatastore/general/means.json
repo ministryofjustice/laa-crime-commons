@@ -56,134 +56,31 @@
             "enum": ["employed", "self-employed", "business_partnership", "director", "shareholder", "not_working"]
           }
         },
-        "employment_details": {
-          "type": "object",
-          "properties": {
-            "paye": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "amount": {
-                    "type": "integer"
-                  },
-                  "date": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "deductions": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "integer"
-                        }
-                      },
-                      "required": ["type", "amount"]
-                    }
-                  }
-                },
-                "required": ["amount", "date", "deductions"]
-              }
-            },
-            "other": {
-              "type": "object",
-              "properties": {
-                "amount": {
-                  "type": "integer"
-                },
-                "details": {
-                  "type": "string"
-                }
+        "employment_income_payments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "integer"
               },
-              "required": ["amount", "details"]
-            },
-            "businesses": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "lookup_id": {
-                          "anyOf": [
-                            {
-                              "type": "null"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
-                        },
-                        "address_line_one": {
-                          "type": "string"
-                        },
-                        "address_line_two": {
-                          "anyOf": [
-                            {
-                              "type": "null"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
-                        },
-                        "city": {
-                          "type": "string"
-                        },
-                        "country": {
-                          "type": "string"
-                        },
-                        "postcode": {
-                          "type": "string"
-                        }
-                      },
-                      "required": ["lookup_id", "address_line_one", "address_line_two", "city", "country", "postcode"]
-                    }
-                  },
-                  "last_two_years_tax_liability": {
-                    "type": "integer"
-                  },
-                  "total_turnover": {
-                    "type": "integer"
-                  },
-                  "total_drawing": {
-                    "type": "integer"
-                  },
-                  "total_profit": {
-                    "type": "integer"
-                  },
-                  "director_salary": {
-                    "type": "integer"
-                  },
-                  "share": {
-                    "type": "number"
-                  }
-                },
-                "required": [
-                  "name",
-                  "address",
-                  "last_two_years_tax_liability",
-                  "total_turnover",
-                  "total_drawing",
-                  "total_profit",
-                  "director_salary",
-                  "share"
-                ]
+              "frequency": {
+                "type": "string",
+                "enum": ["week", "fortnight", "four_weeks", "month", "annual"]
+              },
+              "income_tax": {
+                "type": "integer"
+              },
+              "national_insurance": {
+                "type": "integer"
+              },
+              "ownership_type": {
+                "type": "string",
+                "enum": ["applicant", "partner"]
               }
-            }
-          },
-          "required": ["paye"]
+            },
+            "required": ["amount", "frequency", "income_tax", "national_insurance", "ownership_type"]
+          }
         },
         "income_payments": {
           "type": "array",
