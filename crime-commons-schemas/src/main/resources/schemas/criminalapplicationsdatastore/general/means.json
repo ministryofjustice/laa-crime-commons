@@ -56,45 +56,30 @@
             "enum": ["employed", "self-employed", "business_partnership", "director", "shareholder", "not_working"]
           }
         },
-        "employment_income_payments":{
-          "type":"array",
-          "items":{
-            "type":"object",
-            "properties":{
-              "amount":{
-                "type":"integer"
+        "employment_income_payments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "integer"
               },
-              "frequency":{
-                "type":"string",
-                "enum":[
-                  "week",
-                  "fortnight",
-                  "four_weeks",
-                  "month",
-                  "annual"
-                ]
+              "frequency": {
+                "type": "string",
+                "enum": ["week", "fortnight", "four_weeks", "month", "annual"]
               },
-              "income_tax":{
-                "type":"integer"
+              "income_tax": {
+                "type": "integer"
               },
-              "national_insurance":{
-                "type":"integer"
+              "national_insurance": {
+                "type": "integer"
               },
-              "ownership_type":{
-                "type":"string",
-                "enum":[
-                  "applicant",
-                  "partner"
-                ]
+              "ownership_type": {
+                "type": "string",
+                "enum": ["applicant", "partner"]
               }
             },
-            "required":[
-              "amount",
-              "frequency",
-              "income_tax",
-              "national_insurance",
-              "ownership_type"
-            ]
+            "required": ["amount", "frequency", "income_tax", "national_insurance", "ownership_type"]
           }
         },
         "income_payments": {
