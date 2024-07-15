@@ -17,11 +17,8 @@
         "$ref": "apiIncomeEvidence.json"
       },
       "description": "The list of associated income evidence items"
-
     }
   },
   "additionalProperties": false,
-  "required": [
-    "applicantDetails"
-  ]
+  "required": ["applicantDetails"]
 }
