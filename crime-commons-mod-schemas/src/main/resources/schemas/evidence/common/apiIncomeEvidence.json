@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "IncomeEvidence.json",
+  "type": "object",
+  "title": "Income Evidence",
+  "description": "Information About an Income Evidence Item",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The ID of the income evidence item"
+    },
+    "dateReceived": {
+      "type": "string",
+      "format": "date",
+      "description": "The date the evidence was received"
+    },
+    "evidenceType": {
+      "type": "object",
+      "description": "The partners details",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.evidence.IncomeEvidenceType"
+    },
+    "mandatory": {
+      "type": "boolean",
+      "description": "Indicates whether the evidence is mandatory"
+    },
+    "description": {
+      "type": "string",
+      "description": "The evidence description (required for certain evidence types)"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "mandatory",
+    "evidenceType"
+  ]
+}

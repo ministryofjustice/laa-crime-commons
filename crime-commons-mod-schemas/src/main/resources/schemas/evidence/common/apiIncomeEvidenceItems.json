@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "apiIncomeEvidenceItems.json",
+  "type": "object",
+  "title": "Income Evidence Items",
+  "description": "Represents a list of income evidence records associated with an applicant",
+  "properties": {
+    "applicantDetails": {
+      "type": "object",
+      "description": "The applicants details",
+      "$ref": "apiApplicantDetails.json"
+    },
+    "incomeEvidenceItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "apiIncomeEvidence.json"
+      },
+      "description": "The list of associated income evidence items"
+
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "applicantDetails"
+  ]
+}
