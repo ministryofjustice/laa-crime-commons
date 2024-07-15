@@ -3,7 +3,9 @@ plugins {
     id "jacoco"
     id "signing"
     id "maven-publish"
-    id 'org.jsonschema2dataclass' version '6.0.0'
+    id "org.springframework.boot" version "3.1.5" apply false
+    id 'io.spring.dependency-management' version '1.1.4'
+    id "org.jsonschema2dataclass" version "6.0.0"
 }
 
 semver {
@@ -18,9 +20,6 @@ def versions = [
 
 ]
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -28,8 +27,8 @@ configurations {
 }
 
 dependencies {
+    implementation project(":crime-commons-classes")
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
     compileOnly "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
 }
 
