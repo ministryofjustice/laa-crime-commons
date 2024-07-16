@@ -1,9 +1,9 @@
 plugins {
-    id "com.javiersc.semver.project" version "0.5.0"
-    id "jacoco"
-    id "signing"
-    id "maven-publish"
-    id 'org.jsonschema2dataclass' version '6.0.0'
+    id 'com.javiersc.semver.project' version "$semverVersion"
+    id 'jacoco'
+    id 'signing'
+    id 'maven-publish'
+    id 'org.jsonschema2dataclass' version "$jsonSchema2DataVersion"
 }
 
 semver {
