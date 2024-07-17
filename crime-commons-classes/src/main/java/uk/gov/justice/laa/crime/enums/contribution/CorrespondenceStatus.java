@@ -1,5 +1,6 @@
 package uk.gov.justice.laa.crime.enums.contribution;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public enum CorrespondenceStatus {
     private static final String EXCEPTION_MESSAGE = "Correspondence status with value: %s does not exist";
 
     @NotNull
+    @JsonValue
     private final String status;
 
     public static CorrespondenceStatus getFrom(String status) {
