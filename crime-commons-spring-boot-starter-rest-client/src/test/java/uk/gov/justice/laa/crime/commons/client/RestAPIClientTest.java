@@ -18,6 +18,7 @@ import org.springframework.web.reactive.function.client.*;
 import reactor.core.publisher.Mono;
 import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
+import uk.gov.justice.laa.crime.commons.exception.ValidationException;
 
 import java.util.List;
 import java.util.Map;
@@ -272,7 +273,7 @@ class RestAPIClientTest {
         setupValidResponseTest(expected);
         List<MockResponse> response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                new ParameterizedTypeReference<List<MockResponse>>() {
+                new ParameterizedTypeReference<>() {
                 },
                 MOCK_URL,
                 MOCK_HEADERS,
@@ -379,4 +380,37 @@ class RestAPIClientTest {
                 );
     }
 
+    private void setupInternalServerErrorTest() {
+        String errorResponse = """
+                        {
+                          "code": 500,
+                          "message": "Mock validation error"
+                        }
+                """;
+        when(shortCircuitExchangeFunction.exchange(any()))
+                .thenReturn(
+                        Mono.just(ClientResponse
+                                .create(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body(errorResponse)
+                                .build()
+                        )
+                );
+    }
+
+    @Test
+    void givenAScenarioWithServerValidationError_whenGetApiResponseIsInvoked_thenErrorIsThrown() {
+        setupInternalServerErrorTest();
+
+        assertThatThrownBy(
+                () -> restAPIClient.getApiResponse(
+                        new MockRequestBody(),
+                        new ParameterizedTypeReference<MockResponse>() {
+                        },
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.POST,
+                        null
+                )
+        ).isInstanceOf(ValidationException.class);
+    }
 }
