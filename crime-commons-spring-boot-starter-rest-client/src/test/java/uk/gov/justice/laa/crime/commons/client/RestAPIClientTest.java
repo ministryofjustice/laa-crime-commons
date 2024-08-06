@@ -9,10 +9,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.web.reactive.function.client.*;
 import reactor.core.publisher.Mono;
@@ -40,6 +44,7 @@ class RestAPIClientTest {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final Map<String, String> MOCK_HEADERS = Map.of(Constants.LAA_TRANSACTION_ID, "laaTransactionId");
     private static final Map<String, Object> MOCK_GRAPHQL_BODY = Map.of("variables", "", "filter", "");
+    public static final String MOCK_VALIDATION_ERROR = "Mock validation error";
     private final String MOCK_REP_ID = "1234";
     private RestAPIClient restAPIClient;
     @Mock
@@ -390,11 +395,24 @@ class RestAPIClientTest {
         when(shortCircuitExchangeFunction.exchange(any()))
                 .thenReturn(
                         Mono.just(ClientResponse
-                                .create(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .create(HttpStatus.INTERNAL_SERVER_ERROR, jacksonStrategies())
+                                .header(HttpHeaders.CONTENT_TYPE,
+                                        MediaType.APPLICATION_JSON_VALUE)
                                 .body(errorResponse)
                                 .build()
                         )
                 );
+    }
+
+    static ExchangeStrategies jacksonStrategies() {
+        return ExchangeStrategies
+                .builder()
+                .codecs(clientDefaultCodecsConfigurer ->
+                {
+                    clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(new ObjectMapper(), MediaType.APPLICATION_JSON));
+                    clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(new ObjectMapper(), MediaType.APPLICATION_JSON));
+
+                }).build();
     }
 
     @Test
@@ -411,6 +429,7 @@ class RestAPIClientTest {
                         HttpMethod.POST,
                         null
                 )
-        ).isInstanceOf(ValidationException.class);
+        ).isInstanceOf(ValidationException.class)
+                .hasMessage(MOCK_VALIDATION_ERROR);
     }
 }
