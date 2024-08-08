@@ -14,12 +14,15 @@ import org.springframework.web.reactive.function.client.WebClientRequestExceptio
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
+import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RetryConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseException;
+import uk.gov.justice.laa.crime.commons.exception.ValidationException;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * WebClientFilters defines several ExchangeFilterFunctions used to:
@@ -104,7 +107,13 @@ public class WebClientFilters {
                     }
 
                     if (status.is5xxServerError()) {
-                        return new HttpServerErrorException(r.statusCode(), errorMessage);
+                        Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(r.bodyToMono(ErrorDTO.class));
+                        ErrorDTO errorDTO = errorDTOMono.isEmpty() ? null : errorDTOMono.get().block();
+                        if (errorDTO != null) {
+                            return new ValidationException(errorDTO.getMessage());
+                        } else {
+                            return new HttpServerErrorException(r.statusCode(), errorMessage);
+                        }
                     }
                     return WebClientResponseException.create(
                             r.statusCode().value(), status.getReasonPhrase(), null, null, null
