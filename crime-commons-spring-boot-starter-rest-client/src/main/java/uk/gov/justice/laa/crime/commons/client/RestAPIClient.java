@@ -213,7 +213,9 @@ public class RestAPIClient {
         WebClient.RequestHeadersSpec<?> requestHeadersSpec =
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
 
-        return configureErrorResponse(requestHeadersSpec.retrieve().onStatus(HttpStatusCode::is5xxServerError, response -> {
+        WebClient.ResponseSpec responseSpec = requestHeadersSpec.retrieve();
+        return configureErrorResponse(responseSpec
+                .onStatus(HttpStatusCode::is5xxServerError, response -> {
                             ErrorDTO error = response.bodyToMono(ErrorDTO.class).block();
                             log.error("Server returned error code - {}, with error message - {}", error.getCode(), error.getMessage());
                             Sentry.captureException(error);
