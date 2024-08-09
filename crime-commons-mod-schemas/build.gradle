@@ -23,8 +23,9 @@ configurations {
 }
 
 dependencies {
+    implementation project(":crime-commons-classes")
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
+//    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
     compileOnly "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
 }
 
