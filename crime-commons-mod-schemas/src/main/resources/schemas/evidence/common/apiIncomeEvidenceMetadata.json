@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "apiIncomeEvidenceMetadata.json",
+  "type": "object",
+  "title": "Income Evidence Metadata",
+  "description": "MAAT specific metadata required to process income evidence",
+  "properties": {
+    "evidencePending": {
+      "type": "boolean",
+      "description": "indicates whether there is still pending income evidence"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free text notes relating to the income evidence"
+    },
+    "userSession": {
+      "type": "object",
+      "description": "The current users session",
+      "$ref": "apiUserSession.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["userSession"]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "apiCreateIncomeEvidenceRequest.json",
+  "type": "object",
+  "title": "Create Income Evidence Request",
+  "description": "Data Contract for Create Income Evidence Request",
+  "properties": {
+    "magCourtOutcome": {
+      "type": "object",
+      "description": "Magistrate Court Outcome",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.MagCourtOutcome"
+    },
+    "financialAssessmentId": {
+      "type": "integer",
+      "description": "The financial assessment ID the evidence relates to"
+    },
+    "applicantDetails": {
+      "type": "object",
+      "description": "The applicants details",
+      "$ref": "common/apiApplicantDetails.json"
+    },
+    "partnerDetails": {
+      "type": "object",
+      "description": "The partners details",
+      "$ref": "common/apiApplicantDetails.json"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "MAAT specific metadata",
+      "$ref": "common/apiIncomeEvidenceMetadata.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["magCourtOutcome", "applicantDetails", "metadata", "financialAssessmentId"]
+}

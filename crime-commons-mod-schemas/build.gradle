@@ -1,9 +1,9 @@
 plugins {
-    id 'com.javiersc.semver.project' version "$semverVersion"
-    id 'jacoco'
-    id 'signing'
-    id 'maven-publish'
-    id 'org.jsonschema2dataclass' version "$jsonSchema2DataVersion"
+    id "com.javiersc.semver.project" version "$semverVersion"
+    id "jacoco"
+    id "signing"
+    id "maven-publish"
+    id "org.jsonschema2dataclass" version "$jsonSchema2DataVersion"
 }
 
 semver {
@@ -14,12 +14,7 @@ def versions = [
         jacksonVersion      : "2.17.0",
         validationapiVersion: "3.1.0-M2",
         crimeCommonsClasses : "3.18.0"
-
-
 ]
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
 
 configurations {
     compileOnly {
@@ -28,8 +23,9 @@ configurations {
 }
 
 dependencies {
+    implementation project(":crime-commons-classes")
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
+//    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
     compileOnly "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
 }
 
