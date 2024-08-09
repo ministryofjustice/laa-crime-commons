@@ -108,9 +108,13 @@ public class WebClientFilters {
 
                     if (status.is5xxServerError()) {
                         Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(r.bodyToMono(ErrorDTO.class));
-                        ErrorDTO errorDTO = errorDTOMono.isEmpty() ? null : errorDTOMono.get().block();
-                        if (errorDTO != null) {
-                            return new ValidationException(errorDTO.getMessage());
+                        if (errorDTOMono.isPresent()) {
+                            Optional<ErrorDTO> errorDTO = errorDTOMono.get().blockOptional();
+                            if (errorDTO.isPresent()) {
+                                return new ValidationException(errorDTO.get().getMessage());
+                            } else {
+                                return new HttpServerErrorException(r.statusCode(), errorMessage);
+                            }
                         } else {
                             return new HttpServerErrorException(r.statusCode(), errorMessage);
                         }
