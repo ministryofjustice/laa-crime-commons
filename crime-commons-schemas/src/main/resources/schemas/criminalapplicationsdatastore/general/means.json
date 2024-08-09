@@ -46,14 +46,14 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["employed", "self-employed", "business_partnership", "director", "shareholder", "not_working"]
+            "enum": ["employed", "self_employed", "not_working"]
           }
         },
         "partner_employment_type": {
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["employed", "self-employed", "business_partnership", "director", "shareholder", "not_working"]
+            "enum": ["employed", "self_employed", "not_working"]
           }
         },
         "employment_income_payments": {

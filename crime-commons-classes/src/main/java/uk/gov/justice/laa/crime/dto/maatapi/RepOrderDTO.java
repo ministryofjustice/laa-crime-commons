@@ -41,6 +41,7 @@ public class RepOrderDTO {
     private LocalDate crownWithdrawalDate;
     private Integer applicantHistoryId;
     private String macoCourt;
+    private String iojResult;
 
     @Builder.Default
     private List<PassportAssessmentDTO> passportAssessments = new ArrayList<>();
