@@ -225,7 +225,7 @@ public class RestAPIClient {
         WebClient.ResponseSpec responseSpec = requestHeadersSpec.retrieve();
 
         return configureErrorResponse(responseSpec
-                .onStatus(HttpStatusCode::isError, response -> {
+                .onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals, response -> {
                             HttpStatus status = HttpStatus.valueOf(response.statusCode().value());
                             String errorMessage =
                                     String.format("Received error %s due to %s",
