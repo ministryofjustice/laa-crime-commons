@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,13 @@ import reactor.core.publisher.Mono;
 import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RestClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
+import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseException;
 import uk.gov.justice.laa.crime.commons.exception.ValidationException;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * RestApiClient is designed to simplify sending API request to LAA microservices
@@ -36,6 +40,11 @@ public class RestAPIClient {
 
     private final WebClient webClient;
     private final String registrationId;
+    private static List<HttpStatus> retryableStatuses = List.of(
+            HttpStatus.REQUEST_TIMEOUT, HttpStatus.TOO_EARLY, HttpStatus.TOO_MANY_REQUESTS, HttpStatus.BAD_GATEWAY,
+            HttpStatus.SERVICE_UNAVAILABLE, HttpStatus.GATEWAY_TIMEOUT
+    );
+
 
     /**
      * Sends a HTTP HEAD request
@@ -214,12 +223,40 @@ public class RestAPIClient {
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
 
         WebClient.ResponseSpec responseSpec = requestHeadersSpec.retrieve();
+
         return configureErrorResponse(responseSpec
-                .onStatus(HttpStatusCode::is5xxServerError, response -> {
-                            ErrorDTO error = response.bodyToMono(ErrorDTO.class).block();
-                            log.error("Server returned error code - {}, with error message - {}", error.getCode(), error.getMessage());
-                            Sentry.captureException(error);
-                            throw new ValidationException(error.getMessage());
+                .onStatus(HttpStatusCode::isError, response -> {
+                            HttpStatus status = HttpStatus.valueOf(response.statusCode().value());
+                            String errorMessage =
+                                    String.format("Received error %s due to %s",
+                                            status, status.getReasonPhrase());
+
+                            if (retryableStatuses.contains(status)) {
+                                throw new RetryableWebClientResponseException(errorMessage);
+                            }
+//                            if (status.is4xxClientError() && !status.equals(HttpStatus.NOT_FOUND)) {
+//                                throw new HttpClientErrorException(response.statusCode(), errorMessage);
+//                            }
+
+                            if (status.is5xxServerError()) {
+                                Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
+                                if (errorDTOMono.isPresent()) {
+                                    ErrorDTO errorDTO = errorDTOMono.get().block();
+                                    if (errorDTO != null) {
+                                        Sentry.captureException(errorDTO);
+                                        throw new ValidationException(errorDTO.getMessage());
+                                    }
+//                                    else {
+//                                        throw new HttpServerErrorException(response.statusCode(), errorMessage);
+//                                    }
+                                }
+//                                else {
+//                                    throw new HttpServerErrorException(response.statusCode(), errorMessage);
+//                                }
+                            }
+                            throw WebClientResponseException.create(
+                                    status.value(), status.getReasonPhrase(), null, null, null
+                            );
                         }
                 )
                 .bodyToMono(typeReference))

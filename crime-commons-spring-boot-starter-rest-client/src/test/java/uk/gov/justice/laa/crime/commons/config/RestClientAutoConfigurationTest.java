@@ -69,7 +69,7 @@ class RestClientAutoConfigurationTest {
                 .run((context) -> {
                     assertThat(context).hasSingleBean(WebClientCustomizer.class);
                     List<ExchangeFilterFunction> filters = getFilters(context);
-                    assertThat(filters).hasSize(4);
+                    assertThat(filters).hasSize(3);
                     assertThat(getHeaders(context)).hasSize(2);
                     assertThat(getHeaders(context).getFirst(HttpHeaders.ACCEPT))
                             .isEqualTo(MediaType.APPLICATION_JSON_VALUE);
@@ -101,7 +101,7 @@ class RestClientAutoConfigurationTest {
                                     exchangeFilterFunction instanceof ServletOAuth2AuthorizedClientExchangeFilterFunction
                             )
                     ).isTrue();
-                    assertThat(filters).hasSize(5);
+                    assertThat(filters).hasSize(4);
                 });
     }
 
@@ -121,7 +121,7 @@ class RestClientAutoConfigurationTest {
                             webClientBeans.get("nonServletWebClient"), "builder"
                     );
                     List<ExchangeFilterFunction> filters = getFilters(builder);
-                    assertThat(filters).hasSize(5);
+                    assertThat(filters).hasSize(4);
 
                     ExchangeFilterFunction oAuthFilter = filters.stream()
                             .filter(exchangeFilterFunction ->

@@ -98,7 +98,7 @@ public class RestClientAutoConfiguration {
                 filters.add(WebClientFilters.logResponse());
                 filters.add(WebClientFilters.logRequestHeaders());
                 filters.add(WebClientFilters.retryFilter(retryConfiguration));
-                filters.add(WebClientFilters.handleErrorResponse());
+//                filters.add(WebClientFilters.handleErrorResponse());
             });
         };
     }
