@@ -3,6 +3,7 @@ package uk.gov.justice.laa.crime.commons.client;
 import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -222,31 +223,35 @@ public class RestAPIClient {
         WebClient.RequestHeadersSpec<?> requestHeadersSpec =
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
 
-        Mono<R> rMono = configureErrorResponse(requestHeadersSpec.retrieve()
+        Mono<R> rMono = getMono(typeReference, requestHeadersSpec);
+        return rMono.block();
+    }
+
+    @NotNull
+    private <R> Mono<R> getMono(ParameterizedTypeReference<R> typeReference, WebClient.RequestHeadersSpec<?> requestHeadersSpec) {
+        WebClient.ResponseSpec responseSpec = requestHeadersSpec.retrieve()
                 .onStatus(HttpStatusCode::isError, response -> {
                             HttpStatus status = HttpStatus.valueOf(response.statusCode().value());
                             String errorMessage = String.format("Received error %s due to %s", status, status.getReasonPhrase());
 
                             if (retryableStatuses.contains(status)) {
-                                throw new RetryableWebClientResponseException(errorMessage);
+                                return configureErrorResponse(Mono.error(new RetryableWebClientResponseException(errorMessage)));
                             }
                             if (status.is5xxServerError()) {
                                 Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
                                 if (errorDTOMono.isPresent()) {
                                     ErrorDTO errorDTO = errorDTOMono.get().block();
                                     if (errorDTO != null) {
-                                        Sentry.captureException(errorDTO);
-                                        throw new ValidationException(errorDTO.getMessage());
+                                        return configureErrorResponse(Mono.error(new ValidationException(errorDTO.getMessage())));
                                     }
                                 }
                             }
-                            throw WebClientResponseException.create(
+                            return configureErrorResponse(Mono.error(WebClientResponseException.create(
                                     status.value(), status.getReasonPhrase(), null, null, null
-                            );
+                            )));
                         }
-                )
-                .bodyToMono(typeReference));
-        return rMono.block();
+                );
+        return configureErrorResponse(responseSpec.bodyToMono(typeReference));
     }
 
     /**
