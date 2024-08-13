@@ -5,11 +5,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
@@ -89,8 +87,8 @@ public class WebClientFilters {
                 HttpStatus.SERVICE_UNAVAILABLE, HttpStatus.GATEWAY_TIMEOUT
         );
 
-        return ExchangeFilterFunctions.statusError(
-                HttpStatusCode::isError, r -> {
+        return ExchangeFilterFunction.ofResponseProcessor(
+                r -> {
 
                     HttpStatus status = HttpStatus.valueOf(r.statusCode().value());
 
@@ -99,29 +97,25 @@ public class WebClientFilters {
                                     r.statusCode().value(), status.getReasonPhrase());
 
                     if (retryableStatuses.contains(status)) {
-                        return new RetryableWebClientResponseException(errorMessage);
+                        return Mono.error(new RetryableWebClientResponseException(errorMessage));
                     }
 
                     if (status.is4xxClientError() && !status.equals(HttpStatus.NOT_FOUND)) {
-                        return new HttpClientErrorException(r.statusCode(), errorMessage);
+                        return Mono.error(new HttpClientErrorException(r.statusCode(), errorMessage));
                     }
 
                     if (status.is5xxServerError()) {
                         Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(r.bodyToMono(ErrorDTO.class));
                         if (errorDTOMono.isPresent()) {
-                            Optional<ErrorDTO> errorDTO = errorDTOMono.get().blockOptional();
-                            if (errorDTO.isPresent()) {
-                                return new ValidationException(errorDTO.get().getMessage());
-                            } else {
-                                return new HttpServerErrorException(r.statusCode(), errorMessage);
-                            }
+                            return errorDTOMono.get()
+                                    .flatMap(errorBody -> Mono.error(new ValidationException(errorBody.getMessage())));
                         } else {
-                            return new HttpServerErrorException(r.statusCode(), errorMessage);
+                            return Mono.error(new HttpServerErrorException(r.statusCode(), errorMessage));
                         }
                     }
-                    return WebClientResponseException.create(
+                    return Mono.error(WebClientResponseException.create(
                             r.statusCode().value(), status.getReasonPhrase(), null, null, null
-                    );
+                    ));
                 });
     }
 

@@ -3,11 +3,9 @@ package uk.gov.justice.laa.crime.commons.client;
 import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -18,16 +16,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RestClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
-import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseException;
 import uk.gov.justice.laa.crime.commons.exception.ValidationException;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * RestApiClient is designed to simplify sending API request to LAA microservices
@@ -223,35 +218,7 @@ public class RestAPIClient {
         WebClient.RequestHeadersSpec<?> requestHeadersSpec =
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
 
-        Mono<R> rMono = getMono(typeReference, requestHeadersSpec);
-        return rMono.block();
-    }
-
-    @NotNull
-    private <R> Mono<R> getMono(ParameterizedTypeReference<R> typeReference, WebClient.RequestHeadersSpec<?> requestHeadersSpec) {
-        WebClient.ResponseSpec responseSpec = requestHeadersSpec.retrieve()
-                .onStatus(HttpStatusCode::isError, response -> {
-                            HttpStatus status = HttpStatus.valueOf(response.statusCode().value());
-                            String errorMessage = String.format("Received error %s due to %s", status, status.getReasonPhrase());
-
-                            if (retryableStatuses.contains(status)) {
-                                return configureErrorResponse(Mono.error(new RetryableWebClientResponseException(errorMessage)));
-                            }
-                            if (status.is5xxServerError()) {
-                                Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
-                                if (errorDTOMono.isPresent()) {
-                                    ErrorDTO errorDTO = errorDTOMono.get().block();
-                                    if (errorDTO != null) {
-                                        return configureErrorResponse(Mono.error(new ValidationException(errorDTO.getMessage())));
-                                    }
-                                }
-                            }
-                            return configureErrorResponse(Mono.error(WebClientResponseException.create(
-                                    status.value(), status.getReasonPhrase(), null, null, null
-                            )));
-                        }
-                );
-        return configureErrorResponse(responseSpec.bodyToMono(typeReference));
+        return configureErrorResponse(requestHeadersSpec.retrieve().bodyToMono(typeReference)).block();
     }
 
     /**
