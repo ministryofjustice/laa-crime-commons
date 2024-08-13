@@ -88,34 +88,32 @@ public class WebClientFilters {
         );
 
         return ExchangeFilterFunction.ofResponseProcessor(
-                r -> {
+                response -> {
+                    HttpStatus status = HttpStatus.valueOf(response.statusCode().value());
 
-                    HttpStatus status = HttpStatus.valueOf(r.statusCode().value());
-
-                    String errorMessage =
-                            String.format("Received error %s due to %s",
-                                    r.statusCode().value(), status.getReasonPhrase());
+                    String errorMessage = String.format("Received error %s due to %s",
+                            response.statusCode().value(), status.getReasonPhrase());
 
                     if (retryableStatuses.contains(status)) {
                         return Mono.error(new RetryableWebClientResponseException(errorMessage));
                     }
 
-                    if (status.is4xxClientError() && !status.equals(HttpStatus.NOT_FOUND)) {
-                        return Mono.error(new HttpClientErrorException(r.statusCode(), errorMessage));
+                    if (status.is4xxClientError()) {
+                        if (status.equals(HttpStatus.NOT_FOUND)) {
+                            return Mono.error(WebClientResponseException.create(response.statusCode().value(), status.getReasonPhrase(), null, null, null));
+                        }
+                        return Mono.error(new HttpClientErrorException(response.statusCode(), errorMessage));
                     }
 
                     if (status.is5xxServerError()) {
-                        Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(r.bodyToMono(ErrorDTO.class));
+                        Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
                         if (errorDTOMono.isPresent()) {
                             return errorDTOMono.get()
                                     .flatMap(errorBody -> Mono.error(new ValidationException(errorBody.getMessage())));
-                        } else {
-                            return Mono.error(new HttpServerErrorException(r.statusCode(), errorMessage));
                         }
+                        return Mono.error(new HttpServerErrorException(response.statusCode(), errorMessage));
                     }
-                    return Mono.error(WebClientResponseException.create(
-                            r.statusCode().value(), status.getReasonPhrase(), null, null, null
-                    ));
+                    return Mono.just(response);
                 });
     }
 
