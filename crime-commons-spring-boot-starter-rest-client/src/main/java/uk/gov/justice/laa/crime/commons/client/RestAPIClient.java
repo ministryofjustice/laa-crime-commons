@@ -222,22 +222,14 @@ public class RestAPIClient {
         WebClient.RequestHeadersSpec<?> requestHeadersSpec =
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
 
-        WebClient.ResponseSpec responseSpec = requestHeadersSpec.retrieve();
-
-        return configureErrorResponse(responseSpec
-                .onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals, response -> {
+        Mono<R> rMono = configureErrorResponse(requestHeadersSpec.retrieve()
+                .onStatus(HttpStatusCode::isError, response -> {
                             HttpStatus status = HttpStatus.valueOf(response.statusCode().value());
-                            String errorMessage =
-                                    String.format("Received error %s due to %s",
-                                            status, status.getReasonPhrase());
+                            String errorMessage = String.format("Received error %s due to %s", status, status.getReasonPhrase());
 
                             if (retryableStatuses.contains(status)) {
                                 throw new RetryableWebClientResponseException(errorMessage);
                             }
-//                            if (status.is4xxClientError() && !status.equals(HttpStatus.NOT_FOUND)) {
-//                                throw new HttpClientErrorException(response.statusCode(), errorMessage);
-//                            }
-
                             if (status.is5xxServerError()) {
                                 Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
                                 if (errorDTOMono.isPresent()) {
@@ -246,21 +238,15 @@ public class RestAPIClient {
                                         Sentry.captureException(errorDTO);
                                         throw new ValidationException(errorDTO.getMessage());
                                     }
-//                                    else {
-//                                        throw new HttpServerErrorException(response.statusCode(), errorMessage);
-//                                    }
                                 }
-//                                else {
-//                                    throw new HttpServerErrorException(response.statusCode(), errorMessage);
-//                                }
                             }
                             throw WebClientResponseException.create(
                                     status.value(), status.getReasonPhrase(), null, null, null
                             );
                         }
                 )
-                .bodyToMono(typeReference))
-                .block();
+                .bodyToMono(typeReference));
+        return rMono.block();
     }
 
     /**
