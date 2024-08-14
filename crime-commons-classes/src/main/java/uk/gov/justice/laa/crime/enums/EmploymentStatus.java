@@ -32,7 +32,7 @@ public enum EmploymentStatus {
         }
 
         return Stream.of(EmploymentStatus.values())
-                .filter(reason -> reason.code.equals(code))
+                .filter(status -> status.code.equals(code))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("Employment status with value: %s does not exist.", code)));
