@@ -42,7 +42,7 @@ public enum IncomeEvidenceType {
         }
 
         return Stream.of(IncomeEvidenceType.values())
-                .filter(reason -> reason.name.equals(name))
+                .filter(type -> type.name.equals(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("Income Evidence Type with value: %s does not exist.", name)));
