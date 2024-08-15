@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RestClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 import uk.gov.justice.laa.crime.commons.exception.MAATApplicationException;
@@ -213,10 +211,7 @@ public class RestAPIClient {
         WebClient.RequestHeadersSpec<?> requestHeadersSpec =
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
 
-        return configureErrorResponse(requestHeadersSpec.retrieve()
-                .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(ErrorDTO.class)
-                        .flatMap(error -> Mono.error(new MAATApplicationException(error.getMessage()))))
-                .bodyToMono(typeReference)).block();
+        return configureErrorResponse(requestHeadersSpec.retrieve().bodyToMono(typeReference)).block();
     }
 
     /**
