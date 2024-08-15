@@ -108,7 +108,7 @@ public class WebClientFilters {
 
                     if (status.is5xxServerError()) {
                         Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
-                        if (errorDTOMono.isPresent() && HttpStatus.INTERNAL_SERVER_ERROR == response.statusCode()) {
+                        if (HttpStatus.INTERNAL_SERVER_ERROR == response.statusCode() && errorDTOMono.isPresent()) {
                             return errorDTOMono.get()
                                     .flatMap(errorBody -> Mono.error(new MAATApplicationException(errorBody.getMessage())));
                         }

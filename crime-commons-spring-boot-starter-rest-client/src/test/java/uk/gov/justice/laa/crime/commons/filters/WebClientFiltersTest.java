@@ -22,8 +22,10 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.*;
 import reactor.core.publisher.Mono;
 import uk.gov.justice.laa.crime.commons.common.Constants;
+import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RetryConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
+import uk.gov.justice.laa.crime.commons.exception.MAATApplicationException;
 import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseException;
 import uk.gov.justice.laa.crime.commons.util.MemoryAppender;
 
@@ -302,5 +304,79 @@ class WebClientFiltersTest {
                 response::block
         ).isInstanceOf(WebClientRequestException.class)
                 .hasMessageContaining("401 UNAUTHORIZED");
+    }
+
+    @Test
+    void givenServerErrorStatus_whenHandleErrorResponseIsInvoked_thenMAATApplicationExceptionIsThrown() {
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+        doReturn(Mono.just(clientResponse))
+                .when(exchangeFunction).exchange(request);
+
+        when(clientResponse.statusCode())
+                .thenReturn(HttpStatus.INTERNAL_SERVER_ERROR);
+        when(clientResponse.bodyToMono(ErrorDTO.class))
+                .thenReturn(Mono.just(ErrorDTO.builder().message("Mock validation error").build()));
+
+        Mono<ClientResponse> response = WebClientFilters.handleErrorResponse()
+                .filter(request, exchangeFunction);
+
+        assertThatThrownBy(
+                response::block
+        ).isInstanceOf(MAATApplicationException.class)
+                .hasMessage("Mock validation error");
+    }
+
+    @Test
+    void givenServerErrorStatusWithNoErrorDTO_whenHandleErrorResponseIsInvoked_thenHttpServerErrorExceptionIsThrown() {
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+        doReturn(Mono.just(clientResponse))
+                .when(exchangeFunction).exchange(request);
+
+        when(clientResponse.statusCode())
+                .thenReturn(HttpStatus.INTERNAL_SERVER_ERROR);
+        when(clientResponse.bodyToMono(ErrorDTO.class))
+                .thenReturn(null);
+
+        Mono<ClientResponse> response = WebClientFilters.handleErrorResponse()
+                .filter(request, exchangeFunction);
+
+        assertThatThrownBy(
+                response::block
+        ).isInstanceOf(HttpServerErrorException.class)
+                .hasMessage("500 Received error 500 due to Internal Server Error");
+    }
+
+    @Test
+    void givenServiceNotImplemented_whenHandleErrorResponseIsInvoked_thenHttpServerErrorExceptionIsThrown() {
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+        doReturn(Mono.just(clientResponse))
+                .when(exchangeFunction).exchange(request);
+
+        when(clientResponse.statusCode())
+                .thenReturn(HttpStatus.NOT_IMPLEMENTED);
+
+        Mono<ClientResponse> response = WebClientFilters.handleErrorResponse()
+                .filter(request, exchangeFunction);
+
+        assertThatThrownBy(
+                response::block
+        ).isInstanceOf(HttpServerErrorException.class)
+                .hasMessage("501 Received error 501 due to Not Implemented");
+    }
+
+    @Test
+    void givenSuccessResponse_whenHandleErrorResponseIsInvoked_thenResponseIsReturned() {
+        ClientRequest request = ClientRequest.create(HttpMethod.GET, DEFAULT_URL).build();
+
+        doReturn(Mono.just(clientResponse))
+                .when(exchangeFunction).exchange(request);
+
+        when(clientResponse.statusCode())
+                .thenReturn(HttpStatus.OK);
+
+        Mono<ClientResponse> response =
+                WebClientFilters.handleErrorResponse().filter(request, exchangeFunction);
+
+        assertThat(response.block()).isEqualTo(clientResponse);
     }
 }
