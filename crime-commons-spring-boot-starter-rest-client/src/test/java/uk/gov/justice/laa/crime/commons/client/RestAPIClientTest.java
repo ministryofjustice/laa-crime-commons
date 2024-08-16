@@ -22,7 +22,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
-import uk.gov.justice.laa.crime.commons.exception.MAATApplicationException;
+import uk.gov.justice.laa.crime.commons.exception.MAATServerException;
 
 import java.util.List;
 import java.util.Map;
@@ -388,7 +388,7 @@ class RestAPIClientTest {
     private void setupInternalServerErrorTest() {
         when(shortCircuitExchangeFunction.exchange(any()))
                 .thenReturn(
-                        Mono.error(new MAATApplicationException(MOCK_VALIDATION_ERROR)
+                        Mono.error(new MAATServerException(MOCK_VALIDATION_ERROR)
                         )
                 );
     }
@@ -407,7 +407,7 @@ class RestAPIClientTest {
                         HttpMethod.POST,
                         null
                 )
-        ).isInstanceOf(MAATApplicationException.class)
+        ).isInstanceOf(MAATServerException.class)
                 .hasMessage(MOCK_VALIDATION_ERROR);
     }
 

@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
@@ -17,7 +16,7 @@ import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RetryConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseException;
-import uk.gov.justice.laa.crime.commons.exception.MAATApplicationException;
+import uk.gov.justice.laa.crime.commons.exception.MAATServerException;
 
 import java.time.Duration;
 import java.util.List;
@@ -110,7 +109,7 @@ public class WebClientFilters {
                         Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
                         if (HttpStatus.INTERNAL_SERVER_ERROR == response.statusCode() && errorDTOMono.isPresent()) {
                             return errorDTOMono.get()
-                                    .flatMap(errorBody -> Mono.error(new MAATApplicationException(errorBody.getMessage())));
+                                    .flatMap(errorBody -> Mono.error(new MAATServerException(errorBody.getMessage())));
                         }
                         return Mono.error(new HttpServerErrorException(response.statusCode(), errorMessage));
                     }

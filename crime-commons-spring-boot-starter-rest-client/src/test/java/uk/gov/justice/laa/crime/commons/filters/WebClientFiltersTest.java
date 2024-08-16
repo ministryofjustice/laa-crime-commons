@@ -25,7 +25,7 @@ import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RetryConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
-import uk.gov.justice.laa.crime.commons.exception.MAATApplicationException;
+import uk.gov.justice.laa.crime.commons.exception.MAATServerException;
 import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseException;
 import uk.gov.justice.laa.crime.commons.util.MemoryAppender;
 
@@ -322,7 +322,7 @@ class WebClientFiltersTest {
 
         assertThatThrownBy(
                 response::block
-        ).isInstanceOf(MAATApplicationException.class)
+        ).isInstanceOf(MAATServerException.class)
                 .hasMessage("Mock validation error");
     }
 

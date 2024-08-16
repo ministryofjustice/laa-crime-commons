@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import uk.gov.justice.laa.crime.commons.config.RestClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
-import uk.gov.justice.laa.crime.commons.exception.MAATApplicationException;
+import uk.gov.justice.laa.crime.commons.exception.MAATServerException;
 
 import java.net.URI;
 import java.util.Map;
@@ -239,7 +239,7 @@ public class RestAPIClient {
     }
 
     private Throwable handleError(Throwable error) {
-        if (error instanceof APIClientException || error instanceof MAATApplicationException) {
+        if (error instanceof APIClientException || error instanceof MAATServerException) {
             return error;
         }
         String serviceName = registrationId.toUpperCase();
