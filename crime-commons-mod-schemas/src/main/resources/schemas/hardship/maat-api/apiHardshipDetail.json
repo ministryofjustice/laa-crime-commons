@@ -54,6 +54,10 @@
     "userCreated": {
       "type": "string",
       "description": "ID of the user creating the progress item"
+    },
+    "active": {
+      "type": "string",
+      "description": "Indicates if the detail is currently active"
     }
   },
   "required": ["frequency", "amount", "detailType", "timestamp"]
