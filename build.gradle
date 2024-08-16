@@ -57,8 +57,8 @@ project(":crime-commons-spring-boot-starter-rest-client") {
         properties {
             property "sonar.coverage.jacoco.xmlReportPaths",
                     "${project(":crime-commons-spring-boot-starter-rest-client").buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-            property "sonar.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
-            property "sonar.coverage.exclusions", "**/RetryConfiguration.java, **/exception/**.java"
+            property "sonar.exclusions", "**/RetryConfiguration.java, **/exception/**.java, **/ErrorDTO.java"
+            property "sonar.coverage.exclusions", "**/RetryConfiguration.java, **/exception/**.java, **/ErrorDTO.java"
         }
     }
 }
