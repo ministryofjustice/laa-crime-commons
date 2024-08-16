@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import uk.gov.justice.laa.crime.commons.config.RestClientAutoConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
+import uk.gov.justice.laa.crime.commons.exception.MAATServerException;
 
 import java.net.URI;
 import java.util.Map;
@@ -49,11 +50,11 @@ public class RestAPIClient {
     /**
      * Sends a HTTP GET request
      *
-     * @param <R>          the return type
-     * @param url          the url
-     * @param headers      the map of headers
-     * @param queryParams  the map of query parameters
-     * @param urlVariables the map of url variables
+     * @param <R>           the return type
+     * @param url           the url
+     * @param headers       the map of headers
+     * @param queryParams   the map of query parameters
+     * @param urlVariables  the map of url variables
      * @param typeReference specifies the class/type used for deserialization
      * @return the decoded response body
      */
@@ -68,11 +69,11 @@ public class RestAPIClient {
     /**
      * Sends a HTTP GET request
      *
-     * @param <R>          the return type
+     * @param <R>           the return type
      * @param typeReference specifies the class/type used for deserialization
-     * @param url          the url
-     * @param headers      the map of headers
-     * @param urlVariables the map of url variables
+     * @param url           the url
+     * @param headers       the map of headers
+     * @param urlVariables  the map of url variables
      * @return the decoded response body
      */
     public <R> R get(ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {
@@ -82,10 +83,10 @@ public class RestAPIClient {
     /**
      * Sends a HTTP GET request
      *
-     * @param <R>          the return type
+     * @param <R>           the return type
      * @param typeReference specifies the class/type used for deserialization
-     * @param url          the url
-     * @param urlVariables the map of url variables
+     * @param url           the url
+     * @param urlVariables  the map of url variables
      * @return the decoded response body
      */
     public <R> R get(ParameterizedTypeReference<R> typeReference, String url, Object... urlVariables) {
@@ -95,12 +96,12 @@ public class RestAPIClient {
     /**
      * Sends a HTTP POST request
      *
-     * @param <T>          the type of the request body
-     * @param <R>          the return type
-     * @param requestBody  the request body
+     * @param <T>           the type of the request body
+     * @param <R>           the return type
+     * @param requestBody   the request body
      * @param typeReference specifies the class/type used for deserialization
-     * @param url          the url
-     * @param headers      the map of headers
+     * @param url           the url
+     * @param headers       the map of headers
      * @return the decoded response body
      */
     public <T, R> R post(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers) {
@@ -110,13 +111,13 @@ public class RestAPIClient {
     /**
      * Sends a HTTP POST request
      *
-     * @param <T>          the type of the request body
-     * @param <R>          the return type
-     * @param requestBody  the request body
+     * @param <T>           the type of the request body
+     * @param <R>           the return type
+     * @param requestBody   the request body
      * @param typeReference specifies the class/type used for deserialization
-     * @param url          the url
-     * @param headers      the map of headers
-     * @param urlVariables the map of url variables
+     * @param url           the url
+     * @param headers       the map of headers
+     * @param urlVariables  the map of url variables
      * @return the decoded response body
      */
     public <T, R> R post(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {
@@ -126,12 +127,12 @@ public class RestAPIClient {
     /**
      * Sends a HTTP PUT request
      *
-     * @param <T>          the type of the request body
-     * @param <R>          the return type
-     * @param requestBody  the request body
+     * @param <T>           the type of the request body
+     * @param <R>           the return type
+     * @param requestBody   the request body
      * @param typeReference specifies the class/type used for deserialization
-     * @param url          the url
-     * @param headers      the map of headers
+     * @param url           the url
+     * @param headers       the map of headers
      * @return the decoded response body
      */
     public <T, R> R put(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers) {
@@ -141,13 +142,13 @@ public class RestAPIClient {
     /**
      * Sends a HTTP PUT request
      *
-     * @param <T>          the type of the request body
-     * @param <R>          the return type
-     * @param requestBody  the request body
+     * @param <T>           the type of the request body
+     * @param <R>           the return type
+     * @param requestBody   the request body
      * @param typeReference specifies the class/type used for deserialization
-     * @param url          the url
-     * @param headers      the map of headers
-     * @param urlVariables the map of url variables
+     * @param url           the url
+     * @param headers       the map of headers
+     * @param urlVariables  the map of url variables
      * @return the decoded response body
      */
     public <T, R> R put(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {
@@ -191,7 +192,7 @@ public class RestAPIClient {
      * @param <T>           the type of the request body
      * @param <R>           the return type
      * @param requestBody   the request body
-     * @param typeReference  specifies the class/type used for deserialization
+     * @param typeReference specifies the class/type used for deserialization
      * @param url           the url
      * @param headers       the map of headers
      * @param requestMethod the HTTP request method
@@ -209,6 +210,7 @@ public class RestAPIClient {
 
         WebClient.RequestHeadersSpec<?> requestHeadersSpec =
                 prepareRequest(requestBody, url, headers, requestMethod, queryParams, urlVariables);
+
         return configureErrorResponse(requestHeadersSpec.retrieve().bodyToMono(typeReference)).block();
     }
 
@@ -237,7 +239,7 @@ public class RestAPIClient {
     }
 
     private Throwable handleError(Throwable error) {
-        if (error instanceof APIClientException) {
+        if (error instanceof APIClientException || error instanceof MAATServerException) {
             return error;
         }
         String serviceName = registrationId.toUpperCase();
@@ -263,12 +265,12 @@ public class RestAPIClient {
     /**
      * Sends a HTTP PATCH request
      *
-     * @param <T>          the type of the request body
-     * @param <R>          the return type
-     * @param requestBody  the request body
+     * @param <T>           the type of the request body
+     * @param <R>           the return type
+     * @param requestBody   the request body
      * @param typeReference specifies the class/type used for deserialization
-     * @param url          the url
-     * @param headers      the map of headers
+     * @param url           the url
+     * @param headers       the map of headers
      * @return the decoded response body
      */
     public <T, R> R patch(T requestBody, ParameterizedTypeReference<R> typeReference, String url, Map<String, String> headers, Object... urlVariables) {

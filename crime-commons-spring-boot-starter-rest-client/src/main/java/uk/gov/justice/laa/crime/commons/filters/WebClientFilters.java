@@ -5,21 +5,22 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
+import uk.gov.justice.laa.crime.commons.common.ErrorDTO;
 import uk.gov.justice.laa.crime.commons.config.RetryConfiguration;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
 import uk.gov.justice.laa.crime.commons.exception.RetryableWebClientResponseException;
+import uk.gov.justice.laa.crime.commons.exception.MAATServerException;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * WebClientFilters defines several ExchangeFilterFunctions used to:
@@ -86,29 +87,33 @@ public class WebClientFilters {
                 HttpStatus.SERVICE_UNAVAILABLE, HttpStatus.GATEWAY_TIMEOUT
         );
 
-        return ExchangeFilterFunctions.statusError(
-                HttpStatusCode::isError, r -> {
+        return ExchangeFilterFunction.ofResponseProcessor(
+                response -> {
+                    HttpStatus status = HttpStatus.valueOf(response.statusCode().value());
 
-                    HttpStatus status = HttpStatus.valueOf(r.statusCode().value());
-
-                    String errorMessage =
-                            String.format("Received error %s due to %s",
-                                    r.statusCode().value(), status.getReasonPhrase());
+                    String errorMessage = String.format("Received error %s due to %s",
+                            response.statusCode().value(), status.getReasonPhrase());
 
                     if (retryableStatuses.contains(status)) {
-                        return new RetryableWebClientResponseException(errorMessage);
+                        return Mono.error(new RetryableWebClientResponseException(errorMessage));
                     }
 
-                    if (status.is4xxClientError() && !status.equals(HttpStatus.NOT_FOUND)) {
-                        return new HttpClientErrorException(r.statusCode(), errorMessage);
+                    if (status.is4xxClientError()) {
+                        if (status.equals(HttpStatus.NOT_FOUND)) {
+                            return Mono.error(WebClientResponseException.create(response.statusCode().value(), status.getReasonPhrase(), null, null, null));
+                        }
+                        return Mono.error(new HttpClientErrorException(response.statusCode(), errorMessage));
                     }
 
                     if (status.is5xxServerError()) {
-                        return new HttpServerErrorException(r.statusCode(), errorMessage);
+                        Optional<Mono<ErrorDTO>> errorDTOMono = Optional.ofNullable(response.bodyToMono(ErrorDTO.class));
+                        if (HttpStatus.INTERNAL_SERVER_ERROR == response.statusCode() && errorDTOMono.isPresent()) {
+                            return errorDTOMono.get()
+                                    .flatMap(errorBody -> Mono.error(new MAATServerException(errorBody.getMessage())));
+                        }
+                        return Mono.error(new HttpServerErrorException(response.statusCode(), errorMessage));
                     }
-                    return WebClientResponseException.create(
-                            r.statusCode().value(), status.getReasonPhrase(), null, null, null
-                    );
+                    return Mono.just(response);
                 });
     }
 

@@ -14,10 +14,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMapAdapter;
-import org.springframework.web.reactive.function.client.*;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
+import org.springframework.web.reactive.function.client.ExchangeFunction;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import uk.gov.justice.laa.crime.commons.common.Constants;
 import uk.gov.justice.laa.crime.commons.exception.APIClientException;
+import uk.gov.justice.laa.crime.commons.exception.MAATServerException;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +44,7 @@ class RestAPIClientTest {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final Map<String, String> MOCK_HEADERS = Map.of(Constants.LAA_TRANSACTION_ID, "laaTransactionId");
     private static final Map<String, Object> MOCK_GRAPHQL_BODY = Map.of("variables", "", "filter", "");
+    public static final String MOCK_VALIDATION_ERROR = "Mock validation error";
     private final String MOCK_REP_ID = "1234";
     private RestAPIClient restAPIClient;
     @Mock
@@ -272,7 +278,7 @@ class RestAPIClientTest {
         setupValidResponseTest(expected);
         List<MockResponse> response = restAPIClient.getApiResponse(
                 new MockRequestBody(),
-                new ParameterizedTypeReference<List<MockResponse>>() {
+                new ParameterizedTypeReference<>() {
                 },
                 MOCK_URL,
                 MOCK_HEADERS,
@@ -377,6 +383,32 @@ class RestAPIClientTest {
                         HttpMethod.PATCH,
                         null
                 );
+    }
+
+    private void setupInternalServerErrorTest() {
+        when(shortCircuitExchangeFunction.exchange(any()))
+                .thenReturn(
+                        Mono.error(new MAATServerException(MOCK_VALIDATION_ERROR)
+                        )
+                );
+    }
+
+    @Test
+    void givenAScenarioWithServerValidationError_whenGetApiResponseIsInvoked_thenErrorIsThrown() {
+        setupInternalServerErrorTest();
+
+        assertThatThrownBy(
+                () -> restAPIClient.getApiResponse(
+                        new MockRequestBody(),
+                        new ParameterizedTypeReference<MockResponse>() {
+                        },
+                        MOCK_URL,
+                        MOCK_HEADERS,
+                        HttpMethod.POST,
+                        null
+                )
+        ).isInstanceOf(MAATServerException.class)
+                .hasMessage(MOCK_VALIDATION_ERROR);
     }
 
 }
