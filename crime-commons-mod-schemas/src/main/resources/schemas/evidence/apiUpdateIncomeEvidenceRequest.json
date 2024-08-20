@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "apiUpdateIncomeEvidenceRequest.json",
+  "type": "object",
+  "title": "Update Income Evidence Request",
+  "description": "Data Contract for Update Income Evidence Request",
+  "properties": {
+    "magCourtOutcome": {
+      "type": "object",
+      "description": "Magistrate Court Outcome",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.MagCourtOutcome"
+    },
+    "financialAssessmentId": {
+      "type": "integer",
+      "description": "The financial assessment ID the evidence relates to"
+    },
+    "applicantEvidenceItems": {
+      "type": "object",
+      "description": "Income evidence items associated with the applicant",
+      "$ref": "common/apiIncomeEvidenceItems.json"
+    },
+    "partnerEvidenceItems": {
+      "type": "object",
+      "description": "Income evidence items associated with the partner",
+      "$ref": "common/apiIncomeEvidenceItems.json"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "MAAT specific metadata",
+      "$ref": "common/apiIncomeEvidenceMetadata.json"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The date the evidence is due"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["magCourtOutcome", "metadata", "dueDate", "financialAssessmentId"]
+}
