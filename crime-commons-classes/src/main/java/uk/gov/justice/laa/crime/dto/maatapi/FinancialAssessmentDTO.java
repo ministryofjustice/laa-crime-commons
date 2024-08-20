@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uk.gov.justice.laa.crime.dto.maat.UserDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -59,6 +60,7 @@ public class FinancialAssessmentDTO {
     private LocalDateTime firstReminderDate;
     private LocalDateTime secondReminderDate;
     private LocalDateTime evidenceReceivedDate;
+    private UserDTO userCreatedEntity;
     @Builder.Default
     private List<FinancialAssessmentDetails> assessmentDetails = new ArrayList<>();
     @Builder.Default
