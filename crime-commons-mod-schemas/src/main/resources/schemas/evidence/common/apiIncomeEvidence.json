@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "id": "IncomeEvidence.json",
+  "id": "apiIncomeEvidence.json",
   "type": "object",
   "title": "Income Evidence",
   "description": "Information About an Income Evidence Item",
