@@ -83,23 +83,23 @@
           }
         },
         "manage_without_income": {
-          "anyOf":[
+          "anyOf": [
             {
-              "type":"null"
+              "type": "null"
             },
             {
-              "type":"string",
+              "type": "string",
               "enum": ["friends_sofa", "family", "living_on_streets", "custody", "other"]
             }
           ]
         },
         "manage_other_details": {
-          "anyOf":[
+          "anyOf": [
             {
-              "type":"null"
+              "type": "null"
             },
             {
-              "type":"string"
+              "type": "string"
             }
           ]
         },
