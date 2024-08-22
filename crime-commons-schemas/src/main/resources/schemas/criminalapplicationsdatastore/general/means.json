@@ -82,6 +82,27 @@
             "required": ["amount", "frequency", "income_tax", "national_insurance", "ownership_type"]
           }
         },
+        "manage_without_income": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "enum": ["friends_sofa", "family", "living_on_streets", "custody", "other"]
+            }
+          ]
+        },
+        "manage_other_details": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
         "income_payments": {
           "type": "array",
           "items": {

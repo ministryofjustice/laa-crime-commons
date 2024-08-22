@@ -13,6 +13,10 @@
       "type": "string",
       "description": "Other income note"
     },
+    "initialAssessmentNote": {
+      "type": "string",
+      "description": "Other assessment note"
+    },
     "assessmentDetails": {
       "type": "array",
       "minItems": 1,
