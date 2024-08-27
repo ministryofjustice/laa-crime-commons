@@ -15,7 +15,7 @@
             "properties": {
               "payment_type": {
                 "type": "string",
-                "enum": ["child", "working_or_child_tax_credit", "universal_credit", "incapacity", "industrial_injuries_disablement", "jsa", "other"]
+                "enum": ["child", "working_or_child_tax_credit", "universal_credit", "incapacity", "industrial_injuries_disablement", "other"]
               },
               "amount": {
                 "type": "integer"
@@ -110,19 +110,7 @@
             "properties": {
               "payment_type": {
                 "type": "string",
-                "enum": [
-                  "private_pension",
-                  "state_pension",
-                  "maintenance",
-                  "interest_investment",
-                  "student_loan_grant",
-                  "board_from_family",
-                  "rent",
-                  "financial_support_with_access",
-                  "from_friends_relatives",
-                  "work_benefits",
-                  "other"
-                ]
+                "enum": ["private_pension", "state_pension", "maintenance", "interest_investment", "work_benefits", "other"]
               },
               "amount": {
                 "type": "integer"
