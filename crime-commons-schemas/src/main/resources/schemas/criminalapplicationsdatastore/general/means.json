@@ -89,14 +89,7 @@
             "properties": {
               "payment_type": {
                 "type": "string",
-                "enum": [
-                  "private_pension",
-                  "state_pension",
-                  "maintenance",
-                  "interest_investment",
-                  "work_benefits",
-                  "other"
-                ]
+                "enum": ["private_pension", "state_pension", "maintenance", "interest_investment", "work_benefits", "other"]
               },
               "amount": {
                 "type": "integer"
