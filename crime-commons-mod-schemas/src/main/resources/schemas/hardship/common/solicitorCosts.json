@@ -26,5 +26,5 @@
       "description": "The total estimated cost (this is automatically calculated in MAAT)"
     }
   },
-  "required": ["rate", "hours", "vat", "disbursements", "estimatedTotal"]
+  "required": ["rate", "hours", "vat", "disbursements"]
 }
