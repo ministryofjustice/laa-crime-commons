@@ -25,6 +25,11 @@
     "fullAssessmentNotes": {
       "type": "string",
       "description": "Full assessment notes field."
+    },
+    "incomeEvidence": {
+      "type": "object",
+      "description": "Income evidence.",
+      "$ref": "common/apiIncomeEvidence.json"
     }
   },
   "extends": {
