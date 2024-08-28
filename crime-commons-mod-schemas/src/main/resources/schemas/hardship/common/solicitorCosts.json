@@ -23,7 +23,7 @@
     },
     "estimatedTotal": {
       "type": "number",
-      "description": "The total estimated cost (this is automatically calculated in MAAT)"
+      "description": "The total estimated cost"
     }
   },
   "required": ["rate", "hours", "vat", "disbursements"]
