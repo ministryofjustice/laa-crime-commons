@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "crime_application_result.json",
+  "type": "object",
+  "properties": {
+    "usn": {
+      "type": "integer",
+      "nullable": true,
+      "description": "USN number"
+    },
+    "maat_ref": {
+      "type": "integer",
+      "nullable": true,
+      "description": "MAAT / Rep Id"
+    },
+    "case_id": {
+      "type": "string",
+      "nullable": true,
+      "description": "Case ID"
+    },
+    "case_type": {
+      "type": "string",
+      "nullable": true,
+      "enum": ["INDICTABLE", "SUMMARY ONLY", "CC ALREADY", "APPEAL CC", "COMMITAL", "EITHER WAY"]
+    },
+    "ioj_result": {
+      "type": "string",
+      "nullable": true
+    },
+    "ioj_reason": {
+      "type": "string",
+      "nullable": true,
+      "description": "IOJ Notes"
+    },
+    "ioj_assessor_name": {
+      "type": "string",
+      "nullable": true
+    },
+    "app_created_date": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "Date of application created"
+    },
+    "means_result": {
+      "type": "string",
+      "nullable": true,
+      "description": "Means Assessment Result or Passported Result"
+    },
+    "means_assessor_name": {
+      "type": "string",
+      "nullable": true,
+      "description": "Means Assessment Assessor Name or Passported Assessor Name"
+    },
+    "date_means_created": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "Means Assessment Created Date or Passported Created Date"
+    },
+    "funding_decision": {
+      "type": "string",
+      "nullable": true,
+      "description": "Funding Decision"
+    }
+  }
+}
