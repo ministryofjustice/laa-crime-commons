@@ -9,9 +9,9 @@
       "type": "integer",
       "description": "ID"
     },
-    "applId": {
+    "applicantId": {
       "type": "integer",
-      "description": "The associated application ID"
+      "description": "The associated applicant ID"
     },
     "repId": {
       "type": "integer",
@@ -47,10 +47,6 @@
     "userCreated": {
       "type": "string",
       "description": "The user creating the record"
-    },
-    "ccOutcomeCount": {
-      "type": "integer",
-      "description": "Crown Court Outcome Count"
     },
     "magCourtOutcome": {
       "type": "object",
@@ -121,5 +117,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["applId", "repId", "caseType", "assessments"]
+  "required": ["applicantId", "repId", "caseType", "assessments"]
 }
