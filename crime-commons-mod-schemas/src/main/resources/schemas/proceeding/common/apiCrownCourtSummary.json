@@ -48,7 +48,7 @@
       "type": "array",
       "description": "list of crown court outcome",
       "items": {
-        "$ref": "apiCrownCourtOutcome.json"
+        "$ref": "../../common/apiCrownCourtOutcome.json"
       }
     },
     "repOrderCrownCourtOutcome": {
