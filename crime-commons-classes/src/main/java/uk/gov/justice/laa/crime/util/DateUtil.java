@@ -68,4 +68,8 @@ public class DateUtil {
         }
         return null;
     }
+
+    public static Date asDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
 }
