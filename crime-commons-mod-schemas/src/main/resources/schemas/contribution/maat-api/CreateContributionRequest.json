@@ -9,9 +9,9 @@
       "type": "integer",
       "description": "The associated MAAT/REP ID"
     },
-    "applId": {
+    "applicantId": {
       "type": "integer",
-      "description": "The associated application ID"
+      "description": "The associated applicant ID"
     },
     "userCreated": {
       "type": "string",
@@ -22,5 +22,5 @@
     "$ref": "ContributionRequest.json"
   },
   "additionalProperties": false,
-  "required": ["repId", "applId", "userCreated"]
+  "required": ["repId", "applicantId", "userCreated"]
 }

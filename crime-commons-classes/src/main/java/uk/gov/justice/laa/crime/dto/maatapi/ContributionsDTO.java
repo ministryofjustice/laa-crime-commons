@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ContributionsDTO {
     private Integer id;
-    private Integer applId;
+    private Integer applicantId;
     private Integer repId;
     private Integer contributionFileId;
     private LocalDate effectiveDate;

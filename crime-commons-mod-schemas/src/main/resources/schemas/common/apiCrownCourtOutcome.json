@@ -12,8 +12,8 @@
       "description": "description of outcome",
       "type": "string"
     },
-    "outComeType": {
-      "description": "CC outCome type like Trial or Appeal",
+    "outcomeType": {
+      "description": "CC outcome type like Trial or Appeal",
       "type": "string"
     },
     "dateSet": {
@@ -23,6 +23,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["outcome"],
-  "javaType": "uk.gov.justice.laa.crime.common.model.contribution.common.ApiCrownCourtOutcome"
+  "required": ["outcome"]
 }

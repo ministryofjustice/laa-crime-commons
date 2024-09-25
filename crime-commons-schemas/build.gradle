@@ -73,10 +73,32 @@ signing {
 
 jsonSchema2Pojo {
     executions {
-        main {
-            io.source.setFrom files("${project.rootDir}/crime-commons-schemas/src/main/resources/schemas")
-            klass.targetPackage = 'uk.gov.justice.laa.crime.model.common'
+        criminalapplicationsdatastore {
+            io.source.setFrom files("${project.rootDir}/crime-commons-schemas/src/main/resources/schemas/criminalapplicationsdatastore")
+            klass.targetPackage = 'uk.gov.justice.laa.crime.model.common.criminalapplicationsdatastore'
             klass.jackson2InclusionLevel = "NON_EMPTY"
+            methods.builders = true
+            methods.annotateJsr303 = true
+            methods.buildersDynamic = true
+            fields.floatUseBigDecimal = true
+            dateTime.dateType = "java.time.LocalDate"
+            dateTime.dateTimeType = "java.time.LocalDateTime"
+        }
+        crimeapplication {
+            io.source.setFrom files("${project.rootDir}/crime-commons-schemas/src/main/resources/schemas/crimeapplication")
+            klass.targetPackage = 'uk.gov.justice.laa.crime.model.common.crimeapplication'
+            klass.jackson2InclusionLevel = "NON_EMPTY"
+            methods.builders = true
+            methods.annotateJsr303 = true
+            methods.buildersDynamic = true
+            fields.floatUseBigDecimal = true
+            dateTime.dateType = "java.time.LocalDate"
+            dateTime.dateTimeType = "java.time.LocalDateTime"
+        }
+        atis {
+            io.source.setFrom files("${project.rootDir}/crime-commons-schemas/src/main/resources/schemas/atis")
+            klass.targetPackage = 'uk.gov.justice.laa.crime.model.common.atis'
+            klass.jackson2InclusionLevel = "ALWAYS"
             methods.builders = true
             methods.annotateJsr303 = true
             methods.buildersDynamic = true
@@ -87,7 +109,9 @@ jsonSchema2Pojo {
     }
 }
 
-tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigMain")
+tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigCriminalapplicationsdatastore")
+tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigCrimeapplication")
+tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigAtis")
 
 
 
