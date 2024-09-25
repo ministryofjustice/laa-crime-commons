@@ -73,7 +73,7 @@ public class DateUtil {
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    private static Date getCurrentDate() {
+    public static Date getCurrentDate() {
         return Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 }
