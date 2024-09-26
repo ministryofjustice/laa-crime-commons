@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiFullMeansAssessmentRequest.json",
+  "id": "apiUpdateMeansAssessmentRequest.json",
   "type": "object",
-  "title": "Initial Means Assessment Request",
-  "description": "Data contract for full means assessment requests",
+  "title": "Update Means Assessment Request",
+  "description": "Data contract for updating means assessment",
   "properties": {
     "financialAssessmentId": {
       "type": "integer",
@@ -27,14 +27,19 @@
       "description": "Full assessment notes field."
     },
     "incomeEvidence": {
-      "type": "object",
+      "type": "array",
       "description": "Income evidence.",
-      "$ref": "common/apiIncomeEvidence.json"
+      "items": {
+        "$ref": "common/apiIncomeEvidence.json"
+      }
     }
   },
   "extends": {
     "$ref": "apiMeansAssessmentRequest.json"
   },
   "additionalProperties": false,
-  "required": ["initTotalAggregatedIncome"]
+  "required": [
+    "fullAssessmentDate",
+    "initTotalAggregatedIncome"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiCreateInitialMeansAssessmentResponse.json",
+  "id": "apiMeansAssessmentResponse.json",
   "type": "object",
   "title": "Means Assessment Response",
   "description": "The response data of the Means Assessment service",
@@ -116,10 +116,11 @@
         "$ref": "common/apiAssessmentChildWeighting.json"
       }
     },
-    "incomeEvidenceSummary": {
-      "type": "object",
-      "description": "Income Evidence Summary",
-      "$ref": "common/apiIncomeEvidenceSummary.json"
+    "incomeEvidence": {
+      "type": "array",
+      "items": {
+        "$ref": "common/apiIncomeEvidence.json"
+      }
     },
     "fullAssessmentAvailable": {
       "type": "boolean",

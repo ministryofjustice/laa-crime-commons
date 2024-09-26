@@ -5,6 +5,11 @@
   "title": "Update financial assessment request",
   "description": "Data contract between laa-crime-means-assessment service  and  Maa court data API for the initial means assessment processing",
   "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Financial assessment ID",
+      "javaName": "financialAssessmentId"
+    },
     "fassFullStatus": {
       "type": "string",
       "description": "Full assessment status"
@@ -50,10 +55,12 @@
       "type": "string",
       "description": "ID of the user that last modified the assessment"
     },
-    "id": {
-      "type": "integer",
-      "description": "Financial assessment ID",
-      "javaName": "financialAssessmentId"
+    "finAssIncomeEvidences": {
+      "type": "array",
+      "description": "Income evidence records",
+      "items": {
+        "$ref": "../common/apiIncomeEvidence.json"
+      }
     }
   },
   "extends": {
