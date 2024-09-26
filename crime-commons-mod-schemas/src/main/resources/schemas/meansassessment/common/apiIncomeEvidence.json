@@ -9,10 +9,6 @@
       "type": "integer",
       "description": "Evidence id"
     },
-    "fias_id": {
-      "type": "integer",
-      "description": "Financial Assessment System (FIAS)id"
-    },
     "dateReceived": {
       "type": "string",
       "description": "Evidence received Date",
