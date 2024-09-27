@@ -77,7 +77,7 @@ commands:
           steps:
             - run:
                 name: Publish snapshot release to Maven Central
-                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
+                command: ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=minor" "-Psemver.tagPrefix=<< parameters.tagPrefix >>" :<< parameters.module >>:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   authenticate_host:
     description: >
