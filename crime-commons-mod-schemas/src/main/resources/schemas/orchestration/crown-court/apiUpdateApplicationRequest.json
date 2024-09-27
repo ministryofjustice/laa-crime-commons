@@ -20,7 +20,7 @@
     "userSession": {
       "type": "object",
       "description": "The current users session",
-      "$ref": "../common/apiUserSession.json"
+      "$ref": "../../common/apiUserSession.json"
     },
     "capitalEvidence": {
       "type": "array",
