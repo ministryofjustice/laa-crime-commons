@@ -59,7 +59,7 @@
       "type": "array",
       "description": "Income evidence records",
       "items": {
-        "$ref": "../common/apiIncomeEvidence.json"
+        "$ref": "financialAssessmentIncomeEvidence.json"
       }
     }
   },

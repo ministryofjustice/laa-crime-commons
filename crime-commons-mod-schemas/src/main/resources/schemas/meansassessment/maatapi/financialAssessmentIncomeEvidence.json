@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiIncomeEvidence.json",
+  "type": "object",
+  "title": "The Income Evidence schema",
+  "description": "Details of income evidence",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Evidence id"
+    },
+    "dateReceived": {
+      "type": "string",
+      "description": "Evidence received Date",
+      "format": "date-time"
+    },
+    "dateModified": {
+      "type": "string",
+      "description": "Evidence modified Date",
+      "format": "date-time"
+    },
+    "active": {
+      "type": "string",
+      "description": "Is the evidence active"
+    },
+    "apiEvidenceType": {
+      "type": "string",
+      "description": "Evidence Type"
+    },
+    "mandatory": {
+      "type": "string",
+      "description": "Mandatory flag"
+    },
+    "applicant": {
+      "type": "integer",
+      "description": "Applicant associated with the income evidence"
+    },
+    "otherText": {
+      "type": "string",
+      "description": "Other text"
+    },
+    "userModified": {
+      "type": "string",
+      "description": "ID of the user that last modified the assessment"
+    },
+    "adhoc": {
+      "type": "string",
+      "description": "Adhoc"
+    }
+  },
+  "additionalProperties": false
+}
