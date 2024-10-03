@@ -23,7 +23,7 @@
       "type": "string",
       "description": "Is the evidence active"
     },
-    "apiEvidenceType": {
+    "incomeEvidence": {
       "type": "string",
       "description": "Evidence Type"
     },
