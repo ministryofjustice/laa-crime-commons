@@ -19,13 +19,22 @@
       "description": "Evidence modified Date",
       "format": "date-time"
     },
-    "applicantId": {
-      "type": "integer",
-      "description": "Applicant associated with the income evidence"
+    "active": {
+      "type": "string",
+      "description": "Is the evidence active"
+    },
+    "apiEvidenceType": {
+      "type": "object",
+      "description": "Evidence Type",
+      "$ref": "apiEvidenceType.json"
     },
     "mandatory": {
       "type": "string",
       "description": "Mandatory flag"
+    },
+    "applicantId": {
+      "type": "integer",
+      "description": "Applicant associated with the income evidence"
     },
     "otherText": {
       "type": "string",
@@ -34,11 +43,6 @@
     "adhoc": {
       "type": "string",
       "description": "Adhoc"
-    },
-    "apiEvidenceType": {
-      "type": "object",
-      "description": "Evidence Type",
-      "$ref": "apiEvidenceType.json"
     }
   },
   "additionalProperties": false

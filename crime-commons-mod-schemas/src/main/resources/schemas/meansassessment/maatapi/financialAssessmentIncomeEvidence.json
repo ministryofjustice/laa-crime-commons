@@ -19,26 +19,37 @@
       "description": "Evidence modified Date",
       "format": "date-time"
     },
-    "applicantId": {
-      "type": "integer",
-      "description": "Applicant associated with the income evidence"
+    "active": {
+      "type": "string",
+      "description": "Is the evidence active"
+    },
+    "incomeEvidence": {
+      "type": "string",
+      "description": "Evidence Type"
     },
     "mandatory": {
       "type": "string",
       "description": "Mandatory flag"
     },
+    "applicant": {
+      "type": "integer",
+      "description": "Applicant associated with the income evidence"
+    },
     "otherText": {
       "type": "string",
       "description": "Other text"
     },
+    "userCreated": {
+      "type": "string",
+      "description": "ID of the user that created the evidence item"
+    },
+    "userModified": {
+      "type": "string",
+      "description": "ID of the user that last modified the evidence item"
+    },
     "adhoc": {
       "type": "string",
       "description": "Adhoc"
-    },
-    "apiEvidenceType": {
-      "type": "object",
-      "description": "Evidence Type",
-      "$ref": "apiEvidenceType.json"
     }
   },
   "additionalProperties": false
