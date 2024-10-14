@@ -1,10 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "ApiHardshipDetail.json",
+  "id": "apiHardshipDetail.json",
   "type": "object",
   "title": "Hardship Review Details Schema",
   "description": "Data contract for Hardship Review Detail Items in the Court Data API",
-  "javaType": "uk.gov.justice.laa.crime.common.model.hardship.maat_api.ApiHardshipDetail",
   "properties": {
     "id": {
       "type": "integer",

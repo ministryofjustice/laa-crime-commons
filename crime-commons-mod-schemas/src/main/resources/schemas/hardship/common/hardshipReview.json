@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "hardship.json",
+  "id": "hardshipReview.json",
   "type": "object",
   "title": "Hardship Review",
   "description": "Hardship Review Data",
