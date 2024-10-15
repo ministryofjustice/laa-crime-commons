@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiProcessCrownRepOrderRequest.json",
+  "id": "apiProcessRepOrderRequest.json",
   "type": "object",
-  "title": "Crown court Request",
-  "description": "Data contract for crown court action request",
+  "title": "Rep Order Request",
+  "description": "Data contract for process rep order request",
   "properties": {
     "repId": {
       "type": "integer",
