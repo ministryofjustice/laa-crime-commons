@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiApplicationTrackingRequest.json",
+  "id": "applicationTrackingOutputResult.json",
   "type": "object",
   "properties": {
     "usn": {
@@ -12,10 +12,10 @@
       "description": "MAAT / Rep Id"
     },
     "action": {
-      "type": "string",
+      "type": ["string", "null"],
       "nullable": true,
       "description": "Get or Save_Application or Save_Means_Full/Save_Means_Init or Save_Passport",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.ActionType"
+      "enum": ["Get", "Save_Application", "Save_Means_Full", "Save_Means_Init", "Save_Passport", null]
     },
     "action_key_id": {
       "type": "integer",
@@ -29,8 +29,7 @@
     "case_type": {
       "type": "string",
       "nullable": true,
-      "description": "The case type",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.CaseType"
+      "enum": ["INDICTABLE", "SUMMARY ONLY", "CC ALREADY", "APPEAL CC", "COMMITAL", "EITHER WAY"]
     },
     "ioj": {
       "type": "object",
@@ -51,7 +50,7 @@
         "ioj_appeal_result": {
           "type": "string",
           "nullable": true,
-          "existingJavaType": "uk.gov.justice.laa.crime.enums.ReviewResult"
+          "enum": ["PASS", "FAIL"]
         },
         "ioj_assessor_name": {
           "type": "string",
@@ -75,7 +74,7 @@
         "passport_result": {
           "type": "string",
           "nullable": true,
-          "existingJavaType": "uk.gov.justice.laa.crime.enums.PassportAssessmentResult"
+          "enum": ["PASS", "FAIL", "FAIL CONTINUE", "TEMP", null]
         },
         "passport_assessor_name": {
           "type": "string",
@@ -99,7 +98,7 @@
         "means_assessment_type": {
           "type": "string",
           "nullable": true,
-          "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.MeanAssessmentType"
+          "enum": ["MEANS_INIT", "MEANS_FULL"]
         },
         "means_assessment_status": {
           "type": "string",
@@ -108,7 +107,7 @@
         "means_assessment_result": {
           "type": "string",
           "nullable": true,
-          "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.MeanAssessmentResult"
+          "enum": ["FULL", "PASS", "FAIL", "HARDSHIP APPLICATION", "INEL", null]
         },
         "means_assessor_name": {
           "type": "string",
@@ -132,12 +131,12 @@
         "hardship_result": {
           "type": "string",
           "nullable": true,
-          "existingJavaType": "uk.gov.justice.laa.crime.enums.ReviewResult"
+          "enum": ["PASS", "FAIL"]
         },
         "hardship_type": {
           "type": "string",
           "nullable": true,
-          "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.HardshipType"
+          "enum": ["MCHARDSHIP", "CCHARDSHIP", null]
         }
       }
     },
@@ -149,7 +148,7 @@
     "assessment_type": {
       "type": "string",
       "nullable": true,
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.AssessmentType",
+      "enum": ["MCHARDSHIP", "MEANS_INIT", "CCHARDSHIP", "IOJ", "MEANS_FULL", "PASSPORT", null],
       "description": "IOJ type or Finance assessment type or Passport assessment type or Hardship type"
     },
     "dwp_result": {
@@ -174,7 +173,7 @@
     },
     "request_source": {
       "type": "string",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.orchestration.RequestSource",
+      "enum": ["create_application", "passport_ioj", "means_assessment", "hardship", "crown_court", "capital_and_equity"],
       "description": "Source of the Request"
     },
     "user_created": {
