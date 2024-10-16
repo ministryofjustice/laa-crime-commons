@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "apiFinancialAssessment.json",
   "type": "object",
-  "description": "Crown Court Overview",
+  "description": "Financial Assessment",
   "properties": {
     "initResult": {
       "type": "string",

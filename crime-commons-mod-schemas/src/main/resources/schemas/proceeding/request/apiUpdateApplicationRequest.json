@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiUpdateCrownCourtApplicationRequest.json",
+  "id": "apiUpdateApplicationRequest.json",
   "type": "object",
   "title": "Update Crown Court application Request",
   "description": "Data contract for update crown court application request",
@@ -20,7 +20,7 @@
     "userSession": {
       "type": "object",
       "description": "The current users session",
-      "$ref": "../common/apiUserSession.json"
+      "$ref": "../../common/apiUserSession.json"
     },
     "capitalEvidence": {
       "type": "array",

@@ -21,7 +21,7 @@
     "userSession": {
       "type": "object",
       "description": "The current users session",
-      "$ref": "apiUserSession.json"
+      "$ref": "../../common/apiUserSession.json"
     },
     "reviewReason": {
       "description": "The review reason",
