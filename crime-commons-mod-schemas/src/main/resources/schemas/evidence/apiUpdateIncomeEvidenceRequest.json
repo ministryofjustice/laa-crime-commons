@@ -37,12 +37,17 @@
       "description": "MAAT specific metadata",
       "$ref": "common/apiIncomeEvidenceMetadata.json"
     },
-    "dueDate": {
+    "evidenceDueDate": {
       "type": "string",
-      "format": "date",
-      "description": "The date the evidence is due"
+      "description": "The date the evidence is due",
+      "format": "date-time"
+    },
+    "evidenceReceivedDate": {
+      "type": "string",
+      "description": "The date the evidence has been received",
+      "format": "date-time"
     }
   },
   "additionalProperties": false,
-  "required": ["magCourtOutcome", "metadata", "dueDate", "financialAssessmentId"]
+  "required": ["magCourtOutcome", "metadata", "evidenceDueDate", "financialAssessmentId"]
 }
