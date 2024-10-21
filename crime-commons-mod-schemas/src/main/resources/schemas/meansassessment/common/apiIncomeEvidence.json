@@ -3,15 +3,15 @@
   "id": "apiIncomeEvidence.json",
   "type": "object",
   "title": "The Income Evidence schema",
-  "description": "Details of income evidence",
+  "description": "Information About an Income Evidence Item",
   "properties": {
     "id": {
       "type": "integer",
-      "description": "Evidence id"
+      "description": "The ID of the income evidence item associated with the financial assessment"
     },
     "dateReceived": {
       "type": "string",
-      "description": "Evidence received Date",
+      "description": "The date the evidence was received",
       "format": "date-time"
     },
     "dateModified": {
@@ -30,19 +30,19 @@
     },
     "mandatory": {
       "type": "string",
-      "description": "Mandatory flag"
+      "description": "Indicates whether the evidence is mandatory"
     },
     "applicantId": {
       "type": "integer",
-      "description": "Applicant associated with the income evidence"
+      "description": "The ID of the person associated with the income evidence (applicant or partner)"
     },
     "otherText": {
       "type": "string",
-      "description": "Other text"
+      "description": "The evidence description (required for certain evidence types)"
     },
     "adhoc": {
       "type": "string",
-      "description": "Adhoc"
+      "description": "Indicates who the other adhoc evidence is associated with (applicant or partner)"
     }
   },
   "additionalProperties": false

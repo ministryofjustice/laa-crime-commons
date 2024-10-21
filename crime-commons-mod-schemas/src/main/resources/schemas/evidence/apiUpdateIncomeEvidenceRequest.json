@@ -19,10 +19,18 @@
       "description": "Income evidence items associated with the applicant",
       "$ref": "common/apiIncomeEvidenceItems.json"
     },
+    "applicantPensionAmount": {
+      "type": "number",
+      "description": "Applicant pension amount"
+    },
     "partnerEvidenceItems": {
       "type": "object",
       "description": "Income evidence items associated with the partner",
       "$ref": "common/apiIncomeEvidenceItems.json"
+    },
+    "partnerPensionAmount": {
+      "type": "number",
+      "description": "Partner pension amount"
     },
     "metadata": {
       "type": "object",
