@@ -5,6 +5,11 @@
   "title": "Income Evidence Metadata",
   "description": "MAAT specific metadata required to process income evidence",
   "properties": {
+    "applicationReceivedDate": {
+      "type": "string",
+      "description": "The date the application was received",
+      "format": "date"
+    },
     "evidencePending": {
       "type": "boolean",
       "description": "indicates whether there is still pending income evidence"
@@ -20,5 +25,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["userSession"]
+  "required": ["applicationReceivedDate", "userSession"]
 }
