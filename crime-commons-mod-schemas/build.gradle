@@ -71,6 +71,10 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask("publishToMavenLocal") }
+}
+
 jsonSchema2Pojo {
     executions {
         main {
