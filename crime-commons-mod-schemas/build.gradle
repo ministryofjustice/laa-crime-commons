@@ -64,13 +64,15 @@ publishing {
     }
 }
 
-if (!project.hasProperty('skipSigning')) {
-    signing {
-        sign publishing.publications.maven
-        def signingKey = findProperty("signingKey")
-        def signingPassword = findProperty("signingPassword")
-        useInMemoryPgpKeys(signingKey, signingPassword)
-    }
+tasks.withType(PublishToMavenRepository) {
+    onlyIf { repository != repositories.mavenLocal() }
+}
+
+signing {
+    sign publishing.publications.maven
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
 jsonSchema2Pojo {
