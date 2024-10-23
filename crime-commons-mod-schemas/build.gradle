@@ -64,16 +64,16 @@ publishing {
     }
 }
 
-signing {
-    sign publishing.publications.maven
-    def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
+if (!project.hasProperty('skipSigning')) {
+    signing {
+        sign publishing.publications.maven
+        def signingKey = findProperty("signingKey")
+        def signingPassword = findProperty("signingPassword")
+        useInMemoryPgpKeys(signingKey, signingPassword)
+    }
 }
 
-tasks.withType(Sign) {
-    onlyIf { !gradle.taskGraph.hasTask("publishToMavenLocal") }
-}
+task.withT
 
 jsonSchema2Pojo {
     executions {
