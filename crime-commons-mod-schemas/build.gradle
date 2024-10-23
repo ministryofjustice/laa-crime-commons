@@ -73,8 +73,6 @@ if (!project.hasProperty('skipSigning')) {
     }
 }
 
-task.withT
-
 jsonSchema2Pojo {
     executions {
         main {
