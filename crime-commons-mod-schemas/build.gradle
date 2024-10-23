@@ -65,7 +65,7 @@ publishing {
 }
 
 tasks.withType(Sign) {
-    onlyIf { !gradle.taskGraph.hasTask("$project.name:publishMavenPublicationToMavenLocal") }
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
 }
 
 signing {
