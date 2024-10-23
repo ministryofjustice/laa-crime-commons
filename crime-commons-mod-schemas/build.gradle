@@ -64,7 +64,7 @@ publishing {
     }
 }
 
-if (!gradle.taskGraph.hasTask("publishToMavenLocal")) {
+if (!gradle.taskGraph.hasTask(":crime-commons-mod-schemas:publishToMavenLocal")) {
     signing {
         sign publishing.publications.maven
         def signingKey = findProperty("signingKey")
