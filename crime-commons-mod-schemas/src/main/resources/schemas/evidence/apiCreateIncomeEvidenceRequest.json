@@ -24,6 +24,14 @@
       "description": "The partners details",
       "$ref": "common/apiApplicantDetails.json"
     },
+    "applicantPensionAmount": {
+      "type": "number",
+      "description": "Applicant pension amount"
+    },
+    "partnerPensionAmount": {
+      "type": "number",
+      "description": "Partner pension amount"
+    },
     "metadata": {
       "type": "object",
       "description": "MAAT specific metadata",
