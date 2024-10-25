@@ -46,6 +46,11 @@
       "type": "string",
       "description": "The date the evidence has been received",
       "format": "date-time"
+    },
+    "previousEvidenceDueDate": {
+      "type": "string",
+      "description": "The date evidence was previously due by",
+      "format": "date-time"
     }
   },
   "additionalProperties": false,
