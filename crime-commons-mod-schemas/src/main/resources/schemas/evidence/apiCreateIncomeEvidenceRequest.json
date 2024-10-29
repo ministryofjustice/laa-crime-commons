@@ -10,10 +10,6 @@
       "description": "Magistrate Court Outcome",
       "existingJavaType": "uk.gov.justice.laa.crime.enums.MagCourtOutcome"
     },
-    "financialAssessmentId": {
-      "type": "integer",
-      "description": "The financial assessment ID the evidence relates to"
-    },
     "applicantDetails": {
       "type": "object",
       "description": "The applicants details",
