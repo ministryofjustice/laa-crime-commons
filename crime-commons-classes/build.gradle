@@ -51,6 +51,7 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsioVersion
 
     implementation "org.apache.commons:commons-lang3"
+    implementation 'io.micrometer:micrometer-tracing'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
