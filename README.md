@@ -106,6 +106,26 @@ a new version number, by default, the minor version number is incremented. Howev
 New releases will be automatically tagged and published when changes are merged into the main branch. Artifacts can also be published
 from feature branches, however, these require manual approval through CircleCI.
 
+### Publishing Locally
+
+You can publish crime commons sub modules to a local maven repository, if you only wish to test any changes made locally. This can be quicker and easier and avoid duplicate versioning issues for remote repositories. To publish locally you will need to perform the following steps:
+
+1. Add the following configuration to disable signing for local publishing to the `build.gradle` of the sub module you wish to publish:
+
+```groovy
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+```
+
+2. Run the following command to generate a snapshot version and publish a sub module to the local Maven repository (replace `<sub_module_name>` with the name of the sub module being published):
+
+```shell
+./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=patch" "-Psemver.tagPrefix=<sub_module_name>-" :<sub_module_name>:publishToMavenLocal
+```
+
+3. Once the above script has been run, in order for a micro service to then use this locally published dependency add `mavenLocal()` to the list of repositories in the `build.gradle` file and update the version of the dependency.
+
 ## Contributing
 
 Bug reports and pull requests are welcome. However, please make sure your changes are covered by tests and follow modern software development best practices.
