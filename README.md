@@ -107,9 +107,11 @@ New releases will be automatically tagged and published when changes are merged 
 from feature branches, however, these require manual approval through CircleCI.
 
 ### Publishing Locally
+
 You can publish crime commons sub modules to a local maven repository, if you only wish to test any changes made locally. This can be quicker and easier and avoid duplicate versioning issues for remote repositories. To publish locally you will need to perform the following steps:
 
 1. Add the following configuration to disable signing for local publishing to the `build.gradle` of the sub module you wish to publish:
+
 ```groovy
 tasks.withType(Sign) {
     onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
@@ -117,6 +119,7 @@ tasks.withType(Sign) {
 ```
 
 2. Run the following command to generate a snapshot version and publish a sub module to the local Maven repository (replace `<sub_module_name>` with the name of the sub module being published):
+
 ```shell
 ./gradlew pushSemverTag "-PisSnapshot=true" "-Psemver.stage=snapshot" "-Psemver.scope=patch" "-Psemver.tagPrefix=<sub_module_name>-" :<sub_module_name>:publishToMavenLocal
 ```
