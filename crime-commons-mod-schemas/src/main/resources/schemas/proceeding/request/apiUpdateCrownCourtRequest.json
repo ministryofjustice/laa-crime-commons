@@ -99,14 +99,5 @@
     }
   },
   "additionalProperties": false,
-  "required": [
-    "repId",
-    "caseType",
-    "dateReceived",
-    "isImprisoned",
-    "userSession",
-    "applicantHistoryId",
-    "crownCourtSummary",
-    "iojAppeal"
-  ]
+  "required": ["repId", "caseType", "dateReceived", "isImprisoned", "userSession", "applicantHistoryId", "crownCourtSummary", "iojAppeal"]
 }
