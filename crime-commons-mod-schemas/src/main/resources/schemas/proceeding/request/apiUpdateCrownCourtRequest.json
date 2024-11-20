@@ -5,63 +5,9 @@
   "title": "Update Crown Court Request",
   "description": "Data contract for update crown court application request",
   "properties": {
-    "repId": {
-      "type": "integer",
-      "description": "MAAT / Rep Id"
-    },
-    "caseType": {
-      "type": "object",
-      "description": "The case type",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.CaseType"
-    },
-    "magCourtOutcome": {
-      "type": "object",
-      "description": "Magistrate Court Outcome",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.MagCourtOutcome"
-    },
-    "decisionReason": {
-      "type": "object",
-      "description": "Decision Reason",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.DecisionReason"
-    },
-    "decisionDate": {
+    "emstCode": {
       "type": "string",
-      "description": "Decision Date",
-      "format": "date-time"
-    },
-    "committalDate": {
-      "type": "string",
-      "description": "Committal Date",
-      "format": "date-time"
-    },
-    "dateReceived": {
-      "type": "string",
-      "description": "Date Received",
-      "format": "date-time"
-    },
-    "applicantHistoryId": {
-      "type": "integer",
-      "description": "The applicant history Id"
-    },
-    "crownRepId": {
-      "type": "integer",
-      "description": "The Crown Rep ID"
-    },
-    "isImprisoned": {
-      "type": "boolean",
-      "description": "Indicate whether the applicant is imprisoned"
-    },
-    "userSession": {
-      "type": "object",
-      "description": "The current users session",
-      "$ref": "../../common/apiUserSession.json"
-    },
-    "capitalEvidence": {
-      "type": "array",
-      "description": "List of Capital Evidence",
-      "items": {
-        "$ref": "../common/apiCapitalEvidence.json"
-      }
+      "description": "Emp status code"
     },
     "incomeEvidenceReceivedDate": {
       "type": "string",
@@ -73,31 +19,16 @@
       "description": "Capital evidence Received Date",
       "format": "date-time"
     },
-    "emstCode": {
-      "type": "string",
-      "description": "Emp status code"
+    "capitalEvidence": {
+      "type": "array",
+      "description": "List of Capital Evidence",
+      "items": {
+        "$ref": "../common/apiCapitalEvidence.json"
+      }
     },
-    "crownCourtSummary": {
-      "type": "object",
-      "description": "Crown court overview",
-      "$ref": "../common/apiCrownCourtSummary.json"
-    },
-    "iojAppeal": {
-      "type": "object",
-      "description": "IOJ Appeal",
-      "$ref": "../common/apiIOJSummary.json"
-    },
-    "financialAssessment": {
-      "type": "object",
-      "description": "Financial assessment",
-      "$ref": "../common/apiFinancialAssessment.json"
-    },
-    "passportAssessment": {
-      "type": "object",
-      "description": "passport assessment",
-      "$ref": "../common/apiPassportAssessment.json"
+    "extends": {
+      "$ref": "apiUpdateApplicationRequest.json"
     }
   },
-  "additionalProperties": false,
-  "required": ["repId", "caseType", "dateReceived", "isImprisoned", "userSession", "applicantHistoryId", "crownCourtSummary", "iojAppeal"]
+  "additionalProperties": false
 }
