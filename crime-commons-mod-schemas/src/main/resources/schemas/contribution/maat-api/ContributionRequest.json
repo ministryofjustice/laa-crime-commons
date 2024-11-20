@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiCreateAssessment.json",
+  "id": "ContributionRequest.json",
   "type": "object",
   "title": "Base Contribution Request",
   "description": "Base Data contract for finding, creating and modifying contribution records via the Court Data API",
@@ -11,12 +11,12 @@
     },
     "effectiveDate": {
       "type": "string",
-      "format": "date-time",
+      "format": "date",
       "description": "The date the contribution record became effective"
     },
     "calcDate": {
       "type": "string",
-      "format": "date-time",
+      "format": "date",
       "description": "The date the contribution record was calculated"
     },
     "contributionCap": {
@@ -46,12 +46,12 @@
     },
     "dateUpliftApplied": {
       "type": "string",
-      "format": "date-time",
+      "format": "date",
       "description": "The date that an income uplift was applied"
     },
     "dateUpliftRemoved": {
       "type": "string",
-      "format": "date-time",
+      "format": "date",
       "description": "The date that an income uplift was removed"
     },
     "createContributionOrder": {
