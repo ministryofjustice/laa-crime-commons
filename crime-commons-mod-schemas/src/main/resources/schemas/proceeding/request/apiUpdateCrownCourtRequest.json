@@ -25,10 +25,10 @@
       "items": {
         "$ref": "../common/apiCapitalEvidence.json"
       }
-    },
-    "extends": {
-      "$ref": "apiUpdateApplicationRequest.json"
     }
+  },
+  "extends": {
+    "$ref": "apiUpdateApplicationRequest.json"
   },
   "additionalProperties": false
 }
