@@ -139,6 +139,11 @@
       "type": "string",
       "format": "date-time",
       "description": "The application modification timestamp"
+    },
+    "dateCompleted": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the assessment was completed"
     }
   },
   "additionalProperties": false,
