@@ -43,13 +43,6 @@
     "hardshipReviewId": {
       "type": "integer",
       "description": "The ID of the Hardship Review to update"
-    },
-    "progressItems": {
-      "type": "array",
-      "description": "The hardship review progress details (actions taken  and  responses)",
-      "items": {
-        "$ref": "hardshipProgress.json"
-      }
     }
   },
   "additionalProperties": false,
