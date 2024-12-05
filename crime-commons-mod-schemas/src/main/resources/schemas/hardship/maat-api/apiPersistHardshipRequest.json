@@ -60,13 +60,6 @@
       "items": {
         "$ref": "apiHardshipDetail.json"
       }
-    },
-    "reviewProgressItems": {
-      "type": "array",
-      "description": "Hardship Review progress items",
-      "items": {
-        "$ref": "apiHardshipProgress.json"
-      }
     }
   },
   "additionalProperties": false,
