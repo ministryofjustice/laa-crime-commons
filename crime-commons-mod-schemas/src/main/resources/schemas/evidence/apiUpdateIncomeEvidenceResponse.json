@@ -5,16 +5,6 @@
   "title": "Update Income Evidence Response",
   "description": "Data Contract for Update Income Evidence Response",
   "properties": {
-    "applicantEvidenceItems": {
-      "type": "object",
-      "description": "Income evidence items associated with the applicant",
-      "$ref": "common/apiIncomeEvidenceItems.json"
-    },
-    "partnerEvidenceItems": {
-      "type": "object",
-      "description": "Income evidence items associated with the partner",
-      "$ref": "common/apiIncomeEvidenceItems.json"
-    },
     "dueDate": {
       "type": "string",
       "format": "date",
@@ -26,6 +16,8 @@
       "description": "The date that all of the evidence was received"
     }
   },
-  "additionalProperties": false,
-  "required": ["applicantEvidenceItems", "partnerEvidenceItems", "dueDate"]
+  "extends": {
+    "$ref": "apiCreateIncomeEvidenceResponse.json"
+  },
+  "additionalProperties": false
 }

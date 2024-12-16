@@ -10,17 +10,17 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SortUtils {
 
-    public static <T, U extends Comparable> void sortListWithComparing(List<T> t, Function<T, U> compFunction, Function<T, U> thenCompFunc, Comparator<U> comparator) {
+    public static <T, U extends Comparable<? super U>> void sortListWithComparing(List<T> t, Function<T, U> compFunction, Function<T, U> thenCompFunc, Comparator<U> comparator) {
         if (t != null) {
             t.sort(Comparator.comparing(compFunction, comparator).thenComparing(thenCompFunc, comparator));
         }
     }
 
-    public static <U extends Comparable> Comparator<U> getComparator() {
+    public static <U extends Comparable<? super U>> Comparator<U> getComparator() {
         return Comparator.naturalOrder();
     }
 
-    public static <U extends Comparable> Comparator<U> getReverseComparator() {
+    public static <U extends Comparable<? super U>> Comparator<U> getReverseComparator() {
         return Comparator.reverseOrder();
     }
 }

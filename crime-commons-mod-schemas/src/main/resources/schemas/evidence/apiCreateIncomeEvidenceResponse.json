@@ -16,6 +16,5 @@
       "$ref": "common/apiIncomeEvidenceItems.json"
     }
   },
-  "additionalProperties": false,
-  "required": ["applicantDetails", "partnerDetails"]
+  "additionalProperties": false
 }
