@@ -45,18 +45,18 @@
     "means_result": {
       "type": "string",
       "nullable": true,
-      "description": "Means Assessment Result or Passported Result"
+      "description": "Means Assessment Result"
     },
     "means_assessor_name": {
       "type": "string",
       "nullable": true,
-      "description": "Means Assessment Assessor Name or Passported Assessor Name"
+      "description": "Means Assessment Assessor Name"
     },
     "date_means_created": {
       "type": "string",
       "format": "date-time",
       "nullable": true,
-      "description": "Means Assessment Created Date or Passported Created Date"
+      "description": "Means Assessment Created Date"
     },
     "funding_decision": {
       "type": "string",
@@ -67,6 +67,36 @@
       "type": "string",
       "nullable": true,
       "description": "CC Rep Order Decision"
+    },
+    "ioj_appeal_result": {
+      "type": "string",
+      "nullable": true,
+      "description": "IoJ Appeal Result"
+    },
+    "ioj_appeal_assessor_name": {
+      "type": "string",
+      "nullable": true,
+      "description": "IoJ Appeal Assessor Name"
+    },
+    "ioj_appeal_date": {
+      "type": "string",
+      "nullable": true,
+      "description": "IoJ Appeal Date"
+    },
+    "passport_result": {
+      "type": "string",
+      "nullable": true,
+      "description": "Passported Result"
+    },
+    "passport_assessor_name": {
+      "type": "string",
+      "nullable": true,
+      "description": "Passported Assessor Name"
+    },
+    "date_passport_created": {
+      "type": "string",
+      "nullable": true,
+      "description": "Passported Created Date"
     }
   }
 }
