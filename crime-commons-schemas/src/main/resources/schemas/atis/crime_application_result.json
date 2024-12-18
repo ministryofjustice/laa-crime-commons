@@ -71,7 +71,7 @@
     "ioj_appeal_result": {
       "type": "string",
       "nullable": true,
-      "description": "IoJ Appeal result"
+      "description": "IoJ Appeal Result"
     },
     "ioj_appeal_assessor_name": {
       "type": "string",
