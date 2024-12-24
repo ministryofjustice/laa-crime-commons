@@ -80,6 +80,7 @@
     },
     "ioj_appeal_date": {
       "type": "string",
+      "format": "date-time",
       "nullable": true,
       "description": "IoJ Appeal Date"
     },
@@ -95,6 +96,7 @@
     },
     "date_passport_created": {
       "type": "string",
+      "format": "date-time",
       "nullable": true,
       "description": "Passported Created Date"
     }
