@@ -26,9 +26,5 @@
       "description": "The total estimated cost"
     }
   },
-  "required": [
-    "rate",
-    "hours",
-    "vat"
-  ]
+  "required": ["rate", "hours", "vat"]
 }
