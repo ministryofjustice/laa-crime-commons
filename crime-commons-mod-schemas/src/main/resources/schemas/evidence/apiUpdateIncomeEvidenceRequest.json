@@ -47,6 +47,26 @@
       "type": "string",
       "description": "The date evidence was previously due by",
       "format": "date-time"
+    },
+    "oldUpliftAppliedDate": {
+      "type": "string",
+      "description": "The date when uplift was previously applied",
+      "format": "date"
+    },
+    "oldUpliftRemovedDate": {
+      "type": "string",
+      "description": "The date when uplift was previously removed",
+      "format": "date"
+    },
+    "upliftAppliedDate": {
+      "type": "string",
+      "description": "The current uplift applied date",
+      "format": "date"
+    },
+    "upliftRemovedDate": {
+      "type": "string",
+      "description": "The current uplift removed date",
+      "format": "date"
     }
   },
   "additionalProperties": false,
