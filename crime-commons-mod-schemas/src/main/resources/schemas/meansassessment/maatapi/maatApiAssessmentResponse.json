@@ -80,6 +80,11 @@
       "format": "date-time",
       "description": "Income Evidence Due Date"
     },
+    "evidenceReceivedDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date that all of the income evidence was received"
+    },
     "incomeUpliftRemoveDate": {
       "type": "string",
       "format": "date-time",
