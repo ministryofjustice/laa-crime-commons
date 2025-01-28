@@ -61,6 +61,21 @@
       "items": {
         "$ref": "financialAssessmentIncomeEvidence.json"
       }
+    },
+    "incomeUpliftApplyDate": {
+      "type": "string",
+      "description": "The current uplift applied date",
+      "format": "date-time"
+    },
+    "incomeUpliftRemoveDate": {
+      "type": "string",
+      "description": "The current uplift removed date",
+      "format": "date-time"
+    },
+    "evidenceReceivedDate": {
+      "type": "string",
+      "description": "The date that all of the income evidence was received",
+      "format": "date-time"
     }
   },
   "extends": {
