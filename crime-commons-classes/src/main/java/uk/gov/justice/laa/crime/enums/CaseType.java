@@ -9,6 +9,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.stream.Stream;
+import java.util.Set;
 
 /**
  * static data migrated from TOGDATA.CASE_TYPES table
@@ -42,5 +43,11 @@ public enum CaseType {
                 .filter(f -> f.caseTypeString.equals(caseType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(String.format("CaseType with value: %s does not exist.", caseType)));
+    }
+
+    public static boolean isMagsCaseType(String caseType) {
+
+        return Set.of(CaseType.INDICTABLE.getCaseType(), CaseType.SUMMARY_ONLY.getCaseType(), CaseType.EITHER_WAY.getCaseType())
+                .contains(caseType);
     }
 }

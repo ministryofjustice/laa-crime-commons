@@ -32,4 +32,16 @@ class CaseTypeTest {
         assertThat(Boolean.TRUE).isEqualTo(CaseType.INDICTABLE.getMcooOutcomeRequired());
     }
 
+    @Test
+    void givenAValidInput_whenIsMagsCaseTypeIsInvoked_thenTrueIsReturned() {
+        assertThat(CaseType.isMagsCaseType(CaseType.INDICTABLE.getCaseType())).isTrue();
+        assertThat(CaseType.isMagsCaseType(CaseType.SUMMARY_ONLY.getCaseType())).isTrue();
+        assertThat(CaseType.isMagsCaseType(CaseType.EITHER_WAY.getCaseType())).isTrue();
+    }
+
+    @Test
+    void givenACommitalCaseType_whenIsMagsCaseTypeIsInvoked_thenFalseIsReturned() {
+        assertThat(CaseType.isMagsCaseType(CaseType.COMMITAL.getCaseType())).isFalse();
+    }
+
 }
