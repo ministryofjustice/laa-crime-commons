@@ -1,6 +1,8 @@
 package uk.gov.justice.laa.crime.enums;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -32,16 +34,16 @@ class CaseTypeTest {
         assertThat(Boolean.TRUE).isEqualTo(CaseType.INDICTABLE.getMcooOutcomeRequired());
     }
 
-    @Test
-    void givenAValidInput_whenIsMagsCaseTypeIsInvoked_thenTrueIsReturned() {
-        assertThat(CaseType.isMagsCaseType(CaseType.INDICTABLE.getCaseType())).isTrue();
-        assertThat(CaseType.isMagsCaseType(CaseType.SUMMARY_ONLY.getCaseType())).isTrue();
-        assertThat(CaseType.isMagsCaseType(CaseType.EITHER_WAY.getCaseType())).isTrue();
+    @ParameterizedTest
+    @ValueSource(strings = {"INDICTABLE", "SUMMARY ONLY", "EITHER WAY"})
+    void givenAValidInput_whenIsMagsCaseTypeIsInvoked_thenTrueIsReturned(String caseType) {
+        assertThat(CaseType.isMagsCaseType(caseType)).isTrue();
     }
 
-    @Test
-    void givenACommitalCaseType_whenIsMagsCaseTypeIsInvoked_thenFalseIsReturned() {
-        assertThat(CaseType.isMagsCaseType(CaseType.COMMITAL.getCaseType())).isFalse();
+    @ParameterizedTest
+    @ValueSource(strings = {"COMMITAL", ""})
+    void givenAInvalidInput_whenIsMagsCaseTypeIsInvoked_thenFalseIsReturned(String caseType) {
+        assertThat(CaseType.isMagsCaseType(caseType)).isFalse();
     }
 
 }

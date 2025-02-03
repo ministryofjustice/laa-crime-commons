@@ -47,6 +47,8 @@ public enum CaseType {
 
     public static boolean isMagsCaseType(String caseType) {
 
+        if (StringUtils.isBlank(caseType)) return false;
+
         return Set.of(CaseType.INDICTABLE.getCaseType(), CaseType.SUMMARY_ONLY.getCaseType(), CaseType.EITHER_WAY.getCaseType())
                 .contains(caseType);
     }
