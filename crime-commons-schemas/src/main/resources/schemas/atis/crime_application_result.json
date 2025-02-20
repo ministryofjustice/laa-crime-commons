@@ -99,6 +99,11 @@
       "format": "date-time",
       "nullable": true,
       "description": "Passported Created Date"
+    },
+    "review_type": {
+      "type": "string",
+      "nullable": true,
+      "description": "Means Assessment Review Type"
     }
   }
 }
