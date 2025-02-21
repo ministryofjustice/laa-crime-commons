@@ -70,5 +70,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["magCourtOutcome", "metadata", "evidenceDueDate", "financialAssessmentId"]
+  "required": ["magCourtOutcome", "metadata", "financialAssessmentId"]
 }
