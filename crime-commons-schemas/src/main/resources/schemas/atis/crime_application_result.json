@@ -103,7 +103,7 @@
     "review_type": {
       "type": "string",
       "nullable": true,
-      "description": "Means Assessment Review Type"
+      "description": "Assessment Review Type"
     }
   }
 }
