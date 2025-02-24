@@ -100,10 +100,15 @@
       "nullable": true,
       "description": "Passported Created Date"
     },
-    "review_type": {
+    "passport_review_type": {
       "type": "string",
       "nullable": true,
-      "description": "Assessment Review Type"
+      "description": "Passported Review Type"
+    },
+    "means_review_type": {
+      "type": "string",
+      "nullable": true,
+      "description": "Means Assessment Review Type"
     }
   }
 }
