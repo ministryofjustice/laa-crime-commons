@@ -109,6 +109,16 @@
       "type": "string",
       "nullable": true,
       "description": "Means Assessment Review Type"
+    },
+    "passport_work_reason": {
+      "type": "string",
+      "nullable": true,
+      "description": "Passported New Work Reason Code"
+    },
+    "means_work_reason": {
+      "type": "string",
+      "nullable": true,
+      "description": "Means Assessment New Work Reason Code"
     }
   }
 }
