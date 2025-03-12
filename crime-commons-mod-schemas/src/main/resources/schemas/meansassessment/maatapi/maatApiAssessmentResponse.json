@@ -180,7 +180,7 @@
         "$ref": "../common/apiAssessmentChildWeighting.json"
       }
     },
-    "incomeEvidence": {
+    "finAssIncomeEvidences": {
       "type": "array",
       "items": {
         "$ref": "../common/apiIncomeEvidence.json"
