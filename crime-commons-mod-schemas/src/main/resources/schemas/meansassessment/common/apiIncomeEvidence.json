@@ -23,10 +23,9 @@
       "type": "string",
       "description": "Is the evidence active"
     },
-    "apiEvidenceType": {
-      "type": "object",
-      "description": "Evidence Type",
-      "$ref": "apiEvidenceType.json"
+    "incomeEvidence": {
+      "type": "string",
+      "description": "Evidence Type"
     },
     "mandatory": {
       "type": "string",
