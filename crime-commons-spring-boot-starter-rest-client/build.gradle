@@ -115,3 +115,7 @@ jacocoTestReport {
 tasks.named("test") {
     useJUnitPlatform()
 }
+
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}

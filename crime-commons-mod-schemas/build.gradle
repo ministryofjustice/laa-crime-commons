@@ -88,4 +88,6 @@ jsonSchema2Pojo {
 
 tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigMain")
 
-
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
