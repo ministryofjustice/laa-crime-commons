@@ -26,6 +26,10 @@
     "description": {
       "type": "string",
       "description": "The evidence description (required for certain evidence types)"
+    },
+    "adhoc": {
+      "type": "string",
+      "description": "Indicates who the other adhoc evidence is associated with (applicant or partner)"
     }
   },
   "additionalProperties": false,
