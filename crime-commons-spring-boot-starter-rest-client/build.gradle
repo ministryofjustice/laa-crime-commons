@@ -31,7 +31,7 @@ jar {
 }
 
 dependencies {
-    implementation platform("io.sentry:sentry-bom:7.16.0")
+    implementation platform("io.sentry:sentry-bom:8.8.0")
     implementation("io.sentry:sentry-spring-boot-starter-jakarta")
     implementation("io.sentry:sentry-logback")
 
