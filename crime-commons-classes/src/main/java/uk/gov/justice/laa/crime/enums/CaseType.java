@@ -19,7 +19,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public enum CaseType {
     INDICTABLE("INDICTABLE", "Indictable", Boolean.TRUE),
-    SUMMARY_ONLY("SUMMARY ONLY", "Summary-only", Boolean.TRUE),
+    SUMMARY_ONLY("SUMMARY ONLY", "Summary-Only", Boolean.TRUE),
     CC_ALREADY("CC ALREADY","Trial already in Crown Court", Boolean.TRUE),
     APPEAL_CC("APPEAL CC","Appeal to Crown Court", Boolean.FALSE),
     COMMITAL("COMMITAL","Committal for Sentence", Boolean.TRUE),
