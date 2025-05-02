@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.commons.jackson;
+package uk.gov.justice.laa.crime.jackson;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
