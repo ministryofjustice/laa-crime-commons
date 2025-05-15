@@ -1,11 +1,11 @@
 plugins {
-    id 'com.javiersc.semver.project' version "$semverVersion"
     id 'jacoco'
     id 'signing'
     id 'maven-publish'
+    id 'org.springframework.boot'
+    id 'com.javiersc.semver.project'
+    id 'io.spring.dependency-management'
     id 'com.github.johnrengelman.shadow' version "$johnRengelmanShadowVersion"
-    id 'org.springframework.boot' version "$springframeworkBootVersion"
-    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
 }
 
 semver {
