@@ -1,9 +1,10 @@
 plugins {
-    id "com.javiersc.semver.project" version "$semverVersion"
-    id "jacoco"
     id "signing"
     id "maven-publish"
+    id "io.spring.dependency-management"
+    id "com.javiersc.semver.project" version "$semverVersion"
     id "org.jsonschema2dataclass" version "$jsonSchema2DataVersion"
+    id "org.springframework.boot" version "$springframeworkBootVersion"
 }
 
 semver {
@@ -23,9 +24,10 @@ configurations {
 }
 
 dependencies {
-    implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
     compileOnly "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
+
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
 }
 
 publishing {

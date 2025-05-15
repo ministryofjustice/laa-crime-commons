@@ -38,21 +38,23 @@ jar {
 
 dependencies {
 
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
-
-    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
-    implementation group: 'commons-io', name: 'commons-io', version: versions.commonsioVersion
 
     implementation "org.apache.commons:commons-lang3"
-    implementation 'io.micrometer:micrometer-tracing'
+    implementation "io.micrometer:micrometer-tracing"
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
 
     implementation "org.springframework:spring-test"
     implementation "org.springframework:spring-webmvc"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    implementation "commons-io:commons-io:$versions.commonsioVersion"
+    implementation "jakarta.validation:jakarta.validation-api:$versions.jakartaValidation"
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 
 }
 
