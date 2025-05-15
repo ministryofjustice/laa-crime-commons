@@ -17,6 +17,14 @@ def versions = [
         crimeCommonsClasses : "4.1.0"
 ]
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
