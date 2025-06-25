@@ -1,4 +1,4 @@
-FROM amazoncorretto:17-alpine
+FROM amazoncorretto:21-alpine
 RUN mkdir -p /opt/samples/
 WORKDIR /opt/samples/
 COPY ./build/libs/samples.jar /opt/samples/app.jar

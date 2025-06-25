@@ -15,7 +15,7 @@ communicating with other services and also provides several related utility clas
 
 ### Pre-requisites
 
-- JDK 17
+- JDK 21
 - Spring Boot 3.0.4
 
 Install dependencies and build modules with Gradle:

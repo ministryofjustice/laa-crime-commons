@@ -19,8 +19,8 @@ subprojects {
     // Disable warnings for missing JavaDoc
     javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 
     group = "uk.gov.justice.service.laa-crime"
 
