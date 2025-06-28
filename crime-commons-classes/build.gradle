@@ -1,10 +1,10 @@
 plugins {
-    id 'com.javiersc.semver.project' version "$semverVersion"
-    id 'jacoco'
-    id 'signing'
-    id 'maven-publish'
-    id 'org.springframework.boot' version "$springframeworkBootVersion"
-    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
+    id "jacoco"
+    id "signing"
+    id "maven-publish"
+    id 'org.springframework.boot'
+    id "com.javiersc.semver.project"
+    id "io.spring.dependency-management"
 }
 
 semver {
@@ -38,25 +38,24 @@ jar {
 
 dependencies {
 
-    implementation platform("io.sentry:sentry-bom:7.0.0")
-    implementation("io.sentry:sentry-spring-boot-starter-jakarta")
-    implementation("io.sentry:sentry-logback")
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
-
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonCore
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonCore
-    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
-    implementation group: 'commons-io', name: 'commons-io', version: versions.commonsioVersion
 
     implementation "org.apache.commons:commons-lang3"
-    implementation 'io.micrometer:micrometer-tracing'
+    implementation "io.micrometer:micrometer-tracing"
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation "org.springframework.boot:spring-boot-starter-test"
+    implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
+
+    implementation "org.springframework:spring-test"
+    implementation "org.springframework:spring-webmvc"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    implementation "commons-io:commons-io:$versions.commonsioVersion"
+    implementation "jakarta.validation:jakarta.validation-api:$versions.jakartaValidation"
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+
 }
 
 publishing {
