@@ -1,9 +1,9 @@
 plugins {
-    id 'com.javiersc.semver.project' version "$semverVersion"
-    id 'org.sonarqube' version "$sonarQubeVersion"
-    id 'org.springframework.boot' version "$springframeworkBootVersion"
-    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
-    id 'io.github.gradle-nexus.publish-plugin' version "$publishPluginVersion"
+    id "org.sonarqube" version "$sonarQubeVersion"
+    id "com.javiersc.semver.project" version "$semverVersion"
+    id "org.springframework.boot" version "$springframeworkBootVersion"
+    id "io.github.gradle-nexus.publish-plugin" version "$publishPluginVersion"
+    id "io.spring.dependency-management" version "$springDependencyManagementVersion"
 }
 
 group = "uk.gov.justice.service.laa-crime"
