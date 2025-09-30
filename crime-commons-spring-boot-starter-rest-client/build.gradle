@@ -13,7 +13,7 @@ semver {
 }
 
 def versions = [
-        commonsLang3Version    : "3.17.0"
+        commonsLang3Version    : "3.19.0"
 ]
 
 configurations {
