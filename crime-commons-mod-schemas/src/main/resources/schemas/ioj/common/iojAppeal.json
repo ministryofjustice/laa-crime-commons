@@ -5,7 +5,7 @@
   "title": "IoJ Appeal",
   "description": "IoJ Appeal Data",
   "properties": {
-    "receiptDate": {
+    "receivedDate": {
       "type": "string",
       "description": "The date when the appeal was received",
       "format": "date-time"
@@ -41,5 +41,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["receiptDate", "appealReason", "appealAssessor", "appealDecision", "decisionReason", "decisionDate"]
+  "required": ["receivedDate", "appealReason", "appealAssessor", "appealDecision", "decisionReason", "decisionDate"]
 }
