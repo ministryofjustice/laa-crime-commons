@@ -33,5 +33,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["repId", "cmuId", "appealStatus", "userSession"]
+  "required": ["repId", "caseManagementUnitId", "appealStatus", "userSession"]
 }
