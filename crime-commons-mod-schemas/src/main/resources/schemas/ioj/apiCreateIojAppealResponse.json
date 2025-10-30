@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "apiPerformIojAppealResponse.json",
+  "id": "apiCreateIojAppealResponse.json",
   "type": "object",
-  "title": "Perform IoJ Appeal response",
-  "description": "Data contract for the response to create or update an IoJ Appeal",
+  "title": "Create IoJ Appeal response",
+  "description": "Data contract for the response to creating an IoJ Appeal",
   "properties": {
     "appealId": {
       "type": "string",
