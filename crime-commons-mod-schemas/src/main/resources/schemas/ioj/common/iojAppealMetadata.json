@@ -17,14 +17,6 @@
       "type": "object",
       "description": "The current user session",
       "$ref": "../../common/apiUserSession.json"
-    },
-    "appealId": {
-      "type": "string",
-      "description": "The UUID of the appeal"
-    },
-    "legacyAppealId": {
-      "type": "integer",
-      "description": "The ID of the legacy appeal (defined in MAAT DB)"
     }
   },
   "additionalProperties": false,
