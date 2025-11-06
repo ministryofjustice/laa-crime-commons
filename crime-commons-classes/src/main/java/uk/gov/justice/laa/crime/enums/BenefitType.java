@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 @AllArgsConstructor
 public enum BenefitType {
     INCOME_SUPPORT("INCOME_SUPPORT", "Income Support"),
-    JSA("JSA", "Jobseeker's Allowance"),
-    ESA("ESA", "Employment and Support Allowance"),
+    JSA("JSA", "Income-based Jobseeker's Allowance"),
+    ESA("ESA", "Income-based Employment and Support Allowance"),
     GSPC("GSPC", "Guaranteed State Pension Credit"),
     UC("UC", "Universal Credit");
 
