@@ -13,10 +13,9 @@ public enum PassportAssessmentDecision {
     PASS("PASS", "Pass the passport assessment"),
     TEMP_PASS("TEMP_PASS", "Used if the DWP link is unavailable, or the defendant is remanded" 
         + "into court custody and does not know their National Insurance Number"),
-    FAIL("FAIL", "Fails on the DWP check and no financial information is supplied to enable " 
-        + "any other form of assessment to be carried out"),
-    FAIL_BYPASS("FAIL_BYPASS", "Fails on the DWP check but financial information is supplied to " 
-        + "allow the caseworker to perform a means assessment");
+    FAIL_BYPASS("FAIL_BYPASS", "Fails on the DWP check. If financial information " 
+        + "is supplied the caseworker performs a means assessment, otherwise they reject the " 
+        + "application back to the provider");
 
     @JsonPropertyDescription("Passport assessment decision code")
     @JsonValue
