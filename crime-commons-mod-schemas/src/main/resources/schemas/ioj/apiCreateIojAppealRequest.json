@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCreateIojAppealRequest.json",
+  "type": "object",
+  "title": "Create IoJ Appeal request",
+  "description": "Data contract for creating an IoJ Appeal",
+  "properties": {
+    "iojAppeal": {
+      "type": "object",
+      "$ref": "common/iojAppeal.json",
+      "description": "The details of the IoJ Appeal"
+    },
+    "iojAppealMetadata": {
+      "type": "object",
+      "$ref": "common/iojAppealMetadata.json",
+      "description": "The metadata for the IoJ Appeal"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["iojAppeal", "iojAppealMetadata"]
+}

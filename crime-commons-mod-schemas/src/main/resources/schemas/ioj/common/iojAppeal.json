@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "iojAppeal.json",
+  "type": "object",
+  "title": "IoJ Appeal",
+  "description": "IoJ Appeal Data",
+  "properties": {
+    "receivedDate": {
+      "type": "string",
+      "description": "The date when the appeal was received",
+      "format": "date-time"
+    },
+    "appealReason": {
+      "description": "The reason for creating the appeal",
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.NewWorkReason"
+    },
+    "appealAssessor": {
+      "description": "The authority making the decision on the appeal (caseworker or judge)",
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.IojAppealAssessor"
+    },
+    "appealDecision": {
+      "description": "The decision made on the appeal",
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.IojAppealDecision"
+    },
+    "decisionReason": {
+      "description": "The reason supporting the decision made on the appeal",
+      "type": "object",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.IojAppealDecisionReason"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes relating to the appeal"
+    },
+    "decisionDate": {
+      "type": "string",
+      "description": "The date when the decision for the appeal was made",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["receivedDate", "appealReason", "appealAssessor", "appealDecision", "decisionReason", "decisionDate"]
+}

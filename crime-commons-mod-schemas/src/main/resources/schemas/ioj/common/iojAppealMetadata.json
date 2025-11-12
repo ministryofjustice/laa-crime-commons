@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "iojAppealMetadata.json",
+  "type": "object",
+  "title": "IoJ Appeal Metadata",
+  "description": "IoJ Appeal metadata",
+  "properties": {
+    "applicationId": {
+      "type": "string",
+      "description": "The UUID of the application"
+    },
+    "legacyApplicationId": {
+      "type": "integer",
+      "description": "The ID of the legacy application (also known as the Rep Order ID / MAAT ID)"
+    },
+    "caseManagementUnitId": {
+      "type": "integer",
+      "description": "The Case Management Unit ID, based on current user and Local Justice Area"
+    },
+    "userSession": {
+      "type": "object",
+      "description": "The current user session",
+      "$ref": "../../common/apiUserSession.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["caseManagementUnitId", "userSession"]
+}
