@@ -1,5 +1,5 @@
 plugins {
-    id 'com.javiersc.semver.project' version "$semverVersion"
+    id 'com.javiersc.semver' version "$semverVersion"
     id 'org.sonarqube' version "$sonarQubeVersion"
     id 'org.springframework.boot' version "$springframeworkBootVersion"
     id 'io.spring.dependency-management' version "$springDependencyManagementVersion"

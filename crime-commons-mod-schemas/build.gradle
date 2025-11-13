@@ -1,5 +1,5 @@
 plugins {
-    id "com.javiersc.semver.project" version "$semverVersion"
+    id "com.javiersc.semver" version "$semverVersion"
     id "jacoco"
     id "signing"
     id "maven-publish"
