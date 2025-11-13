@@ -38,6 +38,7 @@
             "last_jsa_appointment_date": { "type": ["string", "null"], "format": "date" },
             "telephone_number": { "type": ["string", "null"] },
             "correspondence_address_type": { "type": "string", "enum": ["other_address", "home_address", "providers_office_address"] },
+            "welsh_correspondence": { "type": ["boolean", "null"] },
             "residence_type": {
               "type": ["string", "null"],
               "enum": ["rented", "temporary", "parents", "applicant_owned", "partner_owned", "joint_owned", "someone_else", "none", null]
