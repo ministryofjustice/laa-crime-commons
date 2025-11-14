@@ -1,5 +1,5 @@
 plugins {
-    id 'com.javiersc.semver.project' version "$semverVersion"
+    id 'com.javiersc.semver' version "$semverVersion"
     id 'jacoco'
     id 'signing'
     id 'maven-publish'
@@ -17,10 +17,6 @@ def versions = [
         jakartaValidation: "3.0.2",
         commonsioVersion : "2.16.1"
 ]
-
-java {
-    sourceCompatibility = '17'
-}
 
 configurations {
     compileOnly {

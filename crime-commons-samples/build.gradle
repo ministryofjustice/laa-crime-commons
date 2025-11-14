@@ -2,6 +2,7 @@ plugins {
     id "org.springframework.boot" version "$springframeworkBootVersion"
     id "io.spring.dependency-management" version "$springDependencyManagementVersion"
 }
+
 dependencies {
 
     compileOnly "org.projectlombok:lombok"
