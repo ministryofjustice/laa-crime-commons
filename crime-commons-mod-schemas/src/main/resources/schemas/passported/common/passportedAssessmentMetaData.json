@@ -26,6 +26,6 @@
       "description": "Contains the username and session id for the user performing the request",
       "$ref": "../../common/apiUserSession.json"
     },
-    "required": ["applicationId", "caseManagementUnitId", "userSession"]
+    "required": ["caseManagementUnitId", "userSession"]
   }
 }

@@ -45,5 +45,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["assessmentDate", "assessmentReason", "reviewType", "declaredUnder18", "assessmentDecision", "decisionReason"]
+  "required": ["assessmentDate", "assessmentReason", "declaredUnder18", "assessmentDecision", "decisionReason"]
 }
