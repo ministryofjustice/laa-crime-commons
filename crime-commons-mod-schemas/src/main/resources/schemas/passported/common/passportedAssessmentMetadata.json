@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "passportedAssessmentMetaData.json",
+  "id": "passportedAssessmentMetadata.json",
   "type": "object",
   "title": "Passported Assessment Metadata",
   "description": "Passported Assessment Metadata",
