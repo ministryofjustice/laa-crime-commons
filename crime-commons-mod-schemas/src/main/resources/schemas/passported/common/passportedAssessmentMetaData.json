@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "passportedAssessmentMetaData.json",
+  "type": "object",
+  "title": "Passported Assessment Meta Data",
+  "description": "Passported Assessment Meta Data",
+  "properties": {
+    "applicationId": {
+      "type": "integer",
+      "description": "The Application ID that the assessment relates to"
+    },
+    "legacyApplicationId": {
+      "type": "integer",
+      "description": "The Legacy Application ID (known previously in the legacy systems as Representation Order ID / MAAT ID) that the assessment relates to"
+    },
+    "usn": {
+      "type": "integer",
+      "description": "The Unique Serial Number (USN) of the  assessment from Crime Apply (if applicable)"
+    },
+    "caseManagementUnitId": {
+      "type": "integer",
+      "description": "The Case Management Unit ID, which is determined based on the current user and their selected Local Justice Area (LJA)"
+    },
+    "userSession": {
+      "type": "object",
+      "description": "Contains the username and session id for the user performing the request",
+      "$ref": "../../common/apiUserSession.json"
+    },
+    "required": ["applicationId", "caseManagementUnitId", "userSession"]
+  }
+}

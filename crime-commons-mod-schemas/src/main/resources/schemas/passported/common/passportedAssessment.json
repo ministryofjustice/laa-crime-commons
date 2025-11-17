@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "passportedAssessment.json",
+  "type": "object",
+  "title": "Passported Assessment",
+  "description": "Passported Assessment Data",
+  "properties": {
+    "assessmentId": {
+      "type": "string",
+      "description": "The ID of the assessment"
+    },
+    "assessmentDate": {
+      "type": "string",
+      "description": "The date when the assessment was created",
+      "format": "date-time"
+    },
+    "assessmentReason": {
+      "type": "object",
+      "description": "The reason for creating the assessment",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.NewWorkReason"
+    },
+    "reviewType": {
+      "type": "object",
+      "description": "The type of review being conducted leading to the assessment / re-assessment",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.ReviewType"
+    },
+    "declaredUnder18": {
+      "type": "boolean",
+      "description": "Whether the applicant is under 18 years of age"
+    },
+    "declaredBenefit": {
+      "type": "object",
+      "description": "The declared benefit for the purposes of the assessment",
+      "$ref": "declaredBenefit.json"
+    },
+    "assessmentDecision": {
+      "type": "object",
+      "description": "The decision made on the assessment",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.PassportAssessmentDecision"
+    },
+    "decisionReason": {
+      "type": "object",
+      "description": "The reason supporting the decision made on the assessment",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.PassportAssessmentDecisionReason"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes relating to the assessment"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["assessmentDate", "assessmentReason", "reviewType", "declaredUnder18", "assessmentDecision", "decisionReason"]
+}

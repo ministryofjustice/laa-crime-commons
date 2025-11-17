@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCreatePassportedAssessmentRequest.json",
+  "type": "object",
+  "title": "Perform Passported Assessment request",
+  "description": "Data contract for creating or updating a Passported Assessment",
+  "properties": {
+    "passportedAssessment": {
+      "type": "object",
+      "description": "The details of the Passported Assessment",
+      "$ref": "common/passportedAssessment.json"
+    },
+    "passportedAssessmentMetadata": {
+      "type": "object",
+      "description": "The metadata for the Passported Assessment",
+      "$ref": "common/passportedAssessmentMetadata.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["passportedAssessment", "passportedAssessmentMetadata"]
+}
