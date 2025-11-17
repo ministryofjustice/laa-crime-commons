@@ -22,7 +22,7 @@
     },
     "legacyPartnerId": {
       "type": "integer",
-      "description": "The legacy ID of the partner that receives the declared benefit (only if the Benefit Recipient is PARTNER)"
+      "description": "The legacy ID of the partner that receives the declared benefit (if applicable)"
     }
   },
   "additionalProperties": false,

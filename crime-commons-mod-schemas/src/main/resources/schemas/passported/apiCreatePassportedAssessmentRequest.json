@@ -2,8 +2,8 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "apiCreatePassportedAssessmentRequest.json",
   "type": "object",
-  "title": "Perform Passported Assessment request",
-  "description": "Data contract for creating or updating a Passported Assessment",
+  "title": "Create Passported Assessment request",
+  "description": "Data contract for creating a Passported Assessment",
   "properties": {
     "passportedAssessment": {
       "type": "object",
