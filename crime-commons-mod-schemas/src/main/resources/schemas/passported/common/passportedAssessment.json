@@ -5,10 +5,6 @@
   "title": "Passported Assessment",
   "description": "Passported Assessment Data",
   "properties": {
-    "assessmentId": {
-      "type": "string",
-      "description": "The ID of the assessment"
-    },
     "assessmentDate": {
       "type": "string",
       "description": "The date when the assessment was created",

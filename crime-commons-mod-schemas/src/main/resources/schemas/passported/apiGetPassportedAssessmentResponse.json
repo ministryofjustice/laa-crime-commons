@@ -4,22 +4,22 @@
   "type": "object",
   "title": "Get Passported Assessment response",
   "description": "Data contract for getting a Passported Assessment",
-  "allOf": [
-    {
-      "$ref": "common/passportedAssessment.json"
+  "properties": {
+    "assessmentId": {
+      "type": "string",
+      "description": "The ID of the assessment"
     },
-    {
-      "properties": {
-        "legacyAssessmentId": {
-          "type": "integer",
-          "description": "The ID of the legacy assessment (defined in MAAT DB)"
-        },
-        "usn": {
-          "type": "integer",
-          "description": "The Unique Serial Number (USN) of the  assessment from Crime Apply (if applicable)"
-        }
-      },
-      "additionalProperties": false
+    "legacyAssessmentId": {
+      "type": "integer",
+      "description": "The ID of the legacy assessment (defined in MAAT DB)"
+    },
+    "usn": {
+      "type": "integer",
+      "description": "The Unique Serial Number (USN) of the  assessment from Crime Apply (if applicable)"
     }
-  ]
+  },
+  "extends": {
+    "$ref": "common/passportedAssessment.json"
+  },
+  "additionalProperties": false
 }
