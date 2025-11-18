@@ -12,11 +12,14 @@
     "legacyAppealId": {
       "type": "integer",
       "description": "The ID of the legacy appeal (defined in MAAT DB)"
+    },
+    "caseManagementUnitId": {
+      "type": "integer",
+      "description": "The Case Management Unit ID, based on current user and Local Justice Area"
     }
   },
   "extends": {
     "$ref": "common/iojAppeal.json"
   },
-  "additionalProperties": false,
-  "required": ["appealId"]
+  "additionalProperties": false
 }
