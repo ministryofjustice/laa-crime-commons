@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiCreatePassportedAssessmentResponse.json",
+  "type": "object",
+  "title": "Create Passported Assessment response",
+  "description": "Data contract for the response to creating a Passported Assessment",
+  "properties": {
+    "assessmentId": {
+      "type": "string",
+      "description": "The UUID of the assessment"
+    },
+    "legacyAssessmentId": {
+      "type": "integer",
+      "description": "The ID of the legacy assessment (defined in MAAT DB)"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["assessmentId"]
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "declaredBenefit.json",
+  "type": "object",
+  "title": "Declared Benefit",
+  "description": "Declared Benefit Data",
+  "properties": {
+    "benefitType": {
+      "type": "object",
+      "description": "The type of benefit being declared",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.BenefitType"
+    },
+    "lastSignOnDate": {
+      "type": "string",
+      "description": "The last sign-on date, only applicable for the Benefit Type of JSA",
+      "format": "date-time"
+    },
+    "benefitRecipient": {
+      "type": "object",
+      "description": "The recipient of the declared benefit",
+      "existingJavaType": "uk.gov.justice.laa.crime.enums.BenefitRecipient"
+    },
+    "legacyPartnerId": {
+      "type": "integer",
+      "description": "The legacy ID of the partner that receives the declared benefit (if applicable)"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["benefitType", "benefitRecipient"]
+}
