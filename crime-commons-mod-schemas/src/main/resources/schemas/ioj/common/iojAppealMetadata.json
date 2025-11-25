@@ -13,6 +13,11 @@
       "type": "integer",
       "description": "The ID of the legacy application (also known as the Rep Order ID / MAAT ID)"
     },
+    "applicationReceivedDate": {
+      "type": "string",
+      "description": "The date when the application was received",
+      "format": "date"
+    },
     "caseManagementUnitId": {
       "type": "integer",
       "description": "The Case Management Unit ID, based on current user and Local Justice Area"
