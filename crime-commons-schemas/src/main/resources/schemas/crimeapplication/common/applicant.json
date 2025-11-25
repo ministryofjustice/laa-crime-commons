@@ -99,6 +99,16 @@
     },
     "postalAddress": {
       "$ref": "#/definitions/address"
+    },
+    "dwpResponse": {
+      "type": "string",
+      "nullable": true,
+      "enum": ["Undetermined", "No", "Yes"]
+    },
+    "partnerDwpResponse": {
+      "type": "string",
+      "nullable": true,
+      "enum": ["Undetermined", "No", "Yes"]
     }
   },
   "definitions": {
