@@ -5,10 +5,6 @@
   "title": "IoJ Appeal Metadata",
   "description": "IoJ Appeal metadata",
   "properties": {
-    "applicationId": {
-      "type": "string",
-      "description": "The UUID of the application"
-    },
     "legacyApplicationId": {
       "type": "integer",
       "description": "The ID of the legacy application (also known as the Rep Order ID / MAAT ID)"
