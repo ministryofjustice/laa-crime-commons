@@ -20,10 +20,9 @@
       "type": "object",
       "existingJavaType": "uk.gov.justice.laa.crime.enums.IojAppealAssessor"
     },
-    "appealDecision": {
-      "description": "The decision made on the appeal",
-      "type": "object",
-      "existingJavaType": "uk.gov.justice.laa.crime.enums.IojAppealDecision"
+    "appealSuccessful": {
+      "description": "Determines whether the appeal was successful",
+      "type": "boolean"
     },
     "decisionReason": {
       "description": "The reason supporting the decision made on the appeal",
