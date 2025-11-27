@@ -96,7 +96,8 @@ jobs:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons
     steps:
-      - checkout
+      - checkout:
+          method: full
       - attach_workspace:
           at: .
       - restore_cache:
