@@ -39,7 +39,7 @@
                 ]
               }
             },
-            "required": ["type", "amount", "frequency"]
+            "required": ["payment_type", "amount", "frequency"]
           }
         },
         "employment_type": {
@@ -186,7 +186,7 @@
                 ]
               }
             },
-            "required": ["type", "amount", "frequency"]
+            "required": ["payment_type", "amount", "frequency"]
           }
         }
       },
