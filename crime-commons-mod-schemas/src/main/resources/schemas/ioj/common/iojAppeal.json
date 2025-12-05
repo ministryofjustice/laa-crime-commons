@@ -8,7 +8,7 @@
     "receivedDate": {
       "type": "string",
       "description": "The date when the appeal was received",
-      "format": "date-time"
+      "format": "date"
     },
     "appealReason": {
       "description": "The reason for creating the appeal",
@@ -36,7 +36,7 @@
     "decisionDate": {
       "type": "string",
       "description": "The date when the decision for the appeal was made",
-      "format": "date-time"
+      "format": "date"
     }
   },
   "additionalProperties": false,
