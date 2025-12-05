@@ -16,7 +16,7 @@ import java.util.Objects;
 @UtilityClass
 public class ProblemDetailErrorListUtil {
 
-    private static final String MESSAGE_LIST_NAME = "messageList";
+    private static final String MESSAGE_LIST_NAME = "errors";
 
     /**
      *

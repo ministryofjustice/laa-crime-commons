@@ -16,7 +16,7 @@ class ProblemDetailErrorListUtilTest {
         List<String> errorList = List.of("Error 1", "Error 2");
         ProblemDetail problemDetail = ProblemDetailErrorListUtil.buildProblemDetail(errorList, HttpStatus.BAD_REQUEST);
         assertThat(problemDetail).isNotNull();
-        List<String> foundErrors = (List<String>) problemDetail.getProperties().get("messageList");
+        List<String> foundErrors = (List<String>) problemDetail.getProperties().get("errors");
         assertThat(foundErrors).isEqualTo(errorList);
     }
 
@@ -24,7 +24,7 @@ class ProblemDetailErrorListUtilTest {
     void givenErrorListPresent_whenProblemDetailPassedIn_thenSameErrorListReturned(){
         List<String> errorList = List.of("Error 1", "Error 2");
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST.value());
-        problemDetail.setProperties(Map.of("messageList", errorList));
+        problemDetail.setProperties(Map.of("errors", errorList));
 
         List<String> returnedErrors = ProblemDetailErrorListUtil.getErrorMessages(problemDetail);
         assertThat(returnedErrors).isEqualTo(errorList);
@@ -74,7 +74,7 @@ class ProblemDetailErrorListUtilTest {
     @Test
     void givenListPresentButEmpty_whenProblemDetailPassedIn_thenListOfDetailReturned(){
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Test Detail To Be Found");
-        detail.setProperties(Map.of("messageList", List.of()));
+        detail.setProperties(Map.of("errors", List.of()));
         List<String> foundErrors = ProblemDetailErrorListUtil.getErrorMessages(detail);
         assertThat(foundErrors).isEqualTo(List.of("Test Detail To Be Found"));
     }

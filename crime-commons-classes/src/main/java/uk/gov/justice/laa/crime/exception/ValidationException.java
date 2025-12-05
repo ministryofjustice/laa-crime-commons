@@ -1,14 +1,10 @@
 package uk.gov.justice.laa.crime.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 public class ValidationException extends RuntimeException {
-    private List<String> errorMessageList;
+    private final List<String> errors = new ArrayList<>();
 
     public ValidationException() {
         super();
@@ -27,6 +23,11 @@ public class ValidationException extends RuntimeException {
     }
 
     public ValidationException(List<String> errorMessageList) {
-        this.errorMessageList = errorMessageList;
+        this.errors.addAll(errorMessageList);
     }
+
+    public List<String> getErrors() {
+        return List.copyOf(this.errors);
+    }
+
 }
