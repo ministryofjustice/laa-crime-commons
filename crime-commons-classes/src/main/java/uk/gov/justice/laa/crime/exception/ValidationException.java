@@ -22,8 +22,8 @@ public class ValidationException extends RuntimeException {
         super(message, rootCause);
     }
 
-    public ValidationException(List<String> errorMessageList) {
-        this.errors.addAll(errorMessageList);
+    public ValidationException(List<String> errorList) {
+        this.errors.addAll(errorList);
     }
 
     public List<String> getErrors() {
