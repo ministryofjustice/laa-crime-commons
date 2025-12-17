@@ -38,8 +38,8 @@ public enum NewWorkReason {
                 .orElseThrow(() -> new IllegalArgumentException(String.format("New Work Reason with value: %s does not exist.", code)));
     }
 
-    private static class NewWorkReasonType {
-        private static final String ASS = "ASS";
-        private static final String HARDIOJ = "HARDIOJ";
+    public static class NewWorkReasonType {
+        public static final String ASS = "ASS";
+        public static final String HARDIOJ = "HARDIOJ";
     }
 }
