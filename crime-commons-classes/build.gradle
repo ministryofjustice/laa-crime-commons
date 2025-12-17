@@ -98,6 +98,10 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+
 test {
     finalizedBy jacocoTestReport
 }
