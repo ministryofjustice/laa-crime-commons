@@ -10,6 +10,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -19,7 +20,7 @@ class ProblemDetailUtilTest {
     @Test
     void givenErrorList_whenErrorResponseWanted_ErrorListPresent(){
         ErrorExtension extension = createErrorExtension(2);
-        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST, extension);
+        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
         assertThat(problemDetail).isNotNull();
         ErrorExtension foundErrors = (ErrorExtension) problemDetail.getProperties().get("errors");
         assertThat(foundErrors.getErrors()).isEqualTo(extension.getErrors());
@@ -39,7 +40,7 @@ class ProblemDetailUtilTest {
     @Test
     void givenErrorList_whenProblemDetailCreatedAndThenPassedBack_thenSameErrorsPresent(){
         ErrorExtension extension = createErrorExtension(3);
-        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST, extension);
+        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
         List<String> foundErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
         assertThat(foundErrors).isEqualTo(getErrorsFromExtension(extension));
     }
@@ -62,7 +63,7 @@ class ProblemDetailUtilTest {
     @Test
     void givenListAndDetail_whenGetListIsCalled_thenOnlyListReturned(){
         ErrorExtension extension = createErrorExtension(2);
-        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail("detail", HttpStatus.BAD_REQUEST, extension);
+        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "detail", extension);
 
         List<String> foundErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
         assertThat(foundErrors).isEqualTo(getErrorsFromExtension(extension));
@@ -86,14 +87,15 @@ class ProblemDetailUtilTest {
     void givenAllDetails_whenBuildCalled_thenFullDetailReturned(){
         ErrorExtension expectedExtension = createErrorExtension(2);
 
-        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail("title", "type", HttpStatus.BAD_REQUEST, "detail", "instance", expectedExtension);
+        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "title", "type", "detail", "instance", expectedExtension);
 
         assertThat(problemDetail).hasFieldOrPropertyWithValue("title", "title").hasFieldOrPropertyWithValue("type", URI.create("type"))
                 .hasFieldOrPropertyWithValue("detail", "detail").hasFieldOrPropertyWithValue("instance", URI.create("instance"))
                 .hasFieldOrPropertyWithValue("status", HttpStatus.BAD_REQUEST.value());
 
-        ErrorExtension foundExtension = ProblemDetailUtil.getErrorExtension(problemDetail);
-        assertThat(foundExtension).isEqualTo(expectedExtension);
+        Optional<ErrorExtension> foundExtension = ProblemDetailUtil.getErrorExtension(problemDetail);
+        assertThat(foundExtension).isPresent();
+        assertThat(foundExtension).contains(expectedExtension);
     }
 
     @Test
@@ -107,7 +109,7 @@ class ProblemDetailUtilTest {
 
     private List<ErrorMessage> createErrorMessages(int numValues){
         List<ErrorMessage> errors = new ArrayList<>();
-        IntStream.range(0, numValues).forEach(i -> {errors.add(new ErrorMessage("Field"+i, "Test Message"+i));});
+        IntStream.range(0, numValues).forEach(i -> errors.add(new ErrorMessage("Field"+i, "Test Message"+i)));
         return errors;
     }
 
