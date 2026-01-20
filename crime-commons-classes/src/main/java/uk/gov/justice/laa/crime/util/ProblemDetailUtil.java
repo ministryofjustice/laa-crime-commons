@@ -104,6 +104,12 @@ public final class ProblemDetailUtil {
         return new ErrorExtension(code, traceId, errors);
     }
 
+    /**
+     * Extracts the ErrorExtension from a given ProblemDetail if it exists.
+     *
+     * @param problemDetail ProblemDetail to extract ErrorExtension from.
+     * @return Optional of ErrorExtension
+     */
     public static Optional<ErrorExtension> getErrorExtension(ProblemDetail problemDetail) {
         return Optional.ofNullable(problemDetail)
                 .map(ProblemDetail::getProperties)
