@@ -22,8 +22,8 @@ class ProblemDetailUtilTest {
         ErrorExtension extension = createErrorExtension(2);
         ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
         assertThat(problemDetail).isNotNull();
-        ErrorExtension foundErrors = (ErrorExtension) problemDetail.getProperties().get("errors");
-        assertThat(foundErrors.errors()).isEqualTo(extension.errors());
+        assertThat(ProblemDetailUtil.getErrorExtension(problemDetail))
+                .contains(extension);
     }
 
     // Test without using utility constructor. Verify getter behaviour.
@@ -31,7 +31,7 @@ class ProblemDetailUtilTest {
     void givenErrorListPresent_whenProblemDetailPassedIn_thenSameErrorListReturned(){
         ErrorExtension extension = createErrorExtension(2);
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST.value());
-        problemDetail.setProperties(Map.of("errors", extension));
+        problemDetail.setProperties(Map.of(ErrorExtension.EXTENSION_KEY, extension));
 
         List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
         assertThat(returnedErrors).isEqualTo(getErrorsFromExtension(extension));
@@ -71,8 +71,9 @@ class ProblemDetailUtilTest {
 
     @Test
     void givenListPresentButEmpty_whenProblemDetailPassedIn_thenListOfDetailReturned(){
+        ErrorExtension extension = new ErrorExtension("code", "trace", List.of());
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Test Detail To Be Found");
-        detail.setProperties(Map.of("errors", List.of()));
+        detail.setProperties(Map.of(ErrorExtension.EXTENSION_KEY, extension));
         List<String> foundErrors = ProblemDetailUtil.getErrorDetails(detail);
         assertThat(foundErrors).isEqualTo(List.of("Test Detail To Be Found"));
     }
@@ -85,13 +86,16 @@ class ProblemDetailUtilTest {
 
     @Test
     void givenAllDetails_whenBuildCalled_thenFullDetailReturned(){
+
         ErrorExtension expectedExtension = createErrorExtension(2);
+        ProblemDetail problemDetail =
+                ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "title", "type", "detail", "instance", expectedExtension);
 
-        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "title", "type", "detail", "instance", expectedExtension);
-
-        assertThat(problemDetail).hasFieldOrPropertyWithValue("title", "title").hasFieldOrPropertyWithValue("type", URI.create("type"))
-                .hasFieldOrPropertyWithValue("detail", "detail").hasFieldOrPropertyWithValue("instance", URI.create("instance"))
-                .hasFieldOrPropertyWithValue("status", HttpStatus.BAD_REQUEST.value());
+        assertThat(problemDetail.getTitle()).isEqualTo("title");
+        assertThat(problemDetail.getType()).isEqualTo(URI.create("type"));
+        assertThat(problemDetail.getDetail()).isEqualTo("detail");
+        assertThat(problemDetail.getInstance()).isEqualTo(URI.create("instance"));
+        assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 
         Optional<ErrorExtension> foundExtension = ProblemDetailUtil.getErrorExtension(problemDetail);
         assertThat(foundExtension).isPresent();
