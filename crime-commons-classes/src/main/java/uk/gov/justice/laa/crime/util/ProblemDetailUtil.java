@@ -1,6 +1,7 @@
 package uk.gov.justice.laa.crime.util;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.AccessLevel;
@@ -139,7 +140,7 @@ public final class ProblemDetailUtil {
                                 .map(ProblemDetail::getDetail)
                                 .map(detail -> new ErrorMessage(FALLBACK_DETAIL_FIELD_NAME, detail))
                                 .map(List::of)
-                                .orElseGet(List::of));
+                                .orElseGet(Collections::emptyList));
     }
 
 }
