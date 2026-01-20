@@ -11,8 +11,8 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
-import uk.gov.justice.laa.crime.exception.ErrorExtension;
-import uk.gov.justice.laa.crime.exception.ErrorMessage;
+import uk.gov.justice.laa.crime.error.ErrorExtension;
+import uk.gov.justice.laa.crime.error.ErrorMessage;
 
 class ProblemDetailUtilTest {
 

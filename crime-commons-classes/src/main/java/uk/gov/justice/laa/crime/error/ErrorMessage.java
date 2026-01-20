@@ -1,4 +1,4 @@
-package uk.gov.justice.laa.crime.exception;
+package uk.gov.justice.laa.crime.error;
 
 /**
  * Represents a single validation or business rule error.

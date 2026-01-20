@@ -8,8 +8,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
-import uk.gov.justice.laa.crime.exception.ErrorExtension;
-import uk.gov.justice.laa.crime.exception.ErrorMessage;
+import uk.gov.justice.laa.crime.error.ErrorExtension;
+import uk.gov.justice.laa.crime.error.ErrorMessage;
 
 /**
  * Utility Class for single source for handling errors being passed via the ProblemDetail class.
