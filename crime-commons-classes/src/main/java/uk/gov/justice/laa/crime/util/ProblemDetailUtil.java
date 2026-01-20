@@ -138,6 +138,7 @@ public final class ProblemDetailUtil {
                 .orElseGet(() ->
                         Optional.ofNullable(problemDetail)
                                 .map(ProblemDetail::getDetail)
+                                .filter(detail -> !detail.isBlank())
                                 .map(detail -> new ErrorMessage(FALLBACK_DETAIL_FIELD_NAME, detail))
                                 .map(List::of)
                                 .orElseGet(Collections::emptyList));
