@@ -1,6 +1,7 @@
 package uk.gov.justice.laa.crime.util;
 
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import uk.gov.justice.laa.crime.exception.ErrorExtension;
@@ -13,8 +14,8 @@ import java.util.Optional;
 /**
  * Utility Class for single source for handling errors being passed via the ProblemDetail class.
  */
-@UtilityClass
-public class ProblemDetailUtil {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ProblemDetailUtil {
 
     public static final String FALLBACK_DETAIL_FIELD_NAME = "request";
 
@@ -73,7 +74,7 @@ public class ProblemDetailUtil {
         return new ErrorExtension( code, traceId, errors);
     }
 
-    public Optional<ErrorExtension> getErrorExtension(ProblemDetail problemDetail){
+    public static Optional<ErrorExtension> getErrorExtension(ProblemDetail problemDetail){
         return Optional.ofNullable(problemDetail)
                 .map(ProblemDetail::getProperties)
                 .map(properties -> properties.get(ErrorExtension.EXTENSION_KEY))
@@ -89,7 +90,7 @@ public class ProblemDetailUtil {
      * <li>A list containing the detail field of the {@code ProblemDetail}</li>
      * <li>An empty list if neither are set.</li></ul>
      */
-    public List<String> getErrorDetails(ProblemDetail problemDetail){
+    public static List<String> getErrorDetails(ProblemDetail problemDetail){
         return getErrorMessages(problemDetail).stream().map(ErrorMessage::getMessage).toList();
     }
 
@@ -100,7 +101,7 @@ public class ProblemDetailUtil {
      * <li>A list containing the detail field of the {@code ProblemDetail} as an {@code ErrorMessage}.</li>
      * <li>An empty list if neither are set.</li></ul>
      */
-    public List<ErrorMessage> getErrorMessages(ProblemDetail problemDetail) {
+    public static List<ErrorMessage> getErrorMessages(ProblemDetail problemDetail) {
         return getErrorExtension(problemDetail)
                 .filter(ErrorExtension::hasErrors)
                 .map(ErrorExtension::getErrors)
