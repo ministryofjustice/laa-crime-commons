@@ -114,7 +114,7 @@ public final class ProblemDetailUtil {
 
 
     /**
-     * @return {@code List<ErrorMessages>}
+     * @return {@code List<String>}
      * <ul>
      * <li>The list of messages provided they exist.</li>
      * <li>A list containing the detail field of the {@code ProblemDetail}</li>
