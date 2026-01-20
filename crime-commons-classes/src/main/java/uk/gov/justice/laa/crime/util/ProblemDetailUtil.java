@@ -20,7 +20,7 @@ public final class ProblemDetailUtil {
     public static final String FALLBACK_DETAIL_FIELD_NAME = "request";
 
     /**
-     * Creates a ProblemDetail object with minimal standard objects.
+     * Creates a ProblemDetail object with minimal standard fields.
      *
      * @param status    HttpStatus Http Error encountered, as per <a
      *                  href="https://www.rfc-editor.org/rfc/rfc9457#name-status">RFC-9457 -
@@ -41,7 +41,7 @@ public final class ProblemDetailUtil {
     /**
      * Creates a ProblemDetail object for the given status and parameters.
      *
-     * @param status    String as per <a
+     * @param status    HttpStatus as per <a
      *                  href="https://www.rfc-editor.org/rfc/rfc9457#name-status">RFC-9457 -
      *                  status</a>
      * @param title     String as per <a
@@ -68,9 +68,9 @@ public final class ProblemDetailUtil {
     }
 
     /**
-     * Returns a ProblemDetail object for the given status and String parameters.
+     * Returns a ProblemDetail object for the given status and parameters.
      *
-     * @param status    String as per <a
+     * @param status    HttpStatus as per <a
      *                  href="https://www.rfc-editor.org/rfc/rfc9457#name-status">RFC-9457 -
      *                  status</a>
      * @param title     String as per <a
@@ -149,5 +149,4 @@ public final class ProblemDetailUtil {
                                 .map(List::of)
                                 .orElseGet(Collections::emptyList));
     }
-
 }
