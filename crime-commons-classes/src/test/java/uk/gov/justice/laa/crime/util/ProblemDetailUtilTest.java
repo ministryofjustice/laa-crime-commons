@@ -23,7 +23,7 @@ class ProblemDetailUtilTest {
         ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
         assertThat(problemDetail).isNotNull();
         ErrorExtension foundErrors = (ErrorExtension) problemDetail.getProperties().get("errors");
-        assertThat(foundErrors.getErrors()).isEqualTo(extension.getErrors());
+        assertThat(foundErrors.errors()).isEqualTo(extension.errors());
     }
 
     // Test without using utility constructor. Verify getter behaviour.
@@ -102,7 +102,7 @@ class ProblemDetailUtilTest {
     void givenExtensionDetails_whenBuildExtensionCalled_populatesCorrectly(){
         ErrorExtension expectedExtension = createErrorExtension(2);
 
-        ErrorExtension actualExtension = ProblemDetailUtil.buildErrorExtension(expectedExtension.getCode(), expectedExtension.getTraceId(), expectedExtension.getErrors());
+        ErrorExtension actualExtension = ProblemDetailUtil.buildErrorExtension(expectedExtension.code(), expectedExtension.traceId(), expectedExtension.errors());
 
         assertThat(actualExtension).isEqualTo(expectedExtension);
     }
@@ -118,6 +118,6 @@ class ProblemDetailUtilTest {
     }
 
     private List<String> getErrorsFromExtension(ErrorExtension extension){
-        return extension.getErrors().stream().map(ErrorMessage::getMessage).toList();
+        return extension.errors().stream().map(ErrorMessage::message).toList();
     }
 }

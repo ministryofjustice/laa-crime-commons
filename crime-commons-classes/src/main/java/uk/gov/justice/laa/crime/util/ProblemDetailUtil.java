@@ -127,7 +127,7 @@ public final class ProblemDetailUtil {
      * <li>An empty list if neither are set.</li></ul>
      */
     public static List<String> getErrorDetails(ProblemDetail problemDetail) {
-        return getErrorMessages(problemDetail).stream().map(ErrorMessage::getMessage).toList();
+        return getErrorMessages(problemDetail).stream().map(ErrorMessage::message).toList();
     }
 
     /**
@@ -140,7 +140,7 @@ public final class ProblemDetailUtil {
     public static List<ErrorMessage> getErrorMessages(ProblemDetail problemDetail) {
         return getErrorExtension(problemDetail)
                 .filter(ErrorExtension::hasErrors)
-                .map(ErrorExtension::getErrors)
+                .map(ErrorExtension::errors)
                 .orElseGet(() ->
                         Optional.ofNullable(problemDetail)
                                 .map(ProblemDetail::getDetail)
