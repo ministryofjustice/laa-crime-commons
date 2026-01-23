@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import uk.gov.justice.laa.crime.error.ErrorExtension;
 import uk.gov.justice.laa.crime.error.ErrorMessage;
@@ -22,7 +22,7 @@ public final class ProblemDetailUtil {
     /**
      * Creates a ProblemDetail object with minimal standard fields.
      *
-     * @param status    HttpStatus Http Error encountered, as per <a
+     * @param status    HttpStatusCode Http Error encountered, as per <a
      *                  href="https://www.rfc-editor.org/rfc/rfc9457#name-status">RFC-9457 -
      *                  status</a>
      * @param detail    String Details the error encountered, as per <a
@@ -31,7 +31,7 @@ public final class ProblemDetailUtil {
      * @param extension ErrorExtension holding additional details of the error.
      * @return ProblemDetail populated with given details
      */
-    public static ProblemDetail buildProblemDetail(HttpStatus status, String detail,
+    public static ProblemDetail buildProblemDetail(HttpStatusCode status, String detail,
             ErrorExtension extension) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, detail);
         problemDetail.setProperty(ErrorExtension.EXTENSION_KEY, extension);
@@ -41,7 +41,7 @@ public final class ProblemDetailUtil {
     /**
      * Creates a ProblemDetail object for the given status and parameters.
      *
-     * @param status    HttpStatus as per <a
+     * @param status    HttpStatusCode as per <a
      *                  href="https://www.rfc-editor.org/rfc/rfc9457#name-status">RFC-9457 -
      *                  status</a>
      * @param title     String as per <a
@@ -58,7 +58,7 @@ public final class ProblemDetailUtil {
      * @param extension ErrorExtension holding additional details of the error.
      * @return ProblemDetail populated with given values.
      */
-    public static ProblemDetail buildProblemDetail(HttpStatus status, String title, URI type,
+    public static ProblemDetail buildProblemDetail(HttpStatusCode status, String title, URI type,
             String detail, URI instance, ErrorExtension extension) {
         ProblemDetail problemDetail = buildProblemDetail(status, detail, extension);
         problemDetail.setInstance(instance);
@@ -70,7 +70,7 @@ public final class ProblemDetailUtil {
     /**
      * Returns a ProblemDetail object for the given status and parameters.
      *
-     * @param status    HttpStatus as per <a
+     * @param status    HttpStatusCode as per <a
      *                  href="https://www.rfc-editor.org/rfc/rfc9457#name-status">RFC-9457 -
      *                  status</a>
      * @param title     String as per <a
@@ -86,7 +86,7 @@ public final class ProblemDetailUtil {
      *                  instance</a>
      * @param extension ErrorExtension for holding additional details of the error.
      */
-    public static ProblemDetail buildProblemDetail(HttpStatus status, String title, String type,
+    public static ProblemDetail buildProblemDetail(HttpStatusCode status, String title, String type,
             String detail, String instance, ErrorExtension extension) {
         return buildProblemDetail(status, title, URI.create(type), detail, URI.create(instance),
                 extension);
