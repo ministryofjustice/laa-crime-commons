@@ -12,8 +12,8 @@ semver {
 }
 
 def versions = [
-        jacksonDatabind  : "2.18.1",
-        jacksonCore      : "2.16.0",
+        jacksonDatabind  : "2.19.2",
+        jacksonCore      : "2.19.2",
         jakartaValidation: "3.0.2",
         commonsioVersion : "2.16.1"
 ]
