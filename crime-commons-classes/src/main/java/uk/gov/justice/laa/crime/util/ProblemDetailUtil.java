@@ -151,7 +151,6 @@ public final class ProblemDetailUtil {
      */
     public static ProblemDetail parseProblemDetailJson(String jsonString) throws JsonProcessingException {
         ProblemDetail problemDetail = OBJECT_MAPPER.readValue(jsonString, ProblemDetail.class);
-        // due to generic nature of extensions, need to potentially convert from LinkedHashMap to ErrorExtension.
         Optional<ErrorExtension> errorExtension = getErrorExtension(problemDetail);
         errorExtension.ifPresent(ex -> problemDetail.setProperty(ErrorExtension.EXTENSION_KEY, errorExtension.get()));
         return problemDetail;
@@ -172,15 +171,16 @@ public final class ProblemDetailUtil {
     }
 
     /**
-     * Helper method to convert an ErrorExtension that might be incorrectly assigned another type into
+     * Utility method to convert an ErrorExtension that might be incorrectly set to LinkedHashMap into
      * the proper ErrorExtension type.
-     * This will generally be when deserialized when received from an API call.
+     * This will generally be when deserialized when received from an API call due to the generic nature of the
+     * Properties Map.
      * @param errorExtension Object that should be cast to the ErrorExtension type.
-     * @return ErrorExtension, or null if not present.
+     * @return ErrorExtension, or null if not present, or non-LinkedHashMap type.
      */
     private static ErrorExtension parseExtension(Object errorExtension) {
         ErrorExtension extension;
-        // check the type of the extension. If generic return
+        // check the type of the extension. If generic convert it to ErrorExtension.
         switch (errorExtension) {
             case ErrorExtension ex -> extension = ex;
             case Map<?, ?> map -> extension = OBJECT_MAPPER.convertValue(map, ErrorExtension.class);
