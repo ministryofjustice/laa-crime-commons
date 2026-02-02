@@ -1,6 +1,7 @@
 package uk.gov.justice.laa.crime.util;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -8,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -116,6 +120,45 @@ class ProblemDetailUtilTest {
                 expectedExtension.code(), expectedExtension.traceId(), expectedExtension.errors());
 
         assertThat(actualExtension).isEqualTo(expectedExtension);
+    }
+
+    @Test
+    void givenProblemDetail_whenParseIsCalled_populatesCorrectly() throws JsonProcessingException {
+        ErrorExtension expectedExtension = createErrorExtension(2);
+        ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", expectedExtension);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(expectedProblemDetail);
+
+        ProblemDetail actualProblemDetail = ProblemDetailUtil.parseProblemDetailJson(json);
+
+        assertThat(actualProblemDetail).isEqualTo(expectedProblemDetail);
+        assertThat(ProblemDetailUtil.getErrorExtension(actualProblemDetail)).contains(expectedExtension);
+    }
+
+    @Test
+    void givenProblemDetailWithNoExtension_whenParseIsCalled_populatesCorrectly() throws JsonProcessingException {
+        ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", null);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(expectedProblemDetail);
+
+        ProblemDetail actualProblemDetail = ProblemDetailUtil.parseProblemDetailJson(json);
+
+        assertThat(actualProblemDetail).isEqualTo(expectedProblemDetail);
+        assertFalse(ProblemDetailUtil.getErrorExtension(actualProblemDetail).isPresent());
+    }
+
+    @Test
+    void givenNoExtensions_whenParseIsCalled_populatesCorrectly() throws JsonProcessingException {
+        ProblemDetail  expectedProblemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "TestDetail");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(expectedProblemDetail);
+
+        ProblemDetail actualProblemDetail = ProblemDetailUtil.parseProblemDetailJson(json);
+
+        assertThat(actualProblemDetail).isEqualTo(expectedProblemDetail);
+        assertFalse(ProblemDetailUtil.getErrorExtension(actualProblemDetail).isPresent());
+
     }
 
     private List<ErrorMessage> createErrorMessages(int numValues) {

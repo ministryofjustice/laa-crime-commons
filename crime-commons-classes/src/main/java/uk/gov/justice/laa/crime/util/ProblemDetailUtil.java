@@ -3,7 +3,12 @@ package uk.gov.justice.laa.crime.util;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatusCode;
@@ -17,6 +22,7 @@ import uk.gov.justice.laa.crime.error.ErrorMessage;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ProblemDetailUtil {
 
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     public static final String FALLBACK_DETAIL_FIELD_NAME = "request";
 
     /**
@@ -105,21 +111,6 @@ public final class ProblemDetailUtil {
     }
 
     /**
-     * Extracts the ErrorExtension from a given ProblemDetail if it exists.
-     *
-     * @param problemDetail ProblemDetail to extract ErrorExtension from.
-     * @return Optional of ErrorExtension
-     */
-    public static Optional<ErrorExtension> getErrorExtension(ProblemDetail problemDetail) {
-        return Optional.ofNullable(problemDetail)
-                .map(ProblemDetail::getProperties)
-                .map(properties -> properties.get(ErrorExtension.EXTENSION_KEY))
-                .filter(ErrorExtension.class::isInstance)
-                .map(ErrorExtension.class::cast);
-    }
-
-
-    /**
      * @return {@code List<String>}
      * <ul>
      * <li>The list of messages provided they exist.</li>
@@ -148,5 +139,53 @@ public final class ProblemDetailUtil {
                                 .map(detail -> new ErrorMessage(FALLBACK_DETAIL_FIELD_NAME, detail))
                                 .map(List::of)
                                 .orElseGet(Collections::emptyList));
+    }
+
+
+    /**
+     * Utility method to return a populated ProblemDetail object from a given json String.
+     * Will populate the general fields and the errorExtension ( if present in the json ).
+     * @param jsonString Json String that represents the ProblemDetail.
+     * @return The Populated ProblemDetail object.
+     * @throws JsonProcessingException If json is malformed, or non-compliant to ProblemDetails.
+     */
+    public static ProblemDetail parseProblemDetailJson(String jsonString) throws JsonProcessingException {
+        ProblemDetail problemDetail = OBJECT_MAPPER.readValue(jsonString, ProblemDetail.class);
+        Optional<ErrorExtension> errorExtension = getErrorExtension(problemDetail);
+        errorExtension.ifPresent(ex -> problemDetail.setProperty(ErrorExtension.EXTENSION_KEY, errorExtension.get()));
+        return problemDetail;
+    }
+
+    /**
+     * Extracts the ErrorExtension from a given ProblemDetail if it exists.
+     *
+     * @param problemDetail ProblemDetail to extract ErrorExtension from.
+     * @return Optional of ErrorExtension
+     */
+    public static Optional<ErrorExtension> getErrorExtension(ProblemDetail problemDetail) {
+        return Optional.ofNullable(problemDetail)
+                .filter(x -> Objects.nonNull(problemDetail.getProperties()))
+                .filter(x -> x.getProperties().containsKey(ErrorExtension.EXTENSION_KEY))
+                .map(x ->
+                        parseExtension(problemDetail.getProperties().get(ErrorExtension.EXTENSION_KEY)));
+    }
+
+    /**
+     * Utility method to convert an ErrorExtension that might be incorrectly set to LinkedHashMap into
+     * the proper ErrorExtension type.
+     * This will generally be when deserialized when received from an API call due to the generic nature of the
+     * Properties Map.
+     * @param errorExtension Object that should be cast to the ErrorExtension type.
+     * @return ErrorExtension, or null if not present, or non-LinkedHashMap type.
+     */
+    private static ErrorExtension parseExtension(Object errorExtension) {
+        ErrorExtension extension;
+        // check the type of the extension. If generic convert it to ErrorExtension.
+        switch (errorExtension) {
+            case ErrorExtension ex -> extension = ex;
+            case Map<?, ?> map -> extension = OBJECT_MAPPER.convertValue(map, ErrorExtension.class);
+            case null, default -> extension = null;
+        }
+        return extension;
     }
 }
