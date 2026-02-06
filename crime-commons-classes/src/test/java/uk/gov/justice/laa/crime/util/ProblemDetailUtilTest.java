@@ -122,11 +122,28 @@ class ProblemDetailUtilTest {
         assertThat(actualExtension).isEqualTo(expectedExtension);
     }
 
-    @Test
-    void givenProblemDetail_whenParseIsCalled_populatesCorrectly() throws JsonProcessingException {
+
+    /**
+     * Format of incoming json can be different if the endpoint responding is using the jackson mixin correctly.
+     * If using, the values in properties get moved to the top level.
+     * i.e.
+     * {
+     *  "type" : "whatever"
+     *  "errors" : {
+     *      "code" : "TestCode"
+     *  }
+     * }
+     * Need to be able to handle both versions.
+     */
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void givenProblemDetail_whenParseIsCalled_populatesCorrectly(boolean useMixins) throws JsonProcessingException {
         ErrorExtension expectedExtension = createErrorExtension(2);
         ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", expectedExtension);
         ObjectMapper objectMapper = new ObjectMapper();
+        if(useMixins) {
+            objectMapper.addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
+        }
         String json = objectMapper.writeValueAsString(expectedProblemDetail);
 
         ProblemDetail actualProblemDetail = ProblemDetailUtil.parseProblemDetailJson(json);
@@ -135,10 +152,16 @@ class ProblemDetailUtilTest {
         assertThat(ProblemDetailUtil.getErrorExtension(actualProblemDetail)).contains(expectedExtension);
     }
 
-    @Test
-    void givenProblemDetailWithNoExtension_whenParseIsCalled_populatesCorrectly() throws JsonProcessingException {
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void givenProblemDetailWithNoExtension_whenParseIsCalled_populatesCorrectly(boolean useMixins) throws JsonProcessingException {
         ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", null);
         ObjectMapper objectMapper = new ObjectMapper();
+        if(useMixins) {
+            objectMapper.addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
+        }
+
         String json = objectMapper.writeValueAsString(expectedProblemDetail);
 
         ProblemDetail actualProblemDetail = ProblemDetailUtil.parseProblemDetailJson(json);

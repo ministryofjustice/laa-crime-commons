@@ -22,7 +22,7 @@ import uk.gov.justice.laa.crime.error.ErrorMessage;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ProblemDetailUtil {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
     public static final String FALLBACK_DETAIL_FIELD_NAME = "request";
 
     /**
