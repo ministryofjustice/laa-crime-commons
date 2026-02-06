@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.json.ProblemDetailJacksonMixin;
 import uk.gov.justice.laa.crime.error.ErrorExtension;
 import uk.gov.justice.laa.crime.error.ErrorMessage;
 
@@ -22,7 +23,7 @@ import uk.gov.justice.laa.crime.error.ErrorMessage;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ProblemDetailUtil {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
     public static final String FALLBACK_DETAIL_FIELD_NAME = "request";
 
     /**
