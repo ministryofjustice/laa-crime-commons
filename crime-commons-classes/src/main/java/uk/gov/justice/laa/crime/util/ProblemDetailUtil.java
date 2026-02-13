@@ -111,25 +111,27 @@ public final class ProblemDetailUtil {
         return new ErrorExtension(code, traceId, errors);
     }
 
-    /**
+    /** Returns a {@literal List<String>} from the error messages, with a default value of
+     * ProblemDetail detail if error list is empty.
      * @return {@code List<String>}
      * <ul>
      * <li>The list of messages provided they exist.</li>
      * <li>A list containing the detail field of the {@code ProblemDetail}</li>
      * <li>An empty list if neither are set.</li></ul>
      */
-    public static List<String> getErrorDetails(ProblemDetail problemDetail) {
-        return getErrorMessages(problemDetail).stream().map(ErrorMessage::message).toList();
+    public static List<String> getErrorDetailsWithDefault(ProblemDetail problemDetail) {
+        return getErrorMessagesWithDefault(problemDetail).stream().map(ErrorMessage::message).toList();
     }
 
-    /**
-     * @return {@code List<ErrorMessages>}
+    /** Returns a {@literal List<ErrorMessage>} of the error messages, with a default value of
+     * ProblemDetail detail if error list is empty.
+     * @return {@code List<ErrorMessage>}
      * <ul>
      * <li>The list of messages provided they exist.</li>
      * <li>A list containing the detail field of the {@code ProblemDetail} as an {@code ErrorMessage}.</li>
      * <li>An empty list if neither are set.</li></ul>
      */
-    public static List<ErrorMessage> getErrorMessages(ProblemDetail problemDetail) {
+    public static List<ErrorMessage> getErrorMessagesWithDefault(ProblemDetail problemDetail) {
         return getErrorExtension(problemDetail)
                 .filter(ErrorExtension::hasErrors)
                 .map(ErrorExtension::errors)
@@ -140,6 +142,30 @@ public final class ProblemDetailUtil {
                                 .map(detail -> new ErrorMessage(FALLBACK_DETAIL_FIELD_NAME, detail))
                                 .map(List::of)
                                 .orElseGet(Collections::emptyList));
+    }
+
+    /** Returns a {@literal List<String>} of the error messages
+     * @return {@code List<String>}
+     * <ul>
+     * <li>The list of messages provided they exist.</li>
+     * <li>An empty list if no values are set.</li></ul>
+     */
+    public static List<String> getErrorDetails(ProblemDetail problemDetail) {
+        return getErrorMessages(problemDetail).stream().map(ErrorMessage::message).toList();
+    }
+
+
+    /** Returns a {@literal List<ErrorMessage>} of the error messages.
+     * @return {@code List<ErrorMessage>}
+     * <ul>
+     * <li>The list of messages provided they exist.</li>
+     * <li>An empty list if nothing is set.</li></ul>
+     */
+    public static List<ErrorMessage> getErrorMessages(ProblemDetail problemDetail) {
+        return getErrorExtension(problemDetail)
+                .filter(ErrorExtension::hasErrors)
+                .map(ErrorExtension::errors)
+                .orElseGet(Collections::emptyList);
     }
 
 
