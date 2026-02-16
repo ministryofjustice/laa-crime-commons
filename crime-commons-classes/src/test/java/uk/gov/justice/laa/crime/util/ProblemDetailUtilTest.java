@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,38 +35,55 @@ class ProblemDetailUtilTest {
     }
 
     // Test without using utility constructor. Verify getter behaviour.
-    @Test
-    void givenErrorListPresent_whenProblemDetailPassedIn_thenSameErrorListReturned() {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void givenErrorListPresent_whenProblemDetailPassedIn_thenSameErrorListReturned(boolean useDefault) {
         ErrorExtension extension = createErrorExtension(2);
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST.value());
         problemDetail.setProperties(Map.of(ErrorExtension.EXTENSION_KEY, extension));
-
-        List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
+        List<String> returnedErrors = (useDefault) ?
+                ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail) :
+                ProblemDetailUtil.getErrorDetails(problemDetail);
         assertThat(returnedErrors).isEqualTo(getErrorsFromExtension(extension));
     }
 
-    @Test
-    void givenErrorList_whenProblemDetailCreatedAndThenPassedBack_thenSameErrorsPresent() {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void givenErrorList_whenProblemDetailCreatedAndThenPassedBack_thenSameErrorsPresent(boolean useDefault) {
         ErrorExtension extension = createErrorExtension(3);
         ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST,
                 HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
-        List<String> foundErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
-        assertThat(foundErrors).isEqualTo(getErrorsFromExtension(extension));
+        List<String> returnedErrors = (useDefault) ?
+                ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail) :
+                ProblemDetailUtil.getErrorDetails(problemDetail);
+        assertThat(returnedErrors).isEqualTo(getErrorsFromExtension(extension));
     }
 
-    @Test
-    void givenNoListButHasDetail_whenProblemDetailExamined_thenListOfDetailReturned() {
-        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void givenNoListButHasDetail_whenProblemDetailExamined_thenListOfDetailReturned(boolean useDefault) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
                 HttpStatus.BAD_REQUEST.getReasonPhrase());
-        List<String> foundErrors = ProblemDetailUtil.getErrorDetails(detail);
-        assertThat(foundErrors).isEqualTo(List.of(HttpStatus.BAD_REQUEST.getReasonPhrase()));
+        if(useDefault) {
+            List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail);
+            assertThat(returnedErrors).isEqualTo(List.of(HttpStatus.BAD_REQUEST.getReasonPhrase()));
+        }
+        else{
+            List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
+            assertThat(returnedErrors).isEqualTo(Collections.emptyList());
+        }
+
     }
 
-    @Test
-    void givenNoDetailsOrList_whenProblemDetailsExamined_thenEmptyListReturned() {
-        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        List<String> foundErrors = ProblemDetailUtil.getErrorDetails(detail);
-        assertThat(foundErrors).isEqualTo(List.of());
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void givenNoDetailsOrList_whenProblemDetailsExamined_thenEmptyListReturned(boolean useDefault) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        List<String> returnedErrors = (useDefault) ?
+                ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail) :
+                ProblemDetailUtil.getErrorDetails(problemDetail);
+        assertThat(returnedErrors).isEqualTo(List.of());
     }
 
 
@@ -75,8 +93,8 @@ class ProblemDetailUtilTest {
         ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST,
                 "detail", extension);
 
-        List<String> foundErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
-        assertThat(foundErrors).isEqualTo(getErrorsFromExtension(extension));
+        List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail);
+        assertThat(returnedErrors).isEqualTo(getErrorsFromExtension(extension));
     }
 
     @Test
@@ -85,14 +103,14 @@ class ProblemDetailUtilTest {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
                 "Test Detail To Be Found");
         detail.setProperties(Map.of(ErrorExtension.EXTENSION_KEY, extension));
-        List<String> foundErrors = ProblemDetailUtil.getErrorDetails(detail);
-        assertThat(foundErrors).isEqualTo(List.of("Test Detail To Be Found"));
+        List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(detail);
+        assertThat(returnedErrors).isEqualTo(List.of("Test Detail To Be Found"));
     }
 
     @Test
     void givenNoProblemDetail_whenNullPassedIn_thenEmptyListReturned() {
-        List<String> foundErrors = ProblemDetailUtil.getErrorDetails(null);
-        assertThat(foundErrors).isEqualTo(List.of());
+        List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(null);
+        assertThat(returnedErrors).isEqualTo(List.of());
     }
 
     @Test
