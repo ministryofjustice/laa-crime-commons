@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiRollbackIojAppealResponse.json",
+  "type": "object",
+  "title": "Rollback IoJ Appeal response",
+  "description": "Data contract for the response to rolling back an an IoJ Appeal",
+  "properties": {
+    "appealId": {
+      "type": "string",
+      "description": "The UUID of the appeal"
+    },
+    "legacyAppealId": {
+      "type": "integer",
+      "description": "The ID of the legacy appeal (defined in MAAT DB)"
+    },
+    "rollbackSuccessful": {
+      "type": "boolean",
+      "description": "Determines whether the rollback was successful"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["appealId"]
+}
