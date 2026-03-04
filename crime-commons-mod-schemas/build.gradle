@@ -22,6 +22,10 @@ configurations {
     }
 }
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
     implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"

@@ -11,6 +11,10 @@ semver {
     tagPrefix.set("crime-commons-classes-")
 }
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+
 def versions = [
         jacksonDatabind  : "2.19.2",
         jacksonCore      : "2.19.2",
