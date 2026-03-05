@@ -24,6 +24,10 @@ configurations {
     }
 }
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+
 bootJar {
     enabled = false
 }
