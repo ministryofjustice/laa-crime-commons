@@ -11,11 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 @AllArgsConstructor
 public enum PassportAssessmentDecision {
     PASS("PASS", "Pass the passport assessment"),
-    TEMP_PASS("TEMP_PASS", "Used if the DWP link is unavailable, or the defendant is remanded" 
+    TEMP_PASS("TEMP", "Used if the DWP link is unavailable, or the defendant is remanded"
         + "into court custody and does not know their National Insurance Number"),
-    FAIL_BYPASS("FAIL_BYPASS", "Fails on the DWP check. If financial information " 
+    FAIL_BYPASS("FAIL_CONTINUE", "Fails on the DWP check. If financial information "
         + "is supplied the caseworker performs a means assessment, otherwise they reject the " 
-        + "application back to the provider");
+        + "application back to the provider"),
+    FAIL("FAIL", "Fail the passport assessment");
 
     @JsonPropertyDescription("Passport assessment decision code")
     @JsonValue

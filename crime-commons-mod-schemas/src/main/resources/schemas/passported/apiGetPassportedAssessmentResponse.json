@@ -16,6 +16,10 @@
     "usn": {
       "type": "integer",
       "description": "The Unique Serial Number (USN) of the  assessment from Crime Apply (if applicable)"
+    },
+    "caseManagementUnitId": {
+      "type": "integer",
+      "description": "The Case Management Unit ID, based on current user and Local Justice Area"
     }
   },
   "extends": {
