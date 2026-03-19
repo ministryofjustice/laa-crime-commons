@@ -40,5 +40,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["receivedDate", "appealReason", "appealAssessor", "appealDecision", "decisionReason", "decisionDate"]
+  "required": ["receivedDate", "appealReason", "appealAssessor", "appealDecision", "decisionReason", "decisionDate", "appealSuccessful"]
 }
