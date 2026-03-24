@@ -25,5 +25,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["caseManagementUnitId", "userSession"]
+  "required": ["caseManagementUnitId", "userSession", "applicationReceivedDate", "legacyApplicationId"]
 }
