@@ -16,6 +16,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.json.ProblemDetailJacksonMixin;
 import uk.gov.justice.laa.crime.error.ErrorExtension;
 import uk.gov.justice.laa.crime.error.ErrorMessage;
+import uk.gov.justice.laa.crime.error.ProblemDetailError;
 
 /**
  * Utility Class for single source for handling errors being passed via the ProblemDetail class.
@@ -97,6 +98,29 @@ public final class ProblemDetailUtil {
             String detail, String instance, ErrorExtension extension) {
         return buildProblemDetail(status, title, URI.create(type), detail, URI.create(instance),
                 extension);
+    }
+
+
+    /**
+     * Builds a {@link ProblemDetail} using the supplied status and {@link ProblemDetailError}.
+     *
+     * <p>The {@code error} provides the default {@code detail} value for the {@link ProblemDetail}
+     * and the error {@code code} for the attached {@link ErrorExtension}.
+     *
+     * @param status   the HTTP status, as defined by
+     *                 <a href="https://www.rfc-editor.org/rfc/rfc9457#name-status">RFC-9457</a>
+     * @param error    the error type containing the code and default detail
+     * @param traceId  the trace identifier for the request
+     * @param messages the error messages to include in the extension
+     * @return a populated {@link ProblemDetail} instance
+     */
+    public static ProblemDetail buildProblemDetail(
+            HttpStatusCode status,
+            ProblemDetailError error,
+            String traceId,
+            List<ErrorMessage> messages) {
+        ErrorExtension extension = buildErrorExtension(error.code(), traceId, messages);
+        return buildProblemDetail(status, error.defaultDetail(), extension);
     }
 
     /**
