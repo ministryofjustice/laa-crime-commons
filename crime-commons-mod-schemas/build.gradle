@@ -51,9 +51,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id = "Sriram"
-                        name = "Sriram Kasthuri"
-                        email = "sriram.kasthuri@digital.justice.gov.uk"
+                        id = "mhowell494"
+                        name = "Matthew Howell"
+                        email = "matthew.howell@digital.justice.gov.uk"
                     }
                 }
                 scm {
