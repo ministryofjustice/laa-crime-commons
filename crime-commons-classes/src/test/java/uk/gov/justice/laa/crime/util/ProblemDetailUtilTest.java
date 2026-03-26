@@ -57,8 +57,8 @@ class ProblemDetailUtilTest {
                 messages);
 
         assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(problemDetail.getDetail()).
-                isEqualTo(ProblemDetailError.VALIDATION_FAILURE.defaultDetail());
+        assertThat(problemDetail.getDetail())
+                .isEqualTo(ProblemDetailError.VALIDATION_FAILURE.defaultDetail());
 
         assertThat(ProblemDetailUtil.getErrorExtension(problemDetail))
                 .contains(new ErrorExtension(
@@ -77,18 +77,26 @@ class ProblemDetailUtilTest {
         assertThat(actualExtension).isEqualTo(expectedExtension);
     }
 
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void givenProblemDetailWithDetailOnly_whenErrorDetailsRequested_thenReturnsExpectedResult(boolean useDefault) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+    @Test
+    void givenProblemDetailWithDetailOnly_whenGetErrorDetailsWithDefault_thenReturnsDetail() {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
                 HttpStatus.BAD_REQUEST.getReasonPhrase());
-        if (useDefault) {
-            List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail);
-            assertThat(returnedErrors).isEqualTo(List.of(HttpStatus.BAD_REQUEST.getReasonPhrase()));
-        } else {
-            List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
-            assertThat(returnedErrors).isEmpty();
-        }
+
+        List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail);
+
+        assertThat(returnedErrors).containsExactly(HttpStatus.BAD_REQUEST.getReasonPhrase());
+    }
+
+    @Test
+    void givenProblemDetailWithDetailOnly_whenGetErrorDetails_thenReturnsEmptyList() {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase());
+
+        List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
+
+        assertThat(returnedErrors).isEmpty();
     }
 
     // Test without using utility constructor. Verify getter behaviour.
