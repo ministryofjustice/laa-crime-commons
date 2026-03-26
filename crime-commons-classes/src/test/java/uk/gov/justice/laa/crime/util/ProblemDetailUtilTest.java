@@ -166,7 +166,6 @@ class ProblemDetailUtilTest {
         ErrorExtension extension = createErrorExtension(2);
         ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST,
                 HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
-        assertThat(problemDetail).isNotNull();
         assertThat(ProblemDetailUtil.getErrorExtension(problemDetail))
                 .contains(extension);
     }
