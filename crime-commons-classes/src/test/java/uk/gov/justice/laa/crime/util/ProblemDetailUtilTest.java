@@ -21,6 +21,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.json.ProblemDetailJacksonMixin;
 import uk.gov.justice.laa.crime.error.ErrorExtension;
 import uk.gov.justice.laa.crime.error.ErrorMessage;
+import uk.gov.justice.laa.crime.error.ProblemDetailError;
 
 class ProblemDetailUtilTest {
 
@@ -110,6 +111,26 @@ class ProblemDetailUtilTest {
     void givenNoProblemDetail_whenNullPassedIn_thenEmptyListReturned() {
         List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(null);
         assertThat(returnedErrors).isEqualTo(List.of());
+    }
+
+    @Test
+    void givenProblemDetailError_whenBuildProblemDetailCalled_thenUsesDefaultDetailAndCode() {
+        List<ErrorMessage> messages = List.of(new ErrorMessage("field", "message"));
+
+        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(
+                HttpStatus.BAD_REQUEST,
+                ProblemDetailError.VALIDATION_FAILURE,
+                "trace-123",
+                messages);
+
+        assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(problemDetail.getDetail()).isEqualTo(ProblemDetailError.VALIDATION_FAILURE.defaultDetail());
+
+        assertThat(ProblemDetailUtil.getErrorExtension(problemDetail))
+                .contains(new ErrorExtension(
+                        ProblemDetailError.VALIDATION_FAILURE.code(),
+                        "trace-123",
+                        messages));
     }
 
     @Test
