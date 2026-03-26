@@ -78,9 +78,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id = "Muthu"
-                        name = "Muthu Subramanian"
-                        email = "muthu.subramanian@digital.justice.gov.uk"
+                        id = "mhowell494"
+                        name = "Matthew Howell"
+                        email = "matthew.howell@digital.justice.gov.uk"
                     }
                 }
                 scm {
