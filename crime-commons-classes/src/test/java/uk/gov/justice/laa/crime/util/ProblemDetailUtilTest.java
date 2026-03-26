@@ -1,15 +1,5 @@
 package uk.gov.justice.laa.crime.util;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +12,15 @@ import org.springframework.http.converter.json.ProblemDetailJacksonMixin;
 import uk.gov.justice.laa.crime.error.ErrorExtension;
 import uk.gov.justice.laa.crime.error.ErrorMessage;
 import uk.gov.justice.laa.crime.error.ProblemDetailError;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ProblemDetailUtilTest {
 
@@ -70,7 +69,7 @@ class ProblemDetailUtilTest {
             assertThat(returnedErrors).isEqualTo(List.of(HttpStatus.BAD_REQUEST.getReasonPhrase()));
         } else {
             List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
-            assertThat(returnedErrors).isEqualTo(Collections.emptyList());
+            assertThat(returnedErrors).isEmpty();
         }
 
     }
@@ -83,7 +82,7 @@ class ProblemDetailUtilTest {
         List<String> returnedErrors = (useDefault) ?
                 ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail) :
                 ProblemDetailUtil.getErrorDetails(problemDetail);
-        assertThat(returnedErrors).isEqualTo(List.of());
+        assertThat(returnedErrors).isEmpty();
     }
 
 
@@ -110,7 +109,7 @@ class ProblemDetailUtilTest {
     @Test
     void givenNoProblemDetail_whenNullPassedIn_thenEmptyListReturned() {
         List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(null);
-        assertThat(returnedErrors).isEqualTo(List.of());
+        assertThat(returnedErrors).isEmpty();
     }
 
     @Test
@@ -149,8 +148,10 @@ class ProblemDetailUtilTest {
 
         Optional<ErrorExtension> foundExtension = ProblemDetailUtil.getErrorExtension(
                 problemDetail);
-        assertThat(foundExtension).isPresent();
-        assertThat(foundExtension).contains(expectedExtension);
+
+        assertThat(foundExtension)
+                .isPresent()
+                .contains(expectedExtension);
     }
 
     @Test
@@ -208,7 +209,7 @@ class ProblemDetailUtilTest {
         ProblemDetail actualProblemDetail = ProblemDetailUtil.parseProblemDetailJson(json);
 
         assertThat(actualProblemDetail).isEqualTo(expectedProblemDetail);
-        assertFalse(ProblemDetailUtil.getErrorExtension(actualProblemDetail).isPresent());
+        assertThat(ProblemDetailUtil.getErrorExtension(actualProblemDetail)).isEmpty();
     }
 
     @Test
@@ -221,7 +222,7 @@ class ProblemDetailUtilTest {
         ProblemDetail actualProblemDetail = ProblemDetailUtil.parseProblemDetailJson(json);
 
         assertThat(actualProblemDetail).isEqualTo(expectedProblemDetail);
-        assertFalse(ProblemDetailUtil.getErrorExtension(actualProblemDetail).isPresent());
+        assertThat(ProblemDetailUtil.getErrorExtension(actualProblemDetail)).isEmpty();
 
     }
 
