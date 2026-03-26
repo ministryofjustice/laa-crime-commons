@@ -25,13 +25,70 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProblemDetailUtilTest {
 
     @Test
-    void givenErrorList_whenErrorResponseWanted_ErrorListPresent() {
-        ErrorExtension extension = createErrorExtension(2);
-        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST,
-                HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
-        assertThat(problemDetail).isNotNull();
+    void givenAllDetails_whenBuildCalled_thenFullDetailReturned() {
+
+        ErrorExtension expectedExtension = createErrorExtension(2);
+        ProblemDetail problemDetail =
+                ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "title", "type",
+                        "detail", "instance", expectedExtension);
+
+        assertThat(problemDetail.getTitle()).isEqualTo("title");
+        assertThat(problemDetail.getType()).isEqualTo(URI.create("type"));
+        assertThat(problemDetail.getDetail()).isEqualTo("detail");
+        assertThat(problemDetail.getInstance()).isEqualTo(URI.create("instance"));
+        assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+
+        Optional<ErrorExtension> foundExtension = ProblemDetailUtil.getErrorExtension(
+                problemDetail);
+
+        assertThat(foundExtension)
+                .isPresent()
+                .contains(expectedExtension);
+    }
+
+    @Test
+    void givenProblemDetailError_whenBuildProblemDetailCalled_thenUsesDefaultDetailAndCode() {
+        List<ErrorMessage> messages = List.of(new ErrorMessage("field", "message"));
+
+        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(
+                HttpStatus.BAD_REQUEST,
+                ProblemDetailError.VALIDATION_FAILURE,
+                "trace-123",
+                messages);
+
+        assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(problemDetail.getDetail()).
+                isEqualTo(ProblemDetailError.VALIDATION_FAILURE.defaultDetail());
+
         assertThat(ProblemDetailUtil.getErrorExtension(problemDetail))
-                .contains(extension);
+                .contains(new ErrorExtension(
+                        ProblemDetailError.VALIDATION_FAILURE.code(),
+                        "trace-123",
+                        messages));
+    }
+
+    @Test
+    void givenExtensionDetails_whenBuildExtensionCalled_populatesCorrectly() {
+        ErrorExtension expectedExtension = createErrorExtension(2);
+
+        ErrorExtension actualExtension = ProblemDetailUtil.buildErrorExtension(
+                expectedExtension.code(), expectedExtension.traceId(), expectedExtension.errors());
+
+        assertThat(actualExtension).isEqualTo(expectedExtension);
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void givenProblemDetailWithDetailOnly_whenErrorDetailsRequested_thenReturnsExpectedResult(boolean useDefault) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase());
+        if (useDefault) {
+            List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail);
+            assertThat(returnedErrors).isEqualTo(List.of(HttpStatus.BAD_REQUEST.getReasonPhrase()));
+        } else {
+            List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
+            assertThat(returnedErrors).isEmpty();
+        }
     }
 
     // Test without using utility constructor. Verify getter behaviour.
@@ -58,22 +115,6 @@ class ProblemDetailUtilTest {
                 ProblemDetailUtil.getErrorDetails(problemDetail);
         assertThat(returnedErrors).isEqualTo(getErrorsFromExtension(extension));
     }
-
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void givenNoListButHasDetail_whenProblemDetailExamined_thenListOfDetailReturned(boolean useDefault) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
-                HttpStatus.BAD_REQUEST.getReasonPhrase());
-        if (useDefault) {
-            List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail);
-            assertThat(returnedErrors).isEqualTo(List.of(HttpStatus.BAD_REQUEST.getReasonPhrase()));
-        } else {
-            List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
-            assertThat(returnedErrors).isEmpty();
-        }
-
-    }
-
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
@@ -113,67 +154,24 @@ class ProblemDetailUtilTest {
     }
 
     @Test
-    void givenProblemDetailError_whenBuildProblemDetailCalled_thenUsesDefaultDetailAndCode() {
-        List<ErrorMessage> messages = List.of(new ErrorMessage("field", "message"));
-
-        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(
-                HttpStatus.BAD_REQUEST,
-                ProblemDetailError.VALIDATION_FAILURE,
-                "trace-123",
-                messages);
-
-        assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(problemDetail.getDetail()).isEqualTo(ProblemDetailError.VALIDATION_FAILURE.defaultDetail());
-
+    void givenProblemDetailWithExtension_whenGetErrorExtension_thenReturnsExtension() {
+        ErrorExtension extension = createErrorExtension(2);
+        ProblemDetail problemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase(), extension);
+        assertThat(problemDetail).isNotNull();
         assertThat(ProblemDetailUtil.getErrorExtension(problemDetail))
-                .contains(new ErrorExtension(
-                        ProblemDetailError.VALIDATION_FAILURE.code(),
-                        "trace-123",
-                        messages));
+                .contains(extension);
     }
-
-    @Test
-    void givenAllDetails_whenBuildCalled_thenFullDetailReturned() {
-
-        ErrorExtension expectedExtension = createErrorExtension(2);
-        ProblemDetail problemDetail =
-                ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "title", "type",
-                        "detail", "instance", expectedExtension);
-
-        assertThat(problemDetail.getTitle()).isEqualTo("title");
-        assertThat(problemDetail.getType()).isEqualTo(URI.create("type"));
-        assertThat(problemDetail.getDetail()).isEqualTo("detail");
-        assertThat(problemDetail.getInstance()).isEqualTo(URI.create("instance"));
-        assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-
-        Optional<ErrorExtension> foundExtension = ProblemDetailUtil.getErrorExtension(
-                problemDetail);
-
-        assertThat(foundExtension)
-                .isPresent()
-                .contains(expectedExtension);
-    }
-
-    @Test
-    void givenExtensionDetails_whenBuildExtensionCalled_populatesCorrectly() {
-        ErrorExtension expectedExtension = createErrorExtension(2);
-
-        ErrorExtension actualExtension = ProblemDetailUtil.buildErrorExtension(
-                expectedExtension.code(), expectedExtension.traceId(), expectedExtension.errors());
-
-        assertThat(actualExtension).isEqualTo(expectedExtension);
-    }
-
 
     /**
      * Format of incoming json can be different if the endpoint responding is using the jackson mixin correctly.
      * If using, the values in properties get moved to the top level.
      * i.e.
      * {
-     *  "type" : "whatever"
-     *  "errors" : {
-     *      "code" : "TestCode"
-     *  }
+     * "type" : "whatever"
+     * "errors" : {
+     * "code" : "TestCode"
+     * }
      * }
      * Need to be able to handle both versions.
      */
@@ -181,7 +179,7 @@ class ProblemDetailUtilTest {
     @ValueSource(booleans = {true, false})
     void givenProblemDetail_whenParseIsCalled_populatesCorrectly(boolean useMixins) throws JsonProcessingException {
         ErrorExtension expectedExtension = createErrorExtension(2);
-        ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", expectedExtension);
+        ProblemDetail expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", expectedExtension);
         ObjectMapper objectMapper = new ObjectMapper();
         if (useMixins) {
             objectMapper.addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
@@ -198,7 +196,7 @@ class ProblemDetailUtilTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void givenProblemDetailWithNoExtension_whenParseIsCalled_populatesCorrectly(boolean useMixins) throws JsonProcessingException {
-        ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", null);
+        ProblemDetail expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", null);
         ObjectMapper objectMapper = new ObjectMapper();
         if (useMixins) {
             objectMapper.addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
@@ -214,7 +212,7 @@ class ProblemDetailUtilTest {
 
     @Test
     void givenNoExtensions_whenParseIsCalled_populatesCorrectly() throws JsonProcessingException {
-        ProblemDetail  expectedProblemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "TestDetail");
+        ProblemDetail expectedProblemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "TestDetail");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(expectedProblemDetail);
@@ -223,7 +221,14 @@ class ProblemDetailUtilTest {
 
         assertThat(actualProblemDetail).isEqualTo(expectedProblemDetail);
         assertThat(ProblemDetailUtil.getErrorExtension(actualProblemDetail)).isEmpty();
+    }
 
+    @Test
+    void givenProblemDetailWithUnsupportedExtensionType_whenGetErrorExtension_thenReturnsEmpty() {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setProperties(Map.of(ErrorExtension.EXTENSION_KEY, "not-an-extension"));
+
+        assertThat(ProblemDetailUtil.getErrorExtension(problemDetail)).isEmpty();
     }
 
     private List<ErrorMessage> createErrorMessages(int numValues) {
