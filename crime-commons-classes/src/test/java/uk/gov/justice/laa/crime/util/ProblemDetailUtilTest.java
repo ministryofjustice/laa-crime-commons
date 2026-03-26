@@ -172,16 +172,21 @@ class ProblemDetailUtilTest {
     }
 
     /**
-     * Format of incoming json can be different if the endpoint responding is using the jackson mixin correctly.
-     * If using, the values in properties get moved to the top level.
-     * i.e.
+     * Incoming JSON can vary depending on whether the responding endpoint uses the
+     * {@link ProblemDetailJacksonMixin}. When it does, values in {@code properties}
+     * are flattened to the top level.
+     *
+     * <p>For example:
+     * <pre>
      * {
-     * "type" : "whatever"
-     * "errors" : {
-     * "code" : "TestCode"
+     *   "type": "whatever",
+     *   "errors": {
+     *     "code": "TestCode"
+     *   }
      * }
-     * }
-     * Need to be able to handle both versions.
+     * </pre>
+     *
+     * Both forms should be supported.
      */
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
