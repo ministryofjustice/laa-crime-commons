@@ -64,11 +64,10 @@ class ProblemDetailUtilTest {
     void givenNoListButHasDetail_whenProblemDetailExamined_thenListOfDetailReturned(boolean useDefault) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
                 HttpStatus.BAD_REQUEST.getReasonPhrase());
-        if(useDefault) {
+        if (useDefault) {
             List<String> returnedErrors = ProblemDetailUtil.getErrorDetailsWithDefault(problemDetail);
             assertThat(returnedErrors).isEqualTo(List.of(HttpStatus.BAD_REQUEST.getReasonPhrase()));
-        }
-        else{
+        } else {
             List<String> returnedErrors = ProblemDetailUtil.getErrorDetails(problemDetail);
             assertThat(returnedErrors).isEqualTo(Collections.emptyList());
         }
@@ -162,7 +161,7 @@ class ProblemDetailUtilTest {
         ErrorExtension expectedExtension = createErrorExtension(2);
         ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", expectedExtension);
         ObjectMapper objectMapper = new ObjectMapper();
-        if(useMixins) {
+        if (useMixins) {
             objectMapper.addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
         }
         String json = objectMapper.writeValueAsString(expectedProblemDetail);
@@ -179,7 +178,7 @@ class ProblemDetailUtilTest {
     void givenProblemDetailWithNoExtension_whenParseIsCalled_populatesCorrectly(boolean useMixins) throws JsonProcessingException {
         ProblemDetail  expectedProblemDetail = ProblemDetailUtil.buildProblemDetail(HttpStatus.BAD_REQUEST, "Detail", null);
         ObjectMapper objectMapper = new ObjectMapper();
-        if(useMixins) {
+        if (useMixins) {
             objectMapper.addMixIn(ProblemDetail.class, ProblemDetailJacksonMixin.class);
         }
 
