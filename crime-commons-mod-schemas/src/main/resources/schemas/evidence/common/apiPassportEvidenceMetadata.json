@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "apiPassportEvidenceMetadata.json",
+  "type": "object",
+  "title": "Passport Evidence Metadata",
+  "description": "MAAT specific metadata required to process passport evidence",
+  "properties": {
+    "evidenceDueDate": {
+      "type": "string",
+      "description": "The date the evidence is due",
+      "format": "date"
+    },
+    "evidenceReceivedDate": {
+      "type": "string",
+      "description": "The date the evidence was received",
+      "format": "date"
+    },
+    "upliftAppliedDate": {
+      "type": "string",
+      "description": "The date when contributions uplift was applied",
+      "format": "date"
+    },
+    "upliftRemovedDate": {
+      "type": "string",
+      "description": "The date when contributions uplift was removed",
+      "format": "date"
+    },
+    "firstReminderDate": {
+      "type": "string",
+      "description": "The date when the first reminder letter should be sent",
+      "format": "date"
+    },
+    "secondReminderDate": {
+      "type": "string",
+      "description": "The date when the second reminder letter should be sent",
+      "format": "date"
+    },
+    "incomeEvidenceNotes": {
+      "type": "string",
+      "description": "Notes relating to the evidence"
+    }
+  },
+  "additionalProperties": false
+}
