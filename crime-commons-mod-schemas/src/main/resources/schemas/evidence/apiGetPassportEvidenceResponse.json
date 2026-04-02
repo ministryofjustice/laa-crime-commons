@@ -11,14 +11,18 @@
       "$ref": "common/apiPassportEvidenceMetadata.json"
     },
     "applicantEvidenceItems": {
-      "type": "object",
+      "type": "array",
       "description": "Passport evidence items associated with the applicant",
-      "$ref": "common/apiIncomeEvidenceItems.json"
+      "items": {
+        "$ref": "common/apiIncomeEvidence.json"
+      }
     },
     "partnerEvidenceItems": {
-      "type": "object",
+      "type": "array",
       "description": "Passport evidence items associated with the partner",
-      "$ref": "common/apiIncomeEvidenceItems.json"
+      "items": {
+        "$ref": "common/apiIncomeEvidence.json"
+      }
     }
   },
   "additionalProperties": false
