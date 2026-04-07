@@ -28,6 +28,10 @@ dependencies {
     compileOnly "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
 }
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
