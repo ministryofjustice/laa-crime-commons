@@ -1,12 +1,12 @@
 package uk.gov.justice.laa.crime.commons.config;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
 import org.springframework.boot.test.context.assertj.AssertableWebApplicationContext;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.reactive.function.client.WebClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +15,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -81,7 +82,7 @@ class RestClientAutoConfigurationTest {
     @Test
     void webClientCustomizerBeanIsConditionalOnOAuth2AuthorizedClientRepository() {
         this.contextRunner
-                .withUserConfiguration(TestConfig.class, WebClientAutoConfiguration.class)
+                .withUserConfiguration(WebClientAutoConfiguration.class)
                 .run((context) -> assertThat(context).doesNotHaveBean(WebClientCustomizer.class));
     }
 
@@ -364,8 +365,8 @@ class RestClientAutoConfigurationTest {
     static class TestConfig {
 
         @Bean
-        TomcatServletWebServerFactory tomcat() {
-            return new TomcatServletWebServerFactory(0);
+        OAuth2AuthorizedClientRepository oauth2AuthorizedClientRepository() {
+            return new HttpSessionOAuth2AuthorizedClientRepository();
         }
 
     }

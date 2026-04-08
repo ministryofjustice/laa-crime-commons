@@ -193,7 +193,7 @@ workflows:
             branches:
               only:
                 - main
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:
@@ -250,7 +250,7 @@ workflows:
       - build_and_test:
           requires:
             - branch_build_approval
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:
@@ -276,7 +276,7 @@ workflows:
             branches:
               only:
                 - main
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:
@@ -333,7 +333,7 @@ workflows:
       - build_and_test:
           requires:
             - branch_build_approval
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:
@@ -359,7 +359,7 @@ workflows:
             branches:
               only:
                 - main
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:
@@ -416,7 +416,7 @@ workflows:
       - build_and_test:
           requires:
             - branch_build_approval
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:
@@ -442,7 +442,7 @@ workflows:
             branches:
               only:
                 - main
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:
@@ -499,7 +499,7 @@ workflows:
       - build_and_test:
           requires:
             - branch_build_approval
-          context: SonarCloud
+          context: SonarCloud Crime
 
       - snyk_scan:
           requires:

@@ -12,10 +12,10 @@ semver {
 }
 
 def versions = [
-        jacksonDatabind  : "2.19.2",
-        jacksonCore      : "2.19.2",
-        jakartaValidation: "3.0.2",
-        commonsioVersion : "2.16.1"
+        jackson             : "2.21.2",
+        jakartaValidation   : "3.0.2",
+        commonsioVersion    : "2.16.1",
+        swaggerAnnotations  : "2.2.46"
 ]
 
 configurations {
@@ -34,25 +34,27 @@ jar {
 
 dependencies {
 
-    implementation platform("io.sentry:sentry-bom:7.0.0")
-    implementation("io.sentry:sentry-spring-boot-starter-jakarta")
-    implementation("io.sentry:sentry-logback")
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "io.swagger.core.v3:swagger-annotations:2.2.19"
+    // ---- Monitoring & Logging ----
+    implementation 'io.micrometer:micrometer-tracing'
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonCore
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonCore
+    // ---- Jackson ----
+    implementation platform("com.fasterxml.jackson:jackson-bom:$versions.jackson")
+    implementation "com.fasterxml.jackson.core:jackson-core"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+
+    // ---- Core Module ----
+    implementation "org.apache.commons:commons-lang3"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-test"
+    implementation "io.swagger.core.v3:swagger-annotations:$versions.swaggerAnnotations"
     implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsioVersion
 
-    implementation "org.apache.commons:commons-lang3"
-    implementation 'io.micrometer:micrometer-tracing'
-
+    // ---- Annotations ----
     compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation "org.springframework.boot:spring-boot-starter-test"
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
 publishing {
