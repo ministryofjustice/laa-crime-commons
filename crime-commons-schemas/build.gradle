@@ -109,6 +109,10 @@ jsonSchema2Pojo {
     }
 }
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+
 tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigCriminalapplicationsdatastore")
 tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigCrimeapplication")
 tasks.sourcesJar.dependsOn("generateJsonSchema2DataClassConfigAtis")

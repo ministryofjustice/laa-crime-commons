@@ -1,0 +1,59 @@
+{
+  "title": "Partner",
+  "description": "Represents the partner of the person who has made the application for Legal Aid",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The partner's first name."
+    },
+    "otherNames": {
+      "type": "string",
+      "nullable": true
+    },
+    "surname": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The partner's surname (last name)."
+    },
+    "dateOfBirth": {
+      "type": "string",
+      "format": "date",
+      "description": "The partner's date of birth."
+    },
+    "niNumber": {
+      "type": "string",
+      "nullable": true,
+      "description": "The partner's National Insurance Number."
+    },
+    "dwpResponse": {
+      "type": "string",
+      "nullable": true,
+      "enum": ["Undetermined", "No", "Yes"]
+    },
+    "benefitType": {
+      "type": "string",
+      "nullable": true,
+      "enum": ["universal_credit", "guarantee_pension", "jsa", "esa", "income_support", "none"]
+    },
+    "last_jsa_appointment_date": {
+      "type": "string",
+      "nullable": true,
+      "format": "date"
+    },
+    "involvement_in_case": {
+      "type": "string",
+      "nullable": true,
+      "enum": ["victim", "prosecution_witness", "codefendant", "none"]
+    },
+    "conflict_of_interest": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "string",
+          "enum": ["yes", "no"]
+        }
+      ]
+    }
+  }
+}
