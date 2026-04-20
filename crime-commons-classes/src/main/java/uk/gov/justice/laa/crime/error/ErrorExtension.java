@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public record ErrorExtension(String code, String traceId, List<ErrorMessage> errors) {
 
-    public static final String EXTENSION_KEY = "errors";
+    public static final String EXTENSION_KEY = "errorContext";
 
     public boolean hasErrors() {
         return (Objects.nonNull(errors) && !errors.isEmpty());
