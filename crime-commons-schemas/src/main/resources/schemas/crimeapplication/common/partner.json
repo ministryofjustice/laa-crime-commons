@@ -37,17 +37,17 @@
       "nullable": true,
       "enum": ["universal_credit", "guarantee_pension", "jsa", "esa", "income_support", "none"]
     },
-    "last_jsa_appointment_date": {
+    "lastJsaAppointmentDate": {
       "type": "string",
       "nullable": true,
       "format": "date"
     },
-    "involvement_in_case": {
+    "involvementInCase": {
       "type": "string",
       "nullable": true,
       "enum": ["victim", "prosecution_witness", "codefendant", "none"]
     },
-    "conflict_of_interest": {
+    "conflictOfInterest": {
       "anyOf": [
         { "type": "null" },
         { "type": "string",
