@@ -48,12 +48,7 @@
       "enum": ["victim", "prosecution_witness", "codefendant", "none"]
     },
     "conflictOfInterest": {
-      "anyOf": [
-        { "type": "null" },
-        { "type": "string",
-          "enum": ["yes", "no"]
-        }
-      ]
+      "anyOf": [{ "type": "null" }, { "type": "string", "enum": ["yes", "no"] }]
     }
   }
 }
