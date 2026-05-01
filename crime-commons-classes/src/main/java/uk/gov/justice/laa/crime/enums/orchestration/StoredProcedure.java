@@ -17,7 +17,8 @@ public enum StoredProcedure {
     PRE_UPDATE_CC_APPLICATION(Package.APPLICATION, "pre_update_cc_application"),
     GET_APPLICATION_CORRESPONDENCE(Package.CORRESPONDENCE, "get_application_correspondence"),
     UPDATE_CC_APPLICANT_AND_APPLICATION(Package.CROWN_COURT, "update_cc_applicant_and_application"),
-    UPDATE_DBMS_TRANSACTION_ID(Package.APPLICATION, "update_dbms_transaction_id");
+    UPDATE_DBMS_TRANSACTION_ID(Package.APPLICATION, "update_dbms_transaction_id"),
+    MANAGE_PASSPORT_EVIDENCE(Package.PASSPORT_IOJ, "manage_passport_evidence");
 
     final String packageName;
     final String procedureName;
@@ -28,6 +29,7 @@ public enum StoredProcedure {
         public static final String CROWN_COURT = "crown_court";
         public static final String MATRIX_ACTIVITY = "matrix_activity";
         public static final String CORRESPONDENCE = "correspondence_pkg";
+        public static final String PASSPORT_IOJ = "passport_ioj";
 
     }
 }
