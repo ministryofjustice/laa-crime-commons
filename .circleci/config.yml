@@ -208,18 +208,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve major release: rest client"
-
+          name: "Rest client: Approve major release"
+            
       - publish_release:
           release_type: "major"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - "Approve major release: rest client"
+            - "Rest client: Approve major release"
           filters:
             branches:
               only: main
-          name: "Publish major release: rest client"
+          name: "Rest client: Publish major release"
 
       - minor_release_approval_main_rest_client:
           type: approval
@@ -228,18 +228,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve minor release: rest client"
+          name: "Rest client: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - "Approve minor release: rest client"
+            - "Rest client: Approve minor release"
           filters:
             branches:
               only: main
-          name: "Publish minor release: rest client"
+          name: "Rest client: Publish minor release"
 
       - patch_release_approval_main_rest_client:
           type: approval
@@ -248,19 +248,19 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve patch release: rest client"
+          name: "Rest client: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - "Approve patch release: rest client"
+            - "Rest client: Approve patch release"
           filters:
             branches:
               only: main
-          name: "Publish patch release: rest client"
-
+          name: "Rest client: Publish patch release"
+      
       # Rest client - branch
       - snapshot_release_approval_rest_client:
           type: approval
@@ -269,18 +269,18 @@ workflows:
           filters:
             branches:
               ignore: main
-          name: "Approve snapshot release: rest client"
-
+          name: "Rest client: Approve snapshot release"
+  
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - "Approve snapshot release: rest client"
+            - "Rest client: Approve snapshot release"
           filters:
-            branches:
-              ignore: main
-          name: "Publish snapshot release: rest client"
+              branches:
+                ignore: main
+          name: "Rest client: Publish snapshot release"
 
       # Commons classes - main
       - major_release_approval_main_commons_classes:
@@ -290,18 +290,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve major release: commons classes"
+          name: "Commons classes: Approve major release"
 
       - publish_release:
           release_type: "major"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - "Approve major release: commons classes"
+            - "Commons classes: Approve major release"
           filters:
             branches:
               only: main
-          name: "Publish major release: commons classes"
+          name: "Commons classes: Publish major release"
 
       - minor_release_approval_main_commons_classes:
           type: approval
@@ -310,18 +310,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve minor release: commons classes"
+          name: "Commons classes: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - "Approve minor release: commons classes"
+            - "Commons classes: Approve minor release"
           filters:
             branches:
               only: main
-          name: "Publish minor release: commons classes"
+          name: "Commons classes: Publish minor release"
 
       - patch_release_approval_main_commons_classes:
           type: approval
@@ -330,19 +330,19 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve patch release: commons classes"
+          name: "Commons classes: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - "Approve patch release: commons classes"
+            - "Commons classes: Approve patch release"
           filters:
             branches:
               only: main
-          name: "Publish patch release: commons classes"
-
+          name: "Commons classes: Publish patch release"
+        
       # Commons classes - branch
       - snapshot_release_approval_commons_classes:
           type: approval
@@ -351,19 +351,19 @@ workflows:
           filters:
             branches:
               ignore: main
-          name: "Approve snapshot release: commons classes"
+          name: "Commons classes: Approve snapshot release"
 
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - "Approve snapshot release: commons classes"
+            - "Commons classes: Approve snapshot release"
           filters:
             branches:
               ignore: main
-          name: "Publish snapshot release: commons classes"
-
+          name: "Commons classes: Publish snapshot release"
+      
       # Crime commons schemas - main
       - major_release_approval_main_crime_commons_schemas:
           type: approval
@@ -372,18 +372,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve major release: commons schemas"
+          name: "Commons schemas: Approve major release"
 
       - publish_release:
           release_type: "major"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - "Approve major release: commons schemas"
+            - "Commons schemas: Approve major release"
           filters:
             branches:
               only: main
-          name: "Publish major release: commons schemas"
+          name: "Commons schemas: Publish major release"
 
       - minor_release_approval_main_crime_commons_schemas:
           type: approval
@@ -392,18 +392,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve minor release: commons schemas"
+          name: "Commons schemas: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - "Approve minor release: commons schemas"
+            - "Commons schemas: Approve minor release"
           filters:
             branches:
               only: main
-          name: "Publish minor release: commons schemas"
+          name: "Commons schemas: Publish minor release"
 
       - patch_release_approval_main_crime_commons_schemas:
           type: approval
@@ -412,18 +412,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve patch release: commons schemas"
+          name: "Commons schemas: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - "Approve patch release: commons schemas"
+            - "Commons schemas: Approve patch release"
           filters:
             branches:
               only: main
-          name: "Publish patch release: commons schemas"
+          name: "Commons schemas: Publish patch release"
 
       # Crime commons schemas - branch
       - snapshot_release_approval_crime_commons_schemas:
@@ -433,19 +433,19 @@ workflows:
           filters:
             branches:
               ignore: main
-          name: "Approve snapshot release: commons schemas"
+          name: "Commons schemas: Approve snapshot release"
 
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - "Approve snapshot release: commons schemas"
+            - "Commons schemas: Approve snapshot release"
           filters:
             branches:
               ignore: main
-          name: "Publish snapshot release: commons schemas"
-
+          name: "Commons schemas: Publish snapshot release"
+      
       # Crime mod schemas - main
       - major_release_approval_main_crime_commons_mod_schemas:
           type: approval
@@ -454,18 +454,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve major release: commons mod schemas"
+          name: "Commons mod schemas: Approve major release"
 
       - publish_release:
           release_type: "major"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - "Approve major release: commons mod schemas"
+            - "Commons mod schemas: Approve major release"
           filters:
             branches:
               only: main
-          name: "Publish major release: commons mod schemas"
+          name: "Commons mod schemas: Publish major release"
 
       - minor_release_approval_main_crime_commons_mod_schemas:
           type: approval
@@ -474,18 +474,18 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve minor release: commons mod schemas"
+          name: "Commons mod schemas: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - "Approve minor release: commons mod schemas"
+            - "Commons mod schemas: Approve minor release"
           filters:
             branches:
               only: main
-          name: "Publish minor release: commons mod schemas"
+          name: "Commons mod schemas: Publish minor release"
 
       - patch_release_approval_main_crime_commons_mod_schemas:
           type: approval
@@ -494,19 +494,19 @@ workflows:
           filters:
             branches:
               only: main
-          name: "Approve patch release: commons mod schemas"
+          name: "Commons mod schemas: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - "Approve patch release: commons mod schemas"
+            - "Commons mod schemas: Approve patch release"
           filters:
             branches:
               only: main
-          name: "Publish patch release: commons mod schemas"
-
+          name: "Commons mod schemas: Publish patch release"
+      
       # Crime commons mod schemas - branch
       - snapshot_release_approval_crime_commons_mod_schemas:
           type: approval
@@ -515,15 +515,15 @@ workflows:
           filters:
             branches:
               ignore: main
-          name: "Approve snapshot release: commons mod schemas"
+          name: "Commons mod schemas: Approve snapshot release"
 
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - "Approve snapshot release: commons mod schemas"
+            - "Commons mod schemas: Approve snapshot release"
           filters:
             branches:
               ignore: main
-          name: "Publish snapshot release: commons mod schemas"
+          name: "Commons mod schemas: Publish snapshot release"
