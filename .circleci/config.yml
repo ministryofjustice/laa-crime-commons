@@ -209,7 +209,7 @@ workflows:
             branches:
               only: main
           name: "Rest client: Approve major release"
-            
+
       - publish_release:
           release_type: "major"
           module: "crime-commons-spring-boot-starter-rest-client"
@@ -260,7 +260,7 @@ workflows:
             branches:
               only: main
           name: "Rest client: Publish patch release"
-      
+
       # Rest client - branch
       - snapshot_release_approval_rest_client:
           type: approval
@@ -270,7 +270,7 @@ workflows:
             branches:
               ignore: main
           name: "Rest client: Approve snapshot release"
-  
+
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-spring-boot-starter-rest-client"
@@ -278,8 +278,8 @@ workflows:
           requires:
             - "Rest client: Approve snapshot release"
           filters:
-              branches:
-                ignore: main
+            branches:
+              ignore: main
           name: "Rest client: Publish snapshot release"
 
       # Commons classes - main
@@ -342,7 +342,7 @@ workflows:
             branches:
               only: main
           name: "Commons classes: Publish patch release"
-        
+
       # Commons classes - branch
       - snapshot_release_approval_commons_classes:
           type: approval
@@ -363,7 +363,7 @@ workflows:
             branches:
               ignore: main
           name: "Commons classes: Publish snapshot release"
-      
+
       # Crime commons schemas - main
       - major_release_approval_main_crime_commons_schemas:
           type: approval
@@ -445,7 +445,7 @@ workflows:
             branches:
               ignore: main
           name: "Commons schemas: Publish snapshot release"
-      
+
       # Crime mod schemas - main
       - major_release_approval_main_crime_commons_mod_schemas:
           type: approval
@@ -506,7 +506,7 @@ workflows:
             branches:
               only: main
           name: "Commons mod schemas: Publish patch release"
-      
+
       # Crime commons mod schemas - branch
       - snapshot_release_approval_crime_commons_mod_schemas:
           type: approval
