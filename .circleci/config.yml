@@ -186,334 +186,344 @@ jobs:
 workflows:
   version: 2
 
-  build_publish_main_rest_client:
+  build_and_release:
     jobs:
+      - start_build_and_test:
+          type: approval
+
       - build_and_test:
-          filters:
-            branches:
-              only:
-                - main
+          requires:
+            - start_build_and_test
           context: SonarCloud Crime
 
       - snyk_scan:
           requires:
             - build_and_test
 
-      - major_release_approval:
+      # Rest client - main
+      - major_release_approval_main_rest_client:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Rest client: Approve major release"
 
       - publish_release:
           release_type: "major"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - major_release_approval
-          name: "Publish major release: rest client"
+            - "Rest client: Approve major release"
+          filters:
+            branches:
+              only: main
+          name: "Rest client: Publish major release"
 
-      - minor_release_approval:
+      - minor_release_approval_main_rest_client:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Rest client: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - minor_release_approval
-          name: "Publish minor release: rest client"
+            - "Rest client: Approve minor release"
+          filters:
+            branches:
+              only: main
+          name: "Rest client: Publish minor release"
 
-      - patch_release_approval:
+      - patch_release_approval_main_rest_client:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Rest client: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - patch_release_approval
-          name: "Publish patch release: rest client"
-
-  build_publish_branch_rest_client:
-    jobs:
-      - branch_build_approval:
-          type: approval
+            - "Rest client: Approve patch release"
           filters:
             branches:
-              ignore:
-                - main
+              only: main
+          name: "Rest client: Publish patch release"
 
-      - build_and_test:
-          requires:
-            - branch_build_approval
-          context: SonarCloud Crime
-
-      - snyk_scan:
-          requires:
-            - build_and_test
-
-      - snapshot_release_approval:
+      # Rest client - branch
+      - snapshot_release_approval_rest_client:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              ignore: main
+          name: "Rest client: Approve snapshot release"
 
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-spring-boot-starter-rest-client"
           tagPrefix: "rest-client-"
           requires:
-            - snapshot_release_approval
-          name: "Publish snapshot release: rest client"
-
-  build_publish_main_crime_commons_classes:
-    jobs:
-      - build_and_test:
+            - "Rest client: Approve snapshot release"
           filters:
             branches:
-              only:
-                - main
-          context: SonarCloud Crime
+              ignore: main
+          name: "Rest client: Publish snapshot release"
 
-      - snyk_scan:
-          requires:
-            - build_and_test
-
-      - major_release_approval:
+      # Commons classes - main
+      - major_release_approval_main_commons_classes:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons classes: Approve major release"
 
       - publish_release:
           release_type: "major"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - major_release_approval
-          name: "Publish major release: commons classes"
+            - "Commons classes: Approve major release"
+          filters:
+            branches:
+              only: main
+          name: "Commons classes: Publish major release"
 
-      - minor_release_approval:
+      - minor_release_approval_main_commons_classes:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons classes: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - minor_release_approval
-          name: "Publish minor release: commons classes"
+            - "Commons classes: Approve minor release"
+          filters:
+            branches:
+              only: main
+          name: "Commons classes: Publish minor release"
 
-      - patch_release_approval:
+      - patch_release_approval_main_commons_classes:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons classes: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - patch_release_approval
-          name: "Publish patch release: commons classes"
-
-  build_publish_branch_crime_commons_classes:
-    jobs:
-      - branch_build_approval:
-          type: approval
+            - "Commons classes: Approve patch release"
           filters:
             branches:
-              ignore:
-                - main
+              only: main
+          name: "Commons classes: Publish patch release"
 
-      - build_and_test:
-          requires:
-            - branch_build_approval
-          context: SonarCloud Crime
-
-      - snyk_scan:
-          requires:
-            - build_and_test
-
-      - snapshot_release_approval:
+      # Commons classes - branch
+      - snapshot_release_approval_commons_classes:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              ignore: main
+          name: "Commons classes: Approve snapshot release"
 
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-classes"
           tagPrefix: "crime-commons-classes-"
           requires:
-            - snapshot_release_approval
-          name: "Publish snapshot release: commons classes"
-
-  build_publish_main_crime_commons_schemas:
-    jobs:
-      - build_and_test:
+            - "Commons classes: Approve snapshot release"
           filters:
             branches:
-              only:
-                - main
-          context: SonarCloud Crime
+              ignore: main
+          name: "Commons classes: Publish snapshot release"
 
-      - snyk_scan:
-          requires:
-            - build_and_test
-
-      - major_release_approval:
+      # Crime commons schemas - main
+      - major_release_approval_main_crime_commons_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons schemas: Approve major release"
 
       - publish_release:
           release_type: "major"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - major_release_approval
-          name: "Publish major release: commons schemas"
+            - "Commons schemas: Approve major release"
+          filters:
+            branches:
+              only: main
+          name: "Commons schemas: Publish major release"
 
-      - minor_release_approval:
+      - minor_release_approval_main_crime_commons_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons schemas: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - minor_release_approval
-          name: "Publish minor release: commons schemas"
+            - "Commons schemas: Approve minor release"
+          filters:
+            branches:
+              only: main
+          name: "Commons schemas: Publish minor release"
 
-      - patch_release_approval:
+      - patch_release_approval_main_crime_commons_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons schemas: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - patch_release_approval
-          name: "Publish patch release: commons schemas"
-
-  build_publish_branch_crime_commons_schemas:
-    jobs:
-      - branch_build_approval:
-          type: approval
+            - "Commons schemas: Approve patch release"
           filters:
             branches:
-              ignore:
-                - main
+              only: main
+          name: "Commons schemas: Publish patch release"
 
-      - build_and_test:
-          requires:
-            - branch_build_approval
-          context: SonarCloud Crime
-
-      - snyk_scan:
-          requires:
-            - build_and_test
-
-      - snapshot_release_approval:
+      # Crime commons schemas - branch
+      - snapshot_release_approval_crime_commons_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              ignore: main
+          name: "Commons schemas: Approve snapshot release"
 
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-schemas"
           tagPrefix: "crime-commons-schemas-"
           requires:
-            - snapshot_release_approval
-          name: "Publish snapshot release: commons schemas"
-
-  build_publish_main_crime_commons_mod_schemas:
-    jobs:
-      - build_and_test:
+            - "Commons schemas: Approve snapshot release"
           filters:
             branches:
-              only:
-                - main
-          context: SonarCloud Crime
+              ignore: main
+          name: "Commons schemas: Publish snapshot release"
 
-      - snyk_scan:
-          requires:
-            - build_and_test
-
-      - major_release_approval:
+      # Crime mod schemas - main
+      - major_release_approval_main_crime_commons_mod_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons mod schemas: Approve major release"
 
       - publish_release:
           release_type: "major"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - major_release_approval
-          name: "Publish major release: commons mod schemas"
+            - "Commons mod schemas: Approve major release"
+          filters:
+            branches:
+              only: main
+          name: "Commons mod schemas: Publish major release"
 
-      - minor_release_approval:
+      - minor_release_approval_main_crime_commons_mod_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons mod schemas: Approve minor release"
 
       - publish_release:
           release_type: "minor"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - minor_release_approval
-          name: "Publish minor release: commons mod schemas"
+            - "Commons mod schemas: Approve minor release"
+          filters:
+            branches:
+              only: main
+          name: "Commons mod schemas: Publish minor release"
 
-      - patch_release_approval:
+      - patch_release_approval_main_crime_commons_mod_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              only: main
+          name: "Commons mod schemas: Approve patch release"
 
       - publish_release:
           release_type: "patch"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - patch_release_approval
-          name: "Publish patch release: commons mod schemas"
-
-  build_publish_branch_crime_commons_mod-schemas:
-    jobs:
-      - branch_build_approval:
-          type: approval
+            - "Commons mod schemas: Approve patch release"
           filters:
             branches:
-              ignore:
-                - main
+              only: main
+          name: "Commons mod schemas: Publish patch release"
 
-      - build_and_test:
-          requires:
-            - branch_build_approval
-          context: SonarCloud Crime
-
-      - snyk_scan:
-          requires:
-            - build_and_test
-
-      - snapshot_release_approval:
+      # Crime commons mod schemas - branch
+      - snapshot_release_approval_crime_commons_mod_schemas:
           type: approval
           requires:
             - snyk_scan
+          filters:
+            branches:
+              ignore: main
+          name: "Commons mod schemas: Approve snapshot release"
 
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-mod-schemas"
           tagPrefix: "crime-commons-mod-schemas-"
           requires:
-            - snapshot_release_approval
-          name: "Publish snapshot release: commons mod schemas"
+            - "Commons mod schemas: Approve snapshot release"
+          filters:
+            branches:
+              ignore: main
+          name: "Commons mod schemas: Publish snapshot release"
