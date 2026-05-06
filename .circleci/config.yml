@@ -199,7 +199,7 @@ workflows:
       - snyk_scan:
           requires:
             - build_and_test
-      
+
       # Rest client - main
       - major_release_approval_main_rest_client:
           type: approval
@@ -209,7 +209,7 @@ workflows:
             branches:
               only: main
           name: "Approve major release: rest client"
-            
+
       - publish_release:
           release_type: "major"
           module: "crime-commons-spring-boot-starter-rest-client"
@@ -260,7 +260,7 @@ workflows:
             branches:
               only: main
           name: "Publish patch release: rest client"
-      
+
       # Rest client - branch
       - snapshot_release_approval_rest_client:
           type: approval
@@ -270,7 +270,7 @@ workflows:
             branches:
               ignore: main
           name: "Approve snapshot release: rest client"
-  
+
       - publish_release:
           release_type: "snapshot"
           module: "crime-commons-spring-boot-starter-rest-client"
@@ -278,10 +278,10 @@ workflows:
           requires:
             - "Approve snapshot release: rest client"
           filters:
-              branches:
-                ignore: main
+            branches:
+              ignore: main
           name: "Publish snapshot release: rest client"
-      
+
       # Commons classes - main
       - major_release_approval_main_commons_classes:
           type: approval
@@ -342,7 +342,7 @@ workflows:
             branches:
               only: main
           name: "Publish patch release: commons classes"
-      
+
       # Commons classes - branch
       - snapshot_release_approval_commons_classes:
           type: approval
@@ -363,7 +363,7 @@ workflows:
             branches:
               ignore: main
           name: "Publish snapshot release: commons classes"
-      
+
       # Crime commons schemas - main
       - major_release_approval_main_crime_commons_schemas:
           type: approval
@@ -424,7 +424,7 @@ workflows:
             branches:
               only: main
           name: "Publish patch release: commons schemas"
-      
+
       # Crime commons schemas - branch
       - snapshot_release_approval_crime_commons_schemas:
           type: approval
@@ -445,7 +445,7 @@ workflows:
             branches:
               ignore: main
           name: "Publish snapshot release: commons schemas"
-      
+
       # Crime mod schemas - main
       - major_release_approval_main_crime_commons_mod_schemas:
           type: approval
@@ -506,7 +506,7 @@ workflows:
             branches:
               only: main
           name: "Publish patch release: commons mod schemas"
-      
+
       # Crime commons mod schemas - branch
       - snapshot_release_approval_crime_commons_mod_schemas:
           type: approval
