@@ -207,7 +207,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Rest client: Approve major release"
 
       - publish_release:
@@ -218,7 +218,7 @@ workflows:
             - "Rest client: Approve major release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Rest client: Publish major release"
 
       - minor_release_approval_main_rest_client:
@@ -227,7 +227,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Rest client: Approve minor release"
 
       - publish_release:
@@ -238,7 +238,7 @@ workflows:
             - "Rest client: Approve minor release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Rest client: Publish minor release"
 
       - patch_release_approval_main_rest_client:
@@ -247,7 +247,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Rest client: Approve patch release"
 
       - publish_release:
@@ -258,7 +258,7 @@ workflows:
             - "Rest client: Approve patch release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Rest client: Publish patch release"
 
       # Rest client - branch
@@ -268,7 +268,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Rest client: Approve snapshot release"
 
       - publish_release:
@@ -279,7 +279,7 @@ workflows:
             - "Rest client: Approve snapshot release"
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Rest client: Publish snapshot release"
 
       # Commons classes - main
@@ -289,7 +289,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons classes: Approve major release"
 
       - publish_release:
@@ -300,7 +300,7 @@ workflows:
             - "Commons classes: Approve major release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons classes: Publish major release"
 
       - minor_release_approval_main_commons_classes:
@@ -309,7 +309,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons classes: Approve minor release"
 
       - publish_release:
@@ -320,7 +320,7 @@ workflows:
             - "Commons classes: Approve minor release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons classes: Publish minor release"
 
       - patch_release_approval_main_commons_classes:
@@ -329,7 +329,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons classes: Approve patch release"
 
       - publish_release:
@@ -340,7 +340,7 @@ workflows:
             - "Commons classes: Approve patch release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons classes: Publish patch release"
 
       # Commons classes - branch
@@ -350,7 +350,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Commons classes: Approve snapshot release"
 
       - publish_release:
@@ -361,7 +361,7 @@ workflows:
             - "Commons classes: Approve snapshot release"
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Commons classes: Publish snapshot release"
 
       # Crime commons schemas - main
@@ -371,7 +371,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons schemas: Approve major release"
 
       - publish_release:
@@ -382,7 +382,7 @@ workflows:
             - "Commons schemas: Approve major release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons schemas: Publish major release"
 
       - minor_release_approval_main_crime_commons_schemas:
@@ -391,7 +391,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons schemas: Approve minor release"
 
       - publish_release:
@@ -402,7 +402,7 @@ workflows:
             - "Commons schemas: Approve minor release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons schemas: Publish minor release"
 
       - patch_release_approval_main_crime_commons_schemas:
@@ -411,7 +411,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons schemas: Approve patch release"
 
       - publish_release:
@@ -422,7 +422,7 @@ workflows:
             - "Commons schemas: Approve patch release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons schemas: Publish patch release"
 
       # Crime commons schemas - branch
@@ -432,7 +432,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Commons schemas: Approve snapshot release"
 
       - publish_release:
@@ -443,7 +443,7 @@ workflows:
             - "Commons schemas: Approve snapshot release"
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Commons schemas: Publish snapshot release"
 
       # Crime mod schemas - main
@@ -453,7 +453,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons mod schemas: Approve major release"
 
       - publish_release:
@@ -464,7 +464,7 @@ workflows:
             - "Commons mod schemas: Approve major release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons mod schemas: Publish major release"
 
       - minor_release_approval_main_crime_commons_mod_schemas:
@@ -473,7 +473,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons mod schemas: Approve minor release"
 
       - publish_release:
@@ -484,7 +484,7 @@ workflows:
             - "Commons mod schemas: Approve minor release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons mod schemas: Publish minor release"
 
       - patch_release_approval_main_crime_commons_mod_schemas:
@@ -493,7 +493,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons mod schemas: Approve patch release"
 
       - publish_release:
@@ -504,7 +504,7 @@ workflows:
             - "Commons mod schemas: Approve patch release"
           filters:
             branches:
-              only: main
+              only: "LCAM-1888-main"
           name: "Commons mod schemas: Publish patch release"
 
       # Crime commons mod schemas - branch
@@ -514,7 +514,7 @@ workflows:
             - snyk_scan
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Commons mod schemas: Approve snapshot release"
 
       - publish_release:
@@ -525,5 +525,5 @@ workflows:
             - "Commons mod schemas: Approve snapshot release"
           filters:
             branches:
-              ignore: main
+              ignore: "LCAM-1888-main"
           name: "Commons mod schemas: Publish snapshot release"
