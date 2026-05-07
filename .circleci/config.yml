@@ -49,7 +49,47 @@ commands:
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 jobs:
-  builds,
+  build_and_test:
+    environment:
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=t --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
+    executor: openjdk-executor
+    working_directory: ~/laa-crime-commons
+    steps:
+      - checkout:
+          method: full
+
+      - restore_cache:
+          keys:
+            - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
+      - restore_cache:
+          keys:
+            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+
+      - run:
+          name: Build and test all modules
+          command: |
+            ./gradlew \
+              crime-commons-spring-boot-starter-rest-client:shadowJar \
+              crime-commons-spring-boot-starter-rest-client:build \
+              crime-commons-classes:build \
+              crime-commons-schemas:build \
+              crime-commons-mod-schemas:build
+
+      - run:
+          name: Run SonarQube
+          command: ./gradlew sonar
+
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
 
   snyk_scan:
     executor: openjdk-executor
