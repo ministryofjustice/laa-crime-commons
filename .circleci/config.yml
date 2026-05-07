@@ -13,7 +13,7 @@ parameters:
   release_type:
     type: enum
     enum: ["major", "minor", "patch", "snapshot"]
-    default: "patch"
+    default: "snapshot"
     description: "The type of release to perform"
 
   release_module:
