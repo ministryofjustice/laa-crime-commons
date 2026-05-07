@@ -6,13 +6,13 @@ orbs:
 parameters:
   action:
     type: enum
-    enum: ["build", "release"]
+    enum: [ "build", "release" ]
     default: "build"
     description: "The action to perform"
 
   release_type:
     type: enum
-    enum: ["major", "minor", "patch", "snapshot"]
+    enum: [ "major", "minor", "patch", "snapshot" ]
     default: "patch"
     description: "The type of release to perform"
 
@@ -49,62 +49,7 @@ commands:
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 jobs:
-  build_and_test:
-    environment:
-      _JAVA_OPTIONS: "-Xmx3g"
-      GRADLE_OPTS: "-Dorg.gradle.daemon=t --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
-    executor: openjdk-executor
-    working_directory: ~/laa-crime-commons
-    steps:
-      - checkout:
-          method: full
-
-      - restore_cache:
-          keys:
-            - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-schemas/build.gradle" }}
-            - v1-gradle-cache-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
-
-      - run:
-          name: Build and test all modules
-          command: |
-            ./gradlew \
-              shadowJar \
-              crime-commons-spring-boot-starter-rest-client:build \
-              crime-commons-classes:build \
-              crime-commons-schemas:build \
-              crime-commons-mod-schemas:build
-
-      - run:
-          name: Run SonarQube
-          command: ./gradlew sonar
-
-      - save_cache:
-          paths:
-            - ~/.gradle/wrapper
-          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}
-
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-classes/build.gradle" }}
-
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-schemas/build.gradle" }}
-
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+  builds,
 
   snyk_scan:
     executor: openjdk-executor
@@ -191,7 +136,7 @@ workflows:
 
   build:
     when:
-      equal: ["build", << pipeline.parameters.action >>]
+      equal: [ "build", << pipeline.parameters.action >> ]
     jobs:
       - build_and_test:
           context: SonarCloud Crime
@@ -202,7 +147,7 @@ workflows:
 
   release:
     when:
-      equal: ["release", << pipeline.parameters.action >>]
+      equal: [ "release", << pipeline.parameters.action >> ]
     jobs:
       - build_and_test:
           context: SonarCloud Crime
