@@ -134,39 +134,18 @@ jobs:
               exit 1
             fi
 
-            case "$MODULE" in
-              "crime-commons-spring-boot-starter-rest-client")
-                TAG_PREFIX="rest-client-"
-                ;;
-              "crime-commons-classes")
-                TAG_PREFIX="crime-commons-classes-"
-                ;;
-              "crime-commons-schemas")
-                TAG_PREFIX="crime-commons-schemas-"
-                ;;
-              "crime-commons-mod-schemas")
-                TAG_PREFIX="crime-commons-mod-schemas-"
-                ;;
-              *)
-                echo "Unknown module: $MODULE"
-                exit 1
-                ;;
-            esac
-
             if [ "$RELEASE_TYPE" = "snapshot" ]; then
-              ./gradlew pushSemverTag \
+              ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=true" \
                 "-Psemver.stage=snapshot" \
                 "-Psemver.scope=minor" \
-                "-Psemver.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             else
-              ./gradlew pushSemverTag \
+              ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=false" \
                 "-Psemver.stage=final" \
                 "-Psemver.scope=$RELEASE_TYPE" \
-                "-Psemver.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             fi
