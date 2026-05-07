@@ -4,20 +4,27 @@ orbs:
   snyk: snyk/snyk@1.1.2
 
 parameters:
+  action:
+    type: enum
+    enum: [ "build", "release" ]
+    default: "build"
+    description: "The action to perform"
+
   release_type:
     type: enum
-    enum: ["none", "major", "minor", "patch", "snapshot"]
-    default: "none"
+    enum: ["major", "minor", "patch", "snapshot"]
+    default: "patch"
+    description: "The type of release to perform"
 
   release_module:
     type: enum
     enum:
-      - "none"
       - "crime-commons-spring-boot-starter-rest-client"
       - "crime-commons-classes"
       - "crime-commons-schemas"
       - "crime-commons-mod-schemas"
-    default: "none"
+    default: "crime-commons-classes"
+    description: "The module to release"
 
 _snyk_options: &snyk_options
   project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"
@@ -42,30 +49,6 @@ commands:
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 jobs:
-  validate_release_parameters:
-    executor: openjdk-executor
-    steps:
-      - run:
-          name: Validate release parameters
-          command: |
-            RELEASE_TYPE="<< pipeline.parameters.release_type >>"
-            RELEASE_MODULE="<< pipeline.parameters.release_module >>"
-
-            if [ "$RELEASE_TYPE" = "none" ] || [ "$RELEASE_MODULE" = "none" ]; then
-              echo "Both release_type and release_module must be set for a release."
-              exit 1
-            fi
-
-            if [ "$RELEASE_TYPE" = "snapshot" ] && [ "$CIRCLE_BRANCH" = "main" ]; then
-              echo "Snapshot releases must not be run from main."
-              exit 1
-            fi
-
-            if [ "$RELEASE_TYPE" != "snapshot" ] && [ "$CIRCLE_BRANCH" != "main" ]; then
-              echo "Major/minor/patch releases must only be run from main."
-              exit 1
-            fi
-
   build_and_test:
     environment:
       _JAVA_OPTIONS: "-Xmx3g"
@@ -160,6 +143,16 @@ jobs:
           command: |
             RELEASE_TYPE="<< pipeline.parameters.release_type >>"
             MODULE="<< pipeline.parameters.release_module >>"
+            
+            if [ "$RELEASE_TYPE" = "snapshot" ] && [ "$CIRCLE_BRANCH" = "main" ]; then
+              echo "Snapshot releases must not be run from main."
+              exit 1
+            fi
+  
+            if [ "$RELEASE_TYPE" != "snapshot" ] && [ "$CIRCLE_BRANCH" != "main" ]; then
+              echo "Major/minor/patch releases must only be run from main."
+              exit 1
+            fi
 
             case "$MODULE" in
               "crime-commons-spring-boot-starter-rest-client")
@@ -203,9 +196,7 @@ workflows:
 
   build:
     when:
-      and:
-        - equal: ["none", << pipeline.parameters.release_type >>]
-        - equal: ["none", << pipeline.parameters.release_module >>]
+      equal: ["build", << pipeline.parameters.action >>]
     jobs:
       - build_and_test:
           context: SonarCloud Crime
@@ -216,17 +207,10 @@ workflows:
 
   release:
     when:
-      or:
-        - not:
-            equal: ["none", << pipeline.parameters.release_type >>]
-        - not:
-            equal: ["none", << pipeline.parameters.release_module >>]
+      equal: ["release", << pipeline.parameters.action >>]
     jobs:
-      - validate_release_parameters
 
       - build_and_test:
-          requires:
-            - validate_release_parameters
           context: SonarCloud Crime
 
       - snyk_scan:
