@@ -106,11 +106,6 @@ jobs:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
 
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
   snyk_scan:
     executor: openjdk-executor
     working_directory: ~/laa-crime-commons
