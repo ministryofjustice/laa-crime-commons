@@ -66,6 +66,8 @@ jobs:
       - restore_cache:
           keys:
             - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-
+            - v1-gradle-cache-
 
       - run:
           name: Build and test all modules
@@ -116,7 +118,12 @@ jobs:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "<< pipeline.parameters.release_module >>/build.gradle" }}
+
+      - restore_cache:
+          keys:
+            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-
+            - v1-gradle-cache-
 
       - run:
           name: Publish release
