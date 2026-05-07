@@ -35,6 +35,14 @@ _snyk_options: &snyk_options
   token-variable: SNYK_TOKEN
   additional-arguments: --policy-path=.snyk
 
+_gradle_cache_keys: &gradle_cache_keys
+  - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+  - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-
+  - v1-gradle-cache-
+
+_gradle_cache_key: &gradle_cache_key
+  v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+
 executors:
   openjdk-executor:
     resource_class: medium
@@ -64,10 +72,7 @@ jobs:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
       - restore_cache:
-          keys:
-            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
-            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-
-            - v1-gradle-cache-
+          keys: *gradle_cache_keys
 
       - run:
           name: Build and test all modules
@@ -91,7 +96,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key: v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+          key: *gradle_cache_key
 
   snyk_scan:
     executor: openjdk-executor
@@ -120,10 +125,7 @@ jobs:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
       - restore_cache:
-          keys:
-            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
-            - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-
-            - v1-gradle-cache-
+          keys: *gradle_cache_keys
 
       - run:
           name: Publish release
