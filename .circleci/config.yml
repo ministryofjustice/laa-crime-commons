@@ -6,7 +6,7 @@ orbs:
 parameters:
   action:
     type: enum
-    enum: [ "build", "release" ]
+    enum: ["build", "release"]
     default: "build"
     description: "The action to perform"
 
@@ -143,12 +143,12 @@ jobs:
           command: |
             RELEASE_TYPE="<< pipeline.parameters.release_type >>"
             MODULE="<< pipeline.parameters.release_module >>"
-            
+
             if [ "$RELEASE_TYPE" = "snapshot" ] && [ "$CIRCLE_BRANCH" = "main" ]; then
               echo "Snapshot releases must not be run from main."
               exit 1
             fi
-  
+
             if [ "$RELEASE_TYPE" != "snapshot" ] && [ "$CIRCLE_BRANCH" != "main" ]; then
               echo "Major/minor/patch releases must only be run from main."
               exit 1
@@ -209,7 +209,6 @@ workflows:
     when:
       equal: ["release", << pipeline.parameters.action >>]
     jobs:
-
       - build_and_test:
           context: SonarCloud Crime
 
