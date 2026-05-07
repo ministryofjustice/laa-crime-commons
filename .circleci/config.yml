@@ -40,8 +40,7 @@ _gradle_cache_keys: &gradle_cache_keys
   - v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-
   - v1-gradle-cache-
 
-_gradle_cache_key: &gradle_cache_key
-  v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
+_gradle_cache_key: &gradle_cache_key v1-gradle-cache-{{ checksum "settings.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "crime-commons-spring-boot-starter-rest-client/build.gradle" }}-{{ checksum "crime-commons-classes/build.gradle" }}-{{ checksum "crime-commons-schemas/build.gradle" }}-{{ checksum "crime-commons-mod-schemas/build.gradle" }}
 
 executors:
   openjdk-executor:
