@@ -136,7 +136,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "build.gradle" }}
+            - v1-gradle-cache-{{ checksum "<< pipeline.parameters.release_module >>/build.gradle" }}
 
       - run:
           name: Publish release
