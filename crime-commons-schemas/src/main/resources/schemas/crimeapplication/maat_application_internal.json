@@ -121,6 +121,9 @@
     "applicant": {
       "$ref": "#/definitions/applicant"
     },
+    "partner": {
+      "$ref": "#/definitions/partner"
+    },
     "supplier": {
       "$ref": "#/definitions/supplier"
     },
@@ -162,6 +165,9 @@
   "definitions": {
     "applicant": {
       "$ref": "common/applicant.json"
+    },
+    "partner": {
+      "$ref": "common/partner.json"
     },
     "supplier": {
       "$ref": "common/supplier.json"
