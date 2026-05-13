@@ -141,12 +141,21 @@ jobs:
               echo "Major/minor/patch releases must only be run from main."
               exit 1
             fi
+            
+            TAG_PREFIX="$MODULE-"
+            
+            case "$MODULE" in
+              "crime-commons-spring-boot-starter-rest-client")
+                TAG_PREFIX="rest-client-"
+                ;;
+            esac
 
             if [ "$RELEASE_TYPE" = "snapshot" ]; then
               ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=true" \
                 "-Psemver.stage=snapshot" \
                 "-Psemver.scope=minor" \
+                "-Psemver.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             else
@@ -154,6 +163,7 @@ jobs:
                 "-PisSnapshot=false" \
                 "-Psemver.stage=final" \
                 "-Psemver.scope=$RELEASE_TYPE" \
+                "-Psemver.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             fi
