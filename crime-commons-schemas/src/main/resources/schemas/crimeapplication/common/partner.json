@@ -35,7 +35,7 @@
     "employmentStatus": {
       "type": "object",
       "nullable": true,
-      "description": "The applicant's Employment Status.",
+      "description": "The applicant's partner's employment Status.",
       "properties": {
         "code": {
           "type": "string",
