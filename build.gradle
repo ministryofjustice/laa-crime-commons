@@ -7,7 +7,7 @@ plugins {
 }
 
 // springboot tomcat version overide, can be removed when springboot is 3.5.15 or 4+
-// ext['tomcat.version'] = '10.1.55'
+ext['tomcat.version'] = '10.1.55'
 
 group = "uk.gov.justice.service.laa-crime"
 
