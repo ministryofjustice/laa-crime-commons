@@ -16,6 +16,10 @@ def versions = [
         crimeCommonsClasses : "4.32.0"
 ]
 
+tasks.withType(Sign) {
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:publishMavenPublicationToMavenLocal") }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
