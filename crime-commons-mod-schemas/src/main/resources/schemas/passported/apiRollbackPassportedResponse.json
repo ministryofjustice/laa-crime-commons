@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "apiRollbackPassportedResponse.json",
+  "type": "object",
+  "title": "Rollback Passported response",
+  "description": "Data contract for the response to rolling back a Passported Assessment",
+  "properties": {
+    "passportedId": {
+      "type": "string",
+      "description": "The ID of the Passported Assessment"
+    },
+    "rollbackSuccessful": {
+      "type": "boolean",
+      "description": "Determines whether the rollback was successful"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["passportedId, rollbackSuccessful"]
+}
