@@ -6,7 +6,7 @@
   "description": "Data contract for the response to rolling back a Passported Assessment",
   "properties": {
     "passportedId": {
-      "type": "string",
+      "type": "integer",
       "description": "The ID of the Passported Assessment"
     },
     "rollbackSuccessful": {
