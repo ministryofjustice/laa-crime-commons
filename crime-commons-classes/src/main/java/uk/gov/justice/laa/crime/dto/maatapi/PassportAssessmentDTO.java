@@ -29,6 +29,7 @@ public class PassportAssessmentDTO {
     private String incomeSupport;
     private String jobSeekers;
     private String statePensionCredit;
+    private String under18;
     private String under18FullEducation;
     private String under16;
     private String pcobConfirmation;

@@ -35,6 +35,7 @@ public class PassportedDTO extends GenericDTO {
     private PartnerDTO partnerDetails;
     private String notes;
     private String result;
+    private Boolean under18;
     private Boolean under18HeardYouthCourt;
     private Boolean under18HeardMagsCourt;
     private Boolean under18FullEducation;
