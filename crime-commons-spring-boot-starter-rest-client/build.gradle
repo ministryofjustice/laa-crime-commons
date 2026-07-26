@@ -45,7 +45,7 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok"
 
-    implementation "org.jetbrains:annotations:26.0.1"
+    implementation "org.jetbrains:annotations:26.0.2-1"
 
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
