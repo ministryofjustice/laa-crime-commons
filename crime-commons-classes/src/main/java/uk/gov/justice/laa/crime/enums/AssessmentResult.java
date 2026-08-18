@@ -16,7 +16,7 @@ public enum AssessmentResult {
     HARDSHIP("HARDSHIP APPLICATION", "Hardship application"),
     INEL("INEL", "Refused - Ineligible"),
     FULL("FULL", "Gross income in between the upper and lower thresholds"),
-    TEMP("TEMP", "Temporary Pass for a Passported application"),
+    TEMP("TEMP", "Temporary pass for a Passported application"),
     FAIL_CONTINUE("FAIL CONTINUE", "A Benefit bypass for a Passported application");
     
     private String result;
