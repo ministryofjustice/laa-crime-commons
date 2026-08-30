@@ -1,7 +1,7 @@
 package uk.gov.justice.laa.crime.commons.config;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
+import org.springframework.boot.micrometer.tracing.brave.autoconfigure.BraveAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import uk.gov.justice.laa.crime.commons.tracing.TraceIdHandler;

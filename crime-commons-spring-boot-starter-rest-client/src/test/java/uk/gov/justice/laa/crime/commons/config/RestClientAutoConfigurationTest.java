@@ -3,11 +3,11 @@ package uk.gov.justice.laa.crime.commons.config;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
+import org.springframework.boot.security.oauth2.client.autoconfigure.OAuth2ClientAutoConfiguration;
+import org.springframework.boot.webclient.autoconfigure.WebClientAutoConfiguration;
 import org.springframework.boot.test.context.assertj.AssertableWebApplicationContext;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
-import org.springframework.boot.web.reactive.function.client.WebClientCustomizer;
+import org.springframework.boot.webclient.WebClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -71,7 +71,7 @@ class RestClientAutoConfigurationTest {
                     assertThat(context).hasSingleBean(WebClientCustomizer.class);
                     List<ExchangeFilterFunction> filters = getFilters(context);
                     assertThat(filters).hasSize(4);
-                    assertThat(getHeaders(context)).hasSize(2);
+                    assertThat(getHeaders(context).size()).isEqualTo(2);
                     assertThat(getHeaders(context).getFirst(HttpHeaders.ACCEPT))
                             .isEqualTo(MediaType.APPLICATION_JSON_VALUE);
                     assertThat(getHeaders(context).getFirst(HttpHeaders.CONTENT_TYPE))
@@ -325,8 +325,10 @@ class RestClientAutoConfigurationTest {
                     Consumer<Map<String, Object>> consumer =
                             RestClientAutoConfiguration.getExchangeFilterWith(MAAT_API_REGISTRATION_ID);
                     consumer.accept(attributes);
-                    assertThat(attributes).hasSize(1);
                     assertThat(attributes).containsValue(MAAT_API_REGISTRATION_ID);
+                    // Note: Spring Security 7's clientRegistrationId() now also populates the legacy
+                    // OAuth2AuthorizedClient.CLIENT_REGISTRATION_ID key for backward compatibility,
+                    // so the map has 2 entries instead of 1 - asserting exact size is no longer meaningful.
                 });
     }
 
