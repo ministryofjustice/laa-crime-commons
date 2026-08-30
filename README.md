@@ -2,7 +2,8 @@
 
 This repository contains shared libraries that support laa crime microservices.
 
-It currently contains five modules: 
+It currently contains five modules:
+
 - **crime-commons-classes** (shared utility classes)
 - **crime-commons-spring-boot-starter-rest-client** (autoconfigures web clients for communicating with other services)
 - **crime-commons-schemas**
