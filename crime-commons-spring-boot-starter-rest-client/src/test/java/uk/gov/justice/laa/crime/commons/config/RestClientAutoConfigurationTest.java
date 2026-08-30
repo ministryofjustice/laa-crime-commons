@@ -55,6 +55,10 @@ class RestClientAutoConfigurationTest {
     private static final String SPRING_CLOUD_PREFIX = "spring.cloud.aws";
     private static final String REGISTRATION_KEY_NAME =
             "org.springframework.security.oauth2.client.OAuth2AuthorizedClient.CLIENT_REGISTRATION_ID";
+    // Spring Security 7's clientRegistrationId() writes the new registration id under a different
+    // key rather than overwriting REGISTRATION_KEY_NAME, which it leaves untouched.
+    private static final String NEW_REGISTRATION_KEY_NAME =
+            "org.springframework.security.oauth2.client.registration.ClientRegistration.CLIENT_REGISTRATION_ID";
     private static final String OAUTH_CLIENT_PROVIDER_PREFIX = "spring.security.oauth2.client.provider";
 
     private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
@@ -325,10 +329,11 @@ class RestClientAutoConfigurationTest {
                     Consumer<Map<String, Object>> consumer =
                             RestClientAutoConfiguration.getExchangeFilterWith(MAAT_API_REGISTRATION_ID);
                     consumer.accept(attributes);
-                    assertThat(attributes).containsValue(MAAT_API_REGISTRATION_ID);
-                    // Note: Spring Security 7's clientRegistrationId() now also populates the legacy
-                    // OAuth2AuthorizedClient.CLIENT_REGISTRATION_ID key for backward compatibility,
-                    // so the map has 2 entries instead of 1 - asserting exact size is no longer meaningful.
+                    // Spring Security 7's clientRegistrationId() writes the new registration id
+                    // under NEW_REGISTRATION_KEY_NAME and leaves the legacy REGISTRATION_KEY_NAME
+                    // untouched, so both are asserted explicitly here.
+                    assertThat(attributes).containsEntry(NEW_REGISTRATION_KEY_NAME, MAAT_API_REGISTRATION_ID);
+                    assertThat(attributes).containsEntry(REGISTRATION_KEY_NAME, CDA_REGISTRATION_ID);
                 });
     }
 
