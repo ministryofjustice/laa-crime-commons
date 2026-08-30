@@ -1,9 +1,9 @@
 plugins {
-    id 'com.javiersc.semver' version "$semverVersion"
-    id 'org.sonarqube' version "$sonarQubeVersion"
-    id 'org.springframework.boot' version "$springframeworkBootVersion"
-    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
-    id 'io.github.gradle-nexus.publish-plugin' version "$publishPluginVersion"
+    alias(libs.plugins.semver)
+    alias(libs.plugins.sonarqube)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.nexus.publish)
 }
 
 // springboot tomcat version overide, can be removed when springboot is 3.5.15 or 4+

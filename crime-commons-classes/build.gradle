@@ -1,22 +1,15 @@
 plugins {
-    id 'com.javiersc.semver' version "$semverVersion"
+    alias(libs.plugins.semver)
     id 'jacoco'
     id 'signing'
     id 'maven-publish'
-    id 'org.springframework.boot' version "$springframeworkBootVersion"
-    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
 }
 
 semver {
     tagPrefix.set("crime-commons-classes-")
 }
-
-def versions = [
-        jackson             : "2.21.2",
-        jakartaValidation   : "3.0.2",
-        commonsioVersion    : "2.16.1",
-        swaggerAnnotations  : "2.2.46"
-]
 
 configurations {
     compileOnly {
@@ -38,18 +31,18 @@ dependencies {
     implementation 'io.micrometer:micrometer-tracing'
 
     // ---- Jackson ----
-    implementation platform("com.fasterxml.jackson:jackson-bom:$versions.jackson")
-    implementation "com.fasterxml.jackson.core:jackson-core"
-    implementation "com.fasterxml.jackson.core:jackson-databind"
-    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation platform(libs.jackson.bom)
+    implementation libs.jackson.core
+    implementation libs.jackson.databind
+    implementation libs.jackson.annotations
 
     // ---- Core Module ----
     implementation "org.apache.commons:commons-lang3"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-test"
-    implementation "io.swagger.core.v3:swagger-annotations:$versions.swaggerAnnotations"
-    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: versions.jakartaValidation
-    implementation group: 'commons-io', name: 'commons-io', version: versions.commonsioVersion
+    implementation libs.swagger.annotations
+    implementation libs.jakarta.validation.api
+    implementation libs.commons.io
 
     // ---- Annotations ----
     compileOnly 'org.projectlombok:lombok'

@@ -1,20 +1,14 @@
 plugins {
-    id "com.javiersc.semver" version "$semverVersion"
+    alias(libs.plugins.semver)
     id "jacoco"
     id "signing"
     id "maven-publish"
-    id "org.jsonschema2dataclass" version "$jsonSchema2DataVersion"
+    alias(libs.plugins.jsonschema2dataclass)
 }
 
 semver {
     tagPrefix.set("crime-commons-mod-schemas-")
 }
-
-def versions = [
-        jacksonVersion      : "2.21.2",
-        validationapiVersion: "3.1.0-M2",
-        crimeCommonsClasses : "4.32.0"
-]
 
 configurations {
     compileOnly {
@@ -23,9 +17,9 @@ configurations {
 }
 
 dependencies {
-    implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "uk.gov.justice.service.laa-crime:crime-commons-classes:$versions.crimeCommonsClasses"
-    compileOnly "jakarta.validation:jakarta.validation-api:$versions.validationapiVersion"
+    implementation libs.jackson.databind.versioned
+    implementation libs.crime.commons.classes
+    compileOnly libs.jakarta.validation.api.modschemas
 }
 
 publishing {
