@@ -1,8 +1,8 @@
 plugins {
     id 'signing'
     id 'maven-publish'
-    id 'com.javiersc.semver' version "$semverVersion"
-    id 'org.jsonschema2dataclass' version "$jsonSchema2DataVersion"
+    alias(libs.plugins.semver)
+    alias(libs.plugins.jsonschema2dataclass)
 }
 
 semver {
@@ -20,14 +20,9 @@ configurations {
     }
 }
 
-def versions = [
-        jacksonVersion   : "2.21.2",
-        validationapiVersion: '2.0.1.Final'
-]
-
 dependencies {
-    implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"
-    implementation "javax.validation:validation-api:$versions.validationapiVersion"
+    implementation libs.jackson.databind.versioned
+    implementation libs.javax.validation.api
 }
 
 publishing {

@@ -1,0 +1,46 @@
+[versions]
+semver = "0.9.0"
+springframeworkBoot = "4.1.1"
+springDependencyManagement = "1.1.7"
+jsonSchema2Data = "6.0.0"
+gradleupShadow = "9.6.1"
+publishPlugin = "2.0.0"
+sonarQube = "7.2.3.7755"
+
+jackson = "2.21.2"
+jakartaValidation = "3.0.2"
+javaxValidation = "2.0.1.Final"
+commonsIo = "2.16.1"
+swaggerAnnotations = "2.2.46"
+commonsLang3 = "3.18.0"
+validationApiModSchemas = "3.1.0-M2"
+validationApiSchemas = "2.0.1.Final"
+crimeCommonsClasses = "4.32.0"
+sentryBom = "7.16.0"
+jetbrainsAnnotations = "26.0.1"
+
+[libraries]
+jackson-bom = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "jackson" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
+jackson-databind-versioned = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang3" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commonsIo" }
+swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swaggerAnnotations" }
+jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api", version.ref = "jakartaValidation" }
+javax-validation-api = { module = "javax.validation:validation-api", version.ref = "javaxValidation" }
+jakarta-validation-api-modschemas = { module = "jakarta.validation:jakarta.validation-api", version.ref = "validationApiModSchemas" }
+crime-commons-classes = { module = "uk.gov.justice.service.laa-crime:crime-commons-classes", version.ref = "crimeCommonsClasses" }
+sentry-bom = { module = "io.sentry:sentry-bom", version.ref = "sentryBom" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrainsAnnotations" }
+
+[plugins]
+semver = { id = "com.javiersc.semver", version.ref = "semver" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springframeworkBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+gradleup-shadow = { id = "com.gradleup.shadow", version.ref = "gradleupShadow" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonarQube" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "publishPlugin" }
+jsonschema2dataclass = { id = "org.jsonschema2dataclass", version.ref = "jsonSchema2Data" }
+
