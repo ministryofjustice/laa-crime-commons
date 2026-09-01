@@ -2,8 +2,13 @@
 
 This repository contains shared libraries that support laa crime microservices.
 
-It currently contains a single module (**crime-commons-spring-boot-starter**) that autoconfigures web clients for
-communicating with other services and also provides several related utility classes.
+It currently contains five modules:
+
+- **crime-commons-classes** (shared utility classes)
+- **crime-commons-spring-boot-starter-rest-client** (autoconfigures web clients for communicating with other services)
+- **crime-commons-schemas**
+- **crime-commons-mod-schemas**
+- **crime-commons-samples**
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/ministryofjustice/laa-crime-commons/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ministryofjustice/laa-crime-commons/tree/main)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -15,8 +20,8 @@ communicating with other services and also provides several related utility clas
 
 ### Pre-requisites
 
-- JDK 21
-- Spring Boot 3.0.4
+- JDK 25
+- Spring Boot 4.1.1
 
 Install dependencies and build modules with Gradle:
 

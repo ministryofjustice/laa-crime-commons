@@ -3,11 +3,11 @@ package uk.gov.justice.laa.crime.commons.config;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
+import org.springframework.boot.security.oauth2.client.autoconfigure.OAuth2ClientAutoConfiguration;
+import org.springframework.boot.webclient.autoconfigure.WebClientAutoConfiguration;
 import org.springframework.boot.test.context.assertj.AssertableWebApplicationContext;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
-import org.springframework.boot.web.reactive.function.client.WebClientCustomizer;
+import org.springframework.boot.webclient.WebClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -55,6 +55,10 @@ class RestClientAutoConfigurationTest {
     private static final String SPRING_CLOUD_PREFIX = "spring.cloud.aws";
     private static final String REGISTRATION_KEY_NAME =
             "org.springframework.security.oauth2.client.OAuth2AuthorizedClient.CLIENT_REGISTRATION_ID";
+    // Spring Security 7's clientRegistrationId() writes the new registration id under a different
+    // key rather than overwriting REGISTRATION_KEY_NAME, which it leaves untouched.
+    private static final String NEW_REGISTRATION_KEY_NAME =
+            "org.springframework.security.oauth2.client.registration.ClientRegistration.CLIENT_REGISTRATION_ID";
     private static final String OAUTH_CLIENT_PROVIDER_PREFIX = "spring.security.oauth2.client.provider";
 
     private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
@@ -71,7 +75,7 @@ class RestClientAutoConfigurationTest {
                     assertThat(context).hasSingleBean(WebClientCustomizer.class);
                     List<ExchangeFilterFunction> filters = getFilters(context);
                     assertThat(filters).hasSize(4);
-                    assertThat(getHeaders(context)).hasSize(2);
+                    assertThat(getHeaders(context).size()).isEqualTo(2);
                     assertThat(getHeaders(context).getFirst(HttpHeaders.ACCEPT))
                             .isEqualTo(MediaType.APPLICATION_JSON_VALUE);
                     assertThat(getHeaders(context).getFirst(HttpHeaders.CONTENT_TYPE))
@@ -325,8 +329,11 @@ class RestClientAutoConfigurationTest {
                     Consumer<Map<String, Object>> consumer =
                             RestClientAutoConfiguration.getExchangeFilterWith(MAAT_API_REGISTRATION_ID);
                     consumer.accept(attributes);
-                    assertThat(attributes).hasSize(1);
-                    assertThat(attributes).containsValue(MAAT_API_REGISTRATION_ID);
+                    // Spring Security 7's clientRegistrationId() writes the new registration id
+                    // under NEW_REGISTRATION_KEY_NAME and leaves the legacy REGISTRATION_KEY_NAME
+                    // untouched, so both are asserted explicitly here.
+                    assertThat(attributes).containsEntry(NEW_REGISTRATION_KEY_NAME, MAAT_API_REGISTRATION_ID);
+                    assertThat(attributes).containsEntry(REGISTRATION_KEY_NAME, CDA_REGISTRATION_ID);
                 });
     }
 
