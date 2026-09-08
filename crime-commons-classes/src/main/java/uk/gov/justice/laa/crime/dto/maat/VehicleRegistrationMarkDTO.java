@@ -15,6 +15,6 @@ public class VehicleRegistrationMarkDTO extends GenericDTO {
     private static final long serialVersionUID = -2856620006134321801L;
 
     private Long movId;
-    private String VehicleRegistrationMark;
+    private String vehicleRegistrationMark;
 
 }

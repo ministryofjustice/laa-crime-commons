@@ -18,7 +18,7 @@ public class ApplicantDTO extends GenericDTO {
     private String otherNames;
     private String surname;
     private long dob;
-    private String NiNumber;
+    private String niNumber;
     private String disabled;
     private Collection<DisabilityDTO> disabilities;
     private DisabilityStatementDTO disabilityStatementDTO;
