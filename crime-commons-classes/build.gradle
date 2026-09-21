@@ -12,7 +12,8 @@ semver {
 }
 
 def versions = [
-        jackson             : "2.21.2",
+        // 2.21.2 was affected by SNYK-JAVA-COMFASTERXMLJACKSONCORE-19778370 (High) - fixed in 2.21.6
+        jackson             : "2.21.6",
         jakartaValidation   : "3.0.2",
         commonsioVersion    : "2.16.1",
         swaggerAnnotations  : "2.2.46"
