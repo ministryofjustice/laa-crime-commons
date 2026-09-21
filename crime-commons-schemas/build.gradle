@@ -21,7 +21,6 @@ configurations {
 }
 
 def versions = [
-        // 2.21.2 was affected by SNYK-JAVA-COMFASTERXMLJACKSONCORE-19778370 (High) - fixed in 2.21.6
         jacksonVersion   : "2.21.6",
         validationapiVersion: '2.0.1.Final'
 ]
