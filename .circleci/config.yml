@@ -30,7 +30,7 @@ _snyk_options: &snyk_options
   project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"
   organization: "legal-aid-agency"
   severity-threshold: "high"
-  fail-on-issues: false
+  fail-on-issues: true
   monitor-on-build: false
   token-variable: SNYK_TOKEN
   additional-arguments: --policy-path=.snyk
