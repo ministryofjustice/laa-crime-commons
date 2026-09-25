@@ -12,7 +12,7 @@ semver {
 }
 
 def versions = [
-        jackson             : "2.21.2",
+        jackson             : "2.21.7",
         jakartaValidation   : "3.0.2",
         commonsioVersion    : "2.16.1",
         swaggerAnnotations  : "2.2.46"

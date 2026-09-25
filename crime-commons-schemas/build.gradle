@@ -21,7 +21,7 @@ configurations {
 }
 
 def versions = [
-        jacksonVersion   : "2.21.2",
+        jacksonVersion   : "2.21.7",
         validationapiVersion: '2.0.1.Final'
 ]
 
