@@ -120,6 +120,10 @@ jobs:
       - checkout:
           method: full
 
+      - run:
+          name: Fetch all tags
+          command: git fetch --tags --force
+
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
