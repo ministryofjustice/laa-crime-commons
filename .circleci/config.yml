@@ -131,22 +131,6 @@ jobs:
           name: Fetch all tags
           command: git fetch --tags --force
 
-      - run:
-          name: DEBUG git state
-          command: |
-            echo "--- is shallow? ---"
-            test -f .git/shallow && echo "SHALLOW" || echo "full"
-            echo "--- commit count ---"
-            git rev-list --count HEAD
-            echo "--- remotes ---"
-            git remote -v
-            echo "--- tag count for schemas ---"
-            git tag -l "crime-commons-schemas-*" | wc -l
-            echo "--- last 5 schemas tags (version sorted) ---"
-            git tag -l "crime-commons-schemas-*" --sort=-v:refname | head -5
-            echo "--- raw describe ---"
-            git describe --tags --match "crime-commons-schemas-*" || echo "describe FAILED"
-
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
@@ -178,7 +162,18 @@ jobs:
                 ;;
             esac
 
+            # Workaround for https://github.com/JavierSegoviaCordoba/semver-gradle-plugin/issues/198 -
+            # pushSemverTag resolves the wrong (fallback) version if it's the very first Gradle task
+            # run against a freshly checked-out repo (suspected JGit cache/state initialisation bug
+            # in the plugin). A harmless --dry-run priming pass first works around it.
             if [ "$RELEASE_TYPE" = "snapshot" ]; then
+              ./gradlew ":$MODULE:pushSemverTag" \
+                "-PisSnapshot=true" \
+                "-Psemver.stage=snapshot" \
+                "-Psemver.scope=minor" \
+                "-Psemver.tagPrefix=$TAG_PREFIX" \
+                --dry-run
+
               ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=true" \
                 "-Psemver.stage=snapshot" \
@@ -187,6 +182,13 @@ jobs:
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             else
+              ./gradlew ":$MODULE:pushSemverTag" \
+                "-PisSnapshot=false" \
+                "-Psemver.stage=final" \
+                "-Psemver.scope=$RELEASE_TYPE" \
+                "-Psemver.tagPrefix=$TAG_PREFIX" \
+                --dry-run
+
               ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=false" \
                 "-Psemver.stage=final" \
