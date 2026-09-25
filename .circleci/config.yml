@@ -161,6 +161,7 @@ jobs:
                 "-Psemver.stage=snapshot" \
                 "-Psemver.scope=minor" \
                 "-Psemver.tagPrefix=$TAG_PREFIX" \
+                "-Psemver.project.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             else
@@ -169,6 +170,7 @@ jobs:
                 "-Psemver.stage=final" \
                 "-Psemver.scope=$RELEASE_TYPE" \
                 "-Psemver.tagPrefix=$TAG_PREFIX" \
+                "-Psemver.project.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             fi
