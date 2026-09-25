@@ -161,7 +161,7 @@ jobs:
                 TAG_PREFIX="rest-client-"
                 ;;
             esac
-          
+
             # Workaround for https://github.com/JavierSegoviaCordoba/semver-gradle-plugin/issues/198
             # pushSemverTag can incorrectly detect a freshly checked-out repository as dirty
             # when it is the first Gradle task executed. Running assemble first works around
