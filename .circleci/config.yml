@@ -161,19 +161,15 @@ jobs:
                 TAG_PREFIX="rest-client-"
                 ;;
             esac
+          
+            # Workaround for https://github.com/JavierSegoviaCordoba/semver-gradle-plugin/issues/198
+            # pushSemverTag can incorrectly detect a freshly checked-out repository as dirty
+            # when it is the first Gradle task executed. Running assemble first works around
+            # the suspected JGit/plugin state initialisation issue.
+            
+            ./gradlew assemble
 
-            # Workaround for https://github.com/JavierSegoviaCordoba/semver-gradle-plugin/issues/198 -
-            # pushSemverTag resolves the wrong (fallback) version if it's the very first Gradle task
-            # run against a freshly checked-out repo (suspected JGit cache/state initialisation bug
-            # in the plugin). A harmless --dry-run priming pass first works around it.
             if [ "$RELEASE_TYPE" = "snapshot" ]; then
-              ./gradlew ":$MODULE:pushSemverTag" \
-                "-PisSnapshot=true" \
-                "-Psemver.stage=snapshot" \
-                "-Psemver.scope=minor" \
-                "-Psemver.tagPrefix=$TAG_PREFIX" \
-                --dry-run
-
               ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=true" \
                 "-Psemver.stage=snapshot" \
@@ -182,13 +178,6 @@ jobs:
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             else
-              ./gradlew ":$MODULE:pushSemverTag" \
-                "-PisSnapshot=false" \
-                "-Psemver.stage=final" \
-                "-Psemver.scope=$RELEASE_TYPE" \
-                "-Psemver.tagPrefix=$TAG_PREFIX" \
-                --dry-run
-
               ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=false" \
                 "-Psemver.stage=final" \
