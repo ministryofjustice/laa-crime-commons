@@ -29,11 +29,17 @@ subprojects {
     }
 
     // Jackson BOM override to fix Snyk-flagged Spring Boot 4.1.1 managed versions
-    // (SNYK-JAVA-COMFASTERXMLJACKSONCORE-19778370 / SNYK-JAVA-TOOLSJACKSONCORE-19778371).
+    // (SNYK-JAVA-COMFASTERXMLJACKSONCORE-20059179 / SNYK-JAVA-COMFASTERXMLJACKSONCORE-20059683 /
+    // SNYK-JAVA-TOOLSJACKSONCORE-20059180 / SNYK-JAVA-TOOLSJACKSONCORE-20059682).
     // Only affects subprojects that apply the Spring Boot dependency-management plugin.
     // TODO: re-evaluate/remove on next Spring Boot version bump.
-    ext['jackson-2-bom.version'] = '2.21.6'
-    ext['jackson-bom.version'] = '3.1.6'
+    ext['jackson-2-bom.version'] = '2.21.7'
+    ext['jackson-bom.version'] = '3.1.7'
+
+    // Netty version override to fix Snyk-flagged Spring Boot 4.1.1 managed version
+    // (SNYK-JAVA-IONETTY-20074868 / SNYK-JAVA-IONETTY-20074880).
+    // TODO: re-evaluate/remove on next Spring Boot version bump.
+    ext['netty.version'] = '4.2.18.Final'
 }
 
 nexusPublishing {

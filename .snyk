@@ -77,3 +77,23 @@ ignore:
           currently ships. Tracked in LASB-5312; re-evaluate as upstream releases progress.
         expires: 2026-11-21T00:00:00.000Z
         created: 2026-09-21T00:00:00.000Z
+  SNYK-JAVA-COMFASTERXMLJACKSONCORE-20059179:
+    - '*':
+        reason: >
+          Allocation of Resources Without Limits or Throttling in
+          com.fasterxml.jackson.core:jackson-core@2.17.2, a build-time-only transitive dependency
+          of org.jsonschema2dataclass (via jsonschema2pojo-core 1.2.2). Same root cause as
+          SNYK-JAVA-COMFASTERXMLJACKSONCORE-19778370 - fix requires jsonschema2pojo-core 1.3.0+,
+          not yet used by any released org.jsonschema2dataclass version. Tracked in LASB-5312.
+        expires: 2026-11-21T00:00:00.000Z
+        created: 2026-09-25T00:00:00.000Z
+  SNYK-JAVA-COMFASTERXMLJACKSONCORE-20059683:
+    - '*':
+        reason: >
+          Allocation of Resources Without Limits or Throttling in
+          com.fasterxml.jackson.core:jackson-databind@2.17.2, a build-time-only transitive
+          dependency of org.jsonschema2dataclass (via jsonschema2pojo-core 1.2.2). Same root cause
+          as SNYK-JAVA-COMFASTERXMLJACKSONCORE-19778370 - fix requires jsonschema2pojo-core 1.3.0+,
+          not yet used by any released org.jsonschema2dataclass version. Tracked in LASB-5312.
+        expires: 2026-11-21T00:00:00.000Z
+        created: 2026-09-25T00:00:00.000Z
