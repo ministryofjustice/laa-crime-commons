@@ -131,6 +131,22 @@ jobs:
           name: Fetch all tags
           command: git fetch --tags --force
 
+      - run:
+          name: DEBUG git state
+          command: |
+            echo "--- is shallow? ---"
+            test -f .git/shallow && echo "SHALLOW" || echo "full"
+            echo "--- commit count ---"
+            git rev-list --count HEAD
+            echo "--- remotes ---"
+            git remote -v
+            echo "--- tag count for schemas ---"
+            git tag -l "crime-commons-schemas-*" | wc -l
+            echo "--- last 5 schemas tags (version sorted) ---"
+            git tag -l "crime-commons-schemas-*" --sort=-v:refname | head -5
+            echo "--- raw describe ---"
+            git describe --tags --match "crime-commons-schemas-*" || echo "describe FAILED"
+
       - restore_cache:
           keys:
             - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
