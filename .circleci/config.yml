@@ -166,7 +166,6 @@ jobs:
             # pushSemverTag can incorrectly detect a freshly checked-out repository as dirty
             # when it is the first Gradle task executed. Running assemble first works around
             # the suspected JGit/plugin state initialisation issue.
-            
             ./gradlew assemble
 
             if [ "$RELEASE_TYPE" = "snapshot" ]; then
