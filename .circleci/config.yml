@@ -162,18 +162,13 @@ jobs:
                 ;;
             esac
 
-            # Workaround for https://github.com/JavierSegoviaCordoba/semver-gradle-plugin/issues/198
-            # pushSemverTag can incorrectly detect a freshly checked-out repository as dirty
-            # when it is the first Gradle task executed. Running assemble first works around
-            # the suspected JGit/plugin state initialisation issue.
-            ./gradlew assemble
-
             if [ "$RELEASE_TYPE" = "snapshot" ]; then
               ./gradlew ":$MODULE:pushSemverTag" \
                 "-PisSnapshot=true" \
                 "-Psemver.stage=snapshot" \
                 "-Psemver.scope=minor" \
                 "-Psemver.tagPrefix=$TAG_PREFIX" \
+                "-Psemver.project.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             else
@@ -182,6 +177,7 @@ jobs:
                 "-Psemver.stage=final" \
                 "-Psemver.scope=$RELEASE_TYPE" \
                 "-Psemver.tagPrefix=$TAG_PREFIX" \
+                "-Psemver.project.tagPrefix=$TAG_PREFIX" \
                 ":$MODULE:publishToSonatype" \
                 closeAndReleaseSonatypeStagingRepository
             fi
