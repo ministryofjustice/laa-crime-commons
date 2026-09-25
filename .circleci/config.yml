@@ -121,13 +121,6 @@ jobs:
           method: full
 
       - run:
-          name: Unshallow git history
-          command: |
-            if [ -f .git/shallow ]; then
-              git fetch --unshallow
-            fi
-
-      - run:
           name: Fetch all tags
           command: git fetch --tags --force
 
