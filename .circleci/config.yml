@@ -45,6 +45,11 @@ _gradle_cache_key: &gradle_cache_key v1-gradle-cache-{{ checksum "settings.gradl
 executors:
   openjdk-executor:
     resource_class: medium
+    # Interim mitigation for CVE-2026-91403 until a vendor-confirmed JVM fix is released
+    environment:
+      JAVA_TOOL_OPTIONS: >-
+        -Dcom.sun.net.ssl.checkRevocation=true
+        -Dcom.sun.security.enableCRLDP=true
     docker:
       - image: cimg/openjdk:25.0.4
 
