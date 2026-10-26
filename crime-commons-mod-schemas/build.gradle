@@ -6,6 +6,9 @@ plugins {
     id "org.jsonschema2dataclass" version "$jsonSchema2DataVersion"
 }
 
+// CVE-2026-65905: retain until Boot manages Tomcat 11.0.26 or newer.
+ext['tomcat.version'] = '11.0.27'
+
 semver {
     tagPrefix.set("crime-commons-mod-schemas-")
 }
@@ -19,6 +22,18 @@ def versions = [
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+}
+
+// Temporary mitigation for SNYK-JAVA-COMFASTERXMLJACKSONCORE-17440366.
+// Cover transitive Jackson databind used by schema-generation configurations.
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == "com.fasterxml.jackson.core" &&
+                details.requested.name == "jackson-databind") {
+            details.useVersion(versions.jacksonVersion)
+            details.because("Fix CVE-2026-54513 in transitive schema-generation dependencies")
+        }
     }
 }
 

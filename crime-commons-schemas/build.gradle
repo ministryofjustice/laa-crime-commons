@@ -14,16 +14,28 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+def versions = [
+        jacksonVersion   : "2.21.7",
+        validationapiVersion: '2.0.1.Final'
+]
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
 
-def versions = [
-        jacksonVersion   : "2.21.7",
-        validationapiVersion: '2.0.1.Final'
-]
+// Temporary mitigation for SNYK-JAVA-COMFASTERXMLJACKSONCORE-17440366.
+// Cover transitive Jackson databind used by schema-generation configurations.
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == "com.fasterxml.jackson.core" &&
+                details.requested.name == "jackson-databind") {
+            details.useVersion(versions.jacksonVersion)
+            details.because("Fix CVE-2026-54513 in transitive schema-generation dependencies")
+        }
+    }
+}
 
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:$versions.jacksonVersion"

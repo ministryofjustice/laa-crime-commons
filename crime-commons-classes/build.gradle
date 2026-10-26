@@ -7,6 +7,9 @@ plugins {
     id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
 }
 
+// CVE-2026-65905: retain until Boot manages Tomcat 11.0.26 or newer.
+ext['tomcat.version'] = '11.0.27'
+
 semver {
     tagPrefix.set("crime-commons-classes-")
 }
