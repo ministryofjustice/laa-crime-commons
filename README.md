@@ -10,7 +10,7 @@ It currently contains five modules:
 - **crime-commons-mod-schemas**
 - **crime-commons-samples**
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/ministryofjustice/laa-crime-commons/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ministryofjustice/laa-crime-commons/tree/main)
+[![Gradle build and test](https://github.com/ministryofjustice/laa-crime-commons/actions/workflows/gradle-build-and-test.yml/badge.svg)](https://github.com/ministryofjustice/laa-crime-commons/actions/workflows/gradle-build-and-test.yml)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ministryofjustice_laa-crime-commons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ministryofjustice_laa-crime-commons)
 
@@ -71,7 +71,7 @@ The Jacoco Gradle plugin is used to generate coverage reports:
 ```
 
 These are used by SonarCloud to evaluate code quality and maintainability. Jacoco coverage reports are auto generated when builds
-are performed through CircleCI or new changes are merged into the main branch.
+are performed through GitHub Actions.
 
 Click the SonarCloud badge above to view these metrics.
 
@@ -88,15 +88,18 @@ This enables you to run the following command:
 ./gradlew publish
 ```
 
-Releases can also be published from branches, however, the version number will be auto-generated and requires manual approval through CircleCI.
+Releases are published to Maven Central by the manual `Release` GitHub Actions workflow (Actions tab, Release, Run workflow).
+Choose the module and the release type. Snapshots must be run from a branch, and major/minor/patch releases from `main`.
+The workflow builds, runs the Snyk scan, then waits for approval from a reviewer of the `release` environment before publishing.
 See below for more information on our versioning strategy for published modules.
 
 ### Version Management
 
 The Semver Gradle Plugin is used to implement [Semantic versioning](https://semver.org/).
 
-Once the Jar files for each module have been built in CircleCI, the latest commit will be tagged with
-a new version number, by default, the minor version number is incremented. However, It is possible to manually bump other parts of the version string:
+When a module is released through the `Release` workflow, the latest commit is tagged with
+a new version number. Choose the release type (snapshot, patch, minor or major) to control which part of the version string is bumped.
+The commands below show the equivalent Gradle options:
 
 #### For 'crime-commons-spring-boot-starter-rest-client' module:
 
@@ -108,8 +111,8 @@ a new version number, by default, the minor version number is incremented. Howev
 - bump the major number: `./gradlew "-Psemver.stage=final" "-Psemver.scope=major" "-Psemver.tagPrefix=crime-commons-classes-"`
 - bump the patch number: `./gradlew "-Psemver.stage=final" "-Psemver.scope=patch" "-Psemver.tagPrefix=crime-commons-classes-"`
 
-New releases will be automatically tagged and published when changes are merged into the main branch. Artifacts can also be published
-from feature branches, however, these require manual approval through CircleCI.
+Releases are tagged and published only when the `Release` workflow is run and approved. Snapshots can be published
+from feature branches.
 
 ### Publishing Locally
 
