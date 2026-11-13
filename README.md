@@ -30,36 +30,16 @@ Install dependencies and build modules with Gradle:
 
 ### Usage
 
-To use a published package from GitHub Packages, add the package as a dependency and add the repository to your project
-For more information, see "[Declaring dependencies](https://docs.gradle.org/current/userguide/declaring_dependencies.html)" in the Gradle documentation.
-
-1. Authenticate to GitHub Packages
-2. Add the package dependencies to your build.gradle file
+Modules are published to Maven Central, so no extra repository or authentication is needed. Add the dependency to your `build.gradle`
+(replace `<module>` with the module name and `<version>` with a released version):
 
 ```groovy
 dependencies {
-    implementation 'com.example:package'
+    implementation 'uk.gov.justice.service.laa-crime:<module>:<version>'
 }
 ```
 
-3. Add the repository to your build.gradle file
-
-```groovy
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/OWNER/REPOSITORY")
-        credentials {
-            password = project.findProperty("github-token") ?: System.getenv("GITHUB_TOKEN")
-            username = project.findProperty("github-username") ?: System.getenv("GITHUB_USERNAME")
-        }
-    }
-}
-```
-
-### GitHub Authentication
-
-You will need to create a `gradle.properties` file, specifying values for the `github-username` and `github-token` properties.
-These can also be set as environment variables.
+For more information, see "[Declaring dependencies](https://docs.gradle.org/current/userguide/declaring_dependencies.html)" in the Gradle documentation.
 
 ### Coverage
 
@@ -74,15 +54,6 @@ Jacoco coverage reports are auto generated when builds are performed through Git
 ## Releases
 
 ### Publishing Artefacts
-
-Each time changes are merged into the main branch, a new release is tagged and published to GitHub Packages.
-To perform a manual release, you will need to authenticate with GitHub (see above).
-
-This enables you to run the following command:
-
-```
-./gradlew publish
-```
 
 Releases are published to Maven Central by the manual `Release` GitHub Actions workflow (Actions tab, Release, Run workflow).
 Choose the module and the release type. Snapshots must be run from a branch, and major/minor/patch releases from `main`.
