@@ -20,7 +20,7 @@ It currently contains five modules:
 ### Pre-requisites
 
 - JDK 25
-- Spring Boot 4.1.1
+- Spring Boot 4.1.2
 
 Install dependencies and build modules with Gradle:
 
