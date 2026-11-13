@@ -8,6 +8,8 @@ on:
 
 jobs:
   scan:
+    # Fork and Dependabot PRs do not receive repository secrets, so the scan would always fail
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'
     uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk-sca-scan.yml@a7a2b7cda8092fdcbf1224ddc2b51125645352f1 # main as of 09/11/2026
     permissions:
       contents: read

@@ -84,10 +84,6 @@ jobs:
               crime-commons-schemas:build \
               crime-commons-mod-schemas:build
 
-      - run:
-          name: Run SonarQube
-          command: ./gradlew sonar
-
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -182,8 +178,7 @@ workflows:
     when:
       equal: ["build", << pipeline.parameters.action >>]
     jobs:
-      - build_and_test:
-          context: SonarCloud Crime
+      - build_and_test
 
       - snyk_scan:
           requires:
@@ -193,8 +188,7 @@ workflows:
     when:
       equal: ["release", << pipeline.parameters.action >>]
     jobs:
-      - build_and_test:
-          context: SonarCloud Crime
+      - build_and_test
 
       - snyk_scan:
           requires:
