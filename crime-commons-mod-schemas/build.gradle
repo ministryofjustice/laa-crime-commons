@@ -6,15 +6,12 @@ plugins {
     id "org.jsonschema2dataclass" version "$jsonSchema2DataVersion"
 }
 
-// CVE-2026-65905: retain until Boot manages Tomcat 11.0.26 or newer.
-ext['tomcat.version'] = '11.0.27'
-
 semver {
     tagPrefix.set("crime-commons-mod-schemas-")
 }
 
 def versions = [
-        jacksonVersion      : "2.21.7",
+        jacksonVersion      : "2.21.8",
         validationapiVersion: "3.1.0-M2",
         crimeCommonsClasses : "5.0.3"
 ]

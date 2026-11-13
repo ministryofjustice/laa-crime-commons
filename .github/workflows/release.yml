@@ -1,0 +1,158 @@
+name: Release
+
+# Manual release of one module to Maven Central (Sonatype). Replaces the CircleCI `release` workflow.
+# Snapshots must be run from a branch, major/minor/patch from `main`.
+# Publishing needs approval from a reviewer of the `release` environment.
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: The type of release to perform
+        type: choice
+        options: [snapshot, patch, minor, major]
+        default: snapshot
+      release_module:
+        description: The module to release
+        type: choice
+        options:
+          - crime-commons-classes
+          - crime-commons-schemas
+          - crime-commons-mod-schemas
+          - crime-commons-spring-boot-starter-rest-client
+        default: crime-commons-classes
+
+permissions: {}
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check release type against branch
+        env:
+          RELEASE_TYPE: ${{ inputs.release_type }}
+          REF_NAME: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
+        run: |
+          if [ "$REF_TYPE" != "branch" ]; then
+            echo "::error::Releases must be run from a branch, not a tag."
+            exit 1
+          fi
+          if [ "$RELEASE_TYPE" = "snapshot" ] && [ "$REF_NAME" = "main" ]; then
+            echo "::error::Snapshot releases must not be run from main."
+            exit 1
+          fi
+          if [ "$RELEASE_TYPE" != "snapshot" ] && [ "$REF_NAME" != "main" ]; then
+            echo "::error::Major/minor/patch releases must only be run from main."
+            exit 1
+          fi
+
+  build:
+    needs: validate
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=true --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
+      _JAVA_OPTIONS: "-Xmx3g"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 #v5
+        with:
+          java-version: 25
+          distribution: 'corretto'
+      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e #v6
+      - name: Build and test all modules
+        run: |
+          chmod +x ./gradlew
+          ./gradlew \
+            -x printSemver \
+            crime-commons-spring-boot-starter-rest-client:shadowJar \
+            crime-commons-spring-boot-starter-rest-client:build \
+            crime-commons-classes:build \
+            crime-commons-schemas:build \
+            crime-commons-mod-schemas:build
+
+  snyk-scan:
+    needs: build
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk-sca-scan.yml@a7a2b7cda8092fdcbf1224ddc2b51125645352f1 # main as of 09/11/2026
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    with:
+      build_tool: gradle
+      scan_all_projects: true
+      java_version: "25"
+      minimum_threshold: critical
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+
+  publish:
+    needs: snyk-scan
+    runs-on: ubuntu-24.04
+    environment: release
+    permissions:
+      contents: write
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=true --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
+      _JAVA_OPTIONS: "-Xmx3g"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 #v5
+        with:
+          java-version: 25
+          distribution: 'corretto'
+      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e #v6
+
+      - name: Configure git identity for tagging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch --tags --force
+
+      - name: Publish release
+        env:
+          RELEASE_TYPE: ${{ inputs.release_type }}
+          MODULE: ${{ inputs.release_module }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          chmod +x ./gradlew
+
+          TAG_PREFIX="$MODULE-"
+          if [ "$MODULE" = "crime-commons-spring-boot-starter-rest-client" ]; then
+            TAG_PREFIX="rest-client-"
+          fi
+
+          if [ "$RELEASE_TYPE" = "snapshot" ]; then
+            ./gradlew ":$MODULE:pushSemverTag" \
+              "-PisSnapshot=true" \
+              "-Psemver.stage=snapshot" \
+              "-Psemver.scope=minor" \
+              "-Psemver.tagPrefix=$TAG_PREFIX" \
+              "-Psemver.project.tagPrefix=$TAG_PREFIX" \
+              ":$MODULE:publishToSonatype" \
+              closeAndReleaseSonatypeStagingRepository
+          else
+            ./gradlew ":$MODULE:pushSemverTag" \
+              "-PisSnapshot=false" \
+              "-Psemver.stage=final" \
+              "-Psemver.scope=$RELEASE_TYPE" \
+              "-Psemver.tagPrefix=$TAG_PREFIX" \
+              "-Psemver.project.tagPrefix=$TAG_PREFIX" \
+              ":$MODULE:publishToSonatype" \
+              closeAndReleaseSonatypeStagingRepository
+          fi

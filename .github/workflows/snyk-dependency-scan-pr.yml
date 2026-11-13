@@ -1,0 +1,25 @@
+name: Snyk SCA scan (PR)
+
+# Blocks the PR on `critical` dependency vulnerabilities only, so the check stays actionable.
+# The daily scan reports `high` without blocking.
+
+on:
+  pull_request:
+
+jobs:
+  scan:
+    # Fork and Dependabot PRs do not receive repository secrets, so the scan would always fail
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk-sca-scan.yml@a7a2b7cda8092fdcbf1224ddc2b51125645352f1 # main as of 09/11/2026
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    with:
+      build_tool: gradle
+      scan_all_projects: true
+      java_version: "25"
+      minimum_threshold: critical
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
